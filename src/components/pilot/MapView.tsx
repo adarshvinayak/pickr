@@ -33,5 +33,5 @@ export function MapView({points=[],zones=[],line,onPick,height=300,editPoints=[]
   if(points.length&&fitted.current!==key){if(points.length===1){m.setCenter(points[0]);m.setZoom(15);}else new sdk.fitBounds({map:m,cType:0,bounds:points.map(p=>[p.lng,p.lat]),options:{padding:35,maxZoom:15,duration:0}});fitted.current=key;}
   m.resize();
  },[ready,serialized]);
- return <div className="pilot-map"><div id={id} style={{height}} aria-label="Interactive Mappls road map"/>{!ready&&!error&&<p className="hint">Loading Mappls…</p>}{error&&<div className="stack notice"><p>{error}</p><button className="secondary" onClick={()=>setAttempt(a=>a+1)}>Retry map</button></div>}<p className="hint">Mappls · Use the map’s traffic control to view available road traffic.{onPick?' Tap the map to select the exact site entrance.':''}</p></div>;
+ return <div className="pilot-map"><div id={id} style={{height}} aria-label="Interactive Mappls road map"/>{!ready&&!error&&<p className="hint">Loading Mappls…</p>}{error&&<div className="stack notice"><p>{error}</p><button className="secondary" onClick={()=>setAttempt(a=>a+1)}>Retry map</button></div>}<p className="hint">Mappls · Live traffic ETA appears in your trip details when available.{onPick?' Tap the map to select the exact site entrance.':''}</p></div>;
 }
