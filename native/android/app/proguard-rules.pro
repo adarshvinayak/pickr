@@ -1,0 +1,1 @@
+-keepclassmembers class in.pickr.pilot.NativeBridge { @android.webkit.JavascriptInterface <methods>; }

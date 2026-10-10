@@ -1,0 +1,16 @@
+'use client';
+import { useEffect,useState } from 'react';
+import { api } from '@/lib/pilot/client';
+import type { Point,RoadReport } from '@/lib/pilot/model';
+import { MapView } from './MapView';
+export function RoadReportForm({bookingId,point,onDone}:{bookingId?:string;point?:Point;onDone?:()=>void}) {
+ const [open,setOpen]=useState(!bookingId);const [location,setLocation]=useState(point);const [kind,setKind]=useState('closure');const [notes,setNotes]=useState('');const [busy,setBusy]=useState(false);const [message,setMessage]=useState('');
+ return <section className="stack"><button className="secondary" onClick={()=>setOpen(!open)}>{open?'Hide road report':'Report a road / site issue'}</button>{open&&<><MapView points={location?[location]:[]} onPick={setLocation} height={230}/><label>Issue<select value={kind} onChange={e=>setKind(e.target.value)}>{['closure','flooding','accident','congestion','site_access'].map(k=><option key={k} value={k}>{k.replace('_',' ')}</option>)}</select></label><label>What happened?<textarea maxLength={500} value={notes} onChange={e=>setNotes(e.target.value)} placeholder="Road name, blockage and useful details"/></label><p className="hint">{bookingId?'Admin will verify this report before it affects other trips.':'Admin reports are verified immediately.'} Reports expire after two hours. Closures and flooding request avoidance; traffic/site reports are advisory.</p><button disabled={busy||!location||notes.trim().length<3} onClick={async()=>{setBusy(true);setMessage('');try{await api('road-reports',{bookingId,lat:location!.lat,lng:location!.lng,kind,notes});setMessage(bookingId?'Reported to admin for review.':'Verified report saved. Routes will refresh.');setNotes('');onDone?.();}catch(e){setMessage((e as Error).message);}finally{setBusy(false);}}}>Submit report</button></>}{message&&<p className="notice">{message}</p>}</section>;
+}
+export function RoadReportsAdmin(){
+ const [reports,setReports]=useState<RoadReport[]>([]);const [error,setError]=useState('');const [busy,setBusy]=useState(false);
+ async function load(){try{setReports(await api<RoadReport[]>('road-reports'));}catch(e){setError((e as Error).message);}}
+ useEffect(()=>{void load();const interval=setInterval(load,15000);return()=>clearInterval(interval);},[]);
+ async function review(id:string,status:string){setBusy(true);setError('');try{await api('road-reports',{id,status});await load();}catch(e){setError((e as Error).message);}finally{setBusy(false);}}
+ return <section className="card stack"><h2>Road and site disruptions</h2><p>These are local operator reports. Mappls live traffic supplies travel estimates; a separate provider incident feed is not enabled.</p><RoadReportForm onDone={load}/>{error&&<p className="error">{error}</p>}{reports.map(r=><article className="card stack" key={r.id}><strong>{r.kind.replace('_',' ')} · {r.status}</strong><p>{r.notes}</p><small>{r.lat.toFixed(5)}, {r.lng.toFixed(5)} · expires {new Date(r.expires_at).toLocaleString('en-IN')}</small><div className="row">{r.status!=='verified'&&<button disabled={busy} onClick={()=>review(r.id,'verified')}>Verify</button>}{r.status!=='dismissed'&&<button className="secondary" disabled={busy} onClick={()=>review(r.id,'dismissed')}>Dismiss / clear</button>}</div></article>)}</section>;
+}

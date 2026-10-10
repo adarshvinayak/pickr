@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: pickr
+    runtime: node
+    plan: starter
+    buildCommand: npm ci && npm run build
+    startCommand: npm run pilot:start -- --production
+    healthCheckPath: /customer
+    envVars:
+      - key: NODE_VERSION
+        value: 24
+      - key: NEXT_PUBLIC_SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: MAPPLS_REST_KEY
+        sync: false
+      - key: MAPPLS_WEB_KEY
+        sync: false
+      - key: ADMIN_BOOTSTRAP_PHONE
+        sync: false
+      - key: ADMIN_BOOTSTRAP_PASSWORD
+        sync: false
+      - key: PUBLIC_APP_URL
+        sync: false
+      - key: WORKER_SECRET
+        generateValue: true
+      - key: QUOTE_SIGNING_SECRET
+        generateValue: true

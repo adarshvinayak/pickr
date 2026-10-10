@@ -39,3 +39,18 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Native builds, local credentials and delivery artifacts
+/native/android/.gradle/
+/native/android/build/
+/native/android/app/build/
+/native/android/app/src/main/assets/public/
+/native/android/local.properties
+/native/android/app/google-services.json
+/artifacts/
+.android-tools/
+!.env.local.example
+
+/.local-certs/
+
+/.local-tests/

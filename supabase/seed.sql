@@ -1,0 +1,2 @@
+-- No demo drivers, customers, saved sites or bookings. Create actual accounts through the app.
+-- Vehicle/material/rate catalogues are maintained in src/config; zones/settings are in the pilot migration.
