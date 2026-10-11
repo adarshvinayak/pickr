@@ -30,7 +30,8 @@ export function MapView({points=[],zones=[],line,onPick,height=300,editPoints=[]
    add(new sdk.Marker({map:m,position:{lat:p.lat,lng:p.lng},html:`<span class="pickr-map-marker material-symbols-outlined" aria-label="${p.kind==='driver'?'Driver':'Site'}">${dot}</span>`,popupHtml:label.outerHTML,fitbounds:false}));
   });
   const key=points.filter(p=>p.kind!=='driver').map(p=>`${p.lat},${p.lng}`).join('|');
-  if(points.length&&fitted.current!==key){if(points.length===1){m.setCenter(points[0]);m.setZoom(15);}else new sdk.fitBounds({map:m,cType:0,bounds:points.map(p=>[p.lng,p.lat]),options:{padding:35,maxZoom:15,duration:0}});fitted.current=key;}
+  // The live SDK swaps arrays when cType is 0; our bounds use GeoJSON [lng, lat].
+  if(points.length&&fitted.current!==key){if(points.length===1){m.setCenter(points[0]);m.setZoom(15);}else new sdk.fitBounds({map:m,cType:1,bounds:points.map(p=>[p.lng,p.lat]),options:{padding:35,maxZoom:15,duration:0}});fitted.current=key;}
   m.resize();
  },[ready,serialized]);
  return <div className="pilot-map"><div id={id} style={{height}} aria-label="Interactive Mappls road map"/>{!ready&&!error&&<p className="hint">Loading Mappls…</p>}{error&&<div className="stack notice"><p>{error}</p><button className="secondary" onClick={()=>setAttempt(a=>a+1)}>Retry map</button></div>}<p className="hint">Mappls · Live traffic ETA appears in your trip details when available.{onPick?' Tap the map to select the exact site entrance.':''}</p></div>;

@@ -11,7 +11,7 @@ export function apiBase():string {return typeof window==='undefined'?'':window.P
 export async function api<T>(path:string,body?:unknown,method?:string):Promise<T> {
  const form=body instanceof FormData;
  let response:Response;
- try{response=await fetch(`${apiBase()}/api/${path}`,{method:method||(body?'POST':'GET'),headers:{...(token()?{Authorization:`Bearer ${token()}`} :{}),...(!form&&body?{'Content-Type':'application/json'}:{})},body:body?form?body:JSON.stringify(body):undefined,signal:AbortSignal.timeout(20000)});}catch{throw new Error('Cannot reach the server. Check your connection and backend URL.');}
+ try{response=await fetch(`${apiBase()}/api/${path}`,{method:method||(body?'POST':'GET'),cache:'no-store',headers:{...(token()?{Authorization:`Bearer ${token()}`} :{}),...(!form&&body?{'Content-Type':'application/json'}:{})},body:body?form?body:JSON.stringify(body):undefined,signal:AbortSignal.timeout(20000)});}catch{throw new Error('Cannot reach the server. Check your connection and backend URL.');}
  const content=await response.json().catch(()=>({error:'Server returned an invalid response.'}));
  if(!response.ok)throw new ClientApiError(content.error||`Request failed (${response.status}).`,response.status);return content.data as T;
 }
