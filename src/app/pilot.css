@@ -102,3 +102,5 @@ body{background:var(--pickr-canvas);color:var(--pickr-ink);font-family:'PICKR No
 
 /* Setup is a focused wizard; Back returns to the dashboard after the first step. */
 .pilot-shell:has(.onboarding) .bottom-nav{display:none}
+.pilot-shell .admin-section-picker{display:none}
+@media(max-width:700px){.pilot-shell .admin-section-picker{display:flex}.pilot-shell .admin-workspace>nav{display:none}}
