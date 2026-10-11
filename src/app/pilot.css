@@ -106,9 +106,9 @@ body{background:var(--pickr-canvas);color:var(--pickr-ink);font-family:'PICKR No
 @media(max-width:700px){.pilot-shell .admin-section-picker{display:flex}.pilot-shell .admin-workspace>nav{display:none}}
 
 /* Keep controls clear of headers and navigation at larger Android text sizes. */
-.pilot-shell{padding-top:calc(var(--pickr-header-height,76px) + 20px);padding-bottom:calc(var(--pickr-nav-height,68px) + 120px)}
+.pilot-shell{padding-top:calc(var(--pickr-header-height,76px) + var(--pickr-connection-height,0px) + 20px);padding-bottom:calc(var(--pickr-nav-height,68px) + 120px)}
 .pilot-shell.is-login{padding-bottom:24px}
-.admin-shell{padding-top:calc(var(--pickr-header-height,76px) + 24px);padding-bottom:40px}
+.admin-shell{padding-top:calc(var(--pickr-header-height,76px) + var(--pickr-connection-height,0px) + 24px);padding-bottom:40px}
 .trip-view .trip-action{bottom:calc(var(--pickr-nav-height,68px) + 16px)}
 .pilot-shell .connection-banner{position:fixed;top:var(--pickr-header-height,76px);left:50%;transform:translateX(-50%);width:calc(100% - 24px);max-width:406px;z-index:65;box-shadow:0 2px 8px #18221f22}
 .admin-shell .connection-banner{max-width:800px}
