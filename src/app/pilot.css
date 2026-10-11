@@ -115,3 +115,9 @@ body{background:var(--pickr-canvas);color:var(--pickr-ink);font-family:'PICKR No
 
 @media(max-width:700px){.admin-shell .pilot-header{flex-wrap:wrap}.admin-shell .pilot-header .brand{flex:1 1 100%;min-width:0}.admin-shell .pilot-header .language-switch{margin-left:0;max-width:none;flex:1}.admin-shell .pilot-header>button{flex:1}}
 .bottom-nav button{justify-content:flex-start}
+
+@media print{.pilot-shell{padding:16px!important}.connection-banner{display:none!important}}
+.pilot-header .brand{min-width:0;flex:1}.brand-title{flex-wrap:wrap;overflow-wrap:normal}.brand-title>.material-symbols-outlined{flex-shrink:0}.driver-tag{white-space:nowrap}
+@media(max-width:380px){.availability-switch button{flex-direction:column;font-size:13px;white-space:nowrap;padding:8px}.bottom-nav button{font-size:13px}}
+
+.bottom-nav button{overflow-wrap:normal;word-break:normal}
