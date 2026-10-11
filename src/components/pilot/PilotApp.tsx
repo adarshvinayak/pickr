@@ -51,7 +51,7 @@ export function PilotApp({role}:{role:Role}) {
  {view==='home'&&role==='driver'&&<DriverDashboard snapshot={snapshot} refresh={()=>void refresh()} onOpenTrip={openTrip}/>}
  {view==='book'&&role==='customer'&&<BookingForm accountId={snapshot.account.id} requireDeviceArea={snapshot.settings.require_device_area} zones={snapshot.zones} voiceInitially={voice} onBooked={openTrip}/>}
  {view==='trip'&&!selectedTrip&&<section className="card stack" role="status"><h2>{t('Getting your trip…','യാത്രയുടെ വിവരങ്ങൾ എടുക്കുന്നു…')}</h2><p>{t('Your booking is saved. Check again or open your trips.','ബുക്കിംഗ് സേവ് ചെയ്തു. വീണ്ടും പരിശോധിക്കുക അല്ലെങ്കിൽ യാത്രകൾ തുറക്കുക.')}</p><button onClick={()=>void refresh()}>{t('Check again','വീണ്ടും പരിശോധിക്കുക')}</button><button className="secondary" onClick={()=>navigate('history')}>{t('Open trips','യാത്രകൾ തുറക്കുക')}</button></section>}
- {view==='trip'&&selectedTrip&&<TripView key={selectedTrip.id} trip={selectedTrip} role={role} settings={snapshot.settings} zones={snapshot.zones} refresh={()=>void refresh()}/>}
+ {view==='trip'&&selectedTrip&&<TripView key={selectedTrip.id} trip={selectedTrip} role={role} settings={snapshot.settings} zones={snapshot.zones} refresh={()=>void refresh()} onReleased={()=>navigate('home')}/>}
  {view==='history'&&<TripHistory trips={snapshot.trips} role={role} onOpenTrip={openTrip}/>}
  {view==='account'&&<AccountScreen snapshot={snapshot} role={role} onSignOut={()=>void signOut()} canLogout={canLogout} onEditVehicle={()=>navigate('vehicle')}/>}
  {view==='vehicle'&&role==='driver'&&<Onboarding allowSkips={snapshot.settings.allow_skips} current={snapshot.driver} onDone={()=>{navigate('account');void refresh();}}/>}

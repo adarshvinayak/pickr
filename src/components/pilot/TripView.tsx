@@ -14,14 +14,14 @@ import {StitchIcon} from './StitchIcon';
 import {useModalFocus} from './useModalFocus';
 import {useLanguage,tripStatusMl} from './Experience';
 const labels:Record<Trip['status'],string>={SEARCHING:'Finding a truck',ACCEPTED:'Driver heading to pickup',AT_PICKUP:'Loading at pickup',IN_TRANSIT:'On the way to destination',AT_DROP:'Unloading at destination',COMPLETED:'Work complete',CANCELLED:'Trip cancelled',NO_DRIVERS:'No truck found'};
-export function TripView({trip,role,settings,zones,refresh}:{trip:Trip;role:Role;settings:Settings;zones:Zone[];refresh:()=>void}) {
+export function TripView({trip,role,settings,zones,refresh,onReleased}:{trip:Trip;role:Role;settings:Settings;zones:Zone[];refresh:()=>void;onReleased?:()=>void}) {
  const {t}=useLanguage();
  const [reportOpen,setReportOpen]=useState(false);
  const [confirmation,setConfirmation]=useState<{value:string;extra:Record<string,unknown>;title:string}|null>(null);
  const modalRef=useModalFocus(Boolean(confirmation),()=>setConfirmation(null));
  const [now,setNow]=useState(Date.now());const [busy,setBusy]=useState(false);const [error,setError]=useState('');const [photos,setPhotos]=useState<string[]>([]);const [skip,setSkip]=useState(false);const [reason,setReason]=useState('');const [method,setMethod]=useState<'cash'|'upi'>('cash');const [reference,setRef]=useState('');const [rating,setRating]=useState(5);const [comment,setComment]=useState('');
  useEffect(()=>{const interval=setInterval(()=>setNow(Date.now()),1000);return()=>clearInterval(interval);},[]);
- async function action(value:string,extra:Record<string,unknown>={}){setBusy(true);setError('');try{await api(`bookings/${trip.id}/action`,{action:value,...extra});refresh();}catch(e){setError((e as Error).message);refresh();}finally{setBusy(false);}}
+ async function action(value:string,extra:Record<string,unknown>={}){setBusy(true);setError('');try{await api(`bookings/${trip.id}/action`,{action:value,...extra});if(value==='RELEASE')onReleased?.();refresh();}catch(e){setError((e as Error).message);refresh();}finally{setBusy(false);}}
  async function load(files:FileList|null){if(!files)return;setBusy(true);setError('');try{for(const file of Array.from(files).slice(0,8-photos.length)){const path=await uploadFile(file,'load');setPhotos(current=>[...current,path]);}}catch(e){setError((e as Error).message);}finally{setBusy(false);}}
 
  const canDrive=role==='driver'||role==='admin';const driver=trip.driver;const age=driver?.position_at?Math.max(0,Math.floor((now-Date.parse(driver.position_at))/1000)):null;

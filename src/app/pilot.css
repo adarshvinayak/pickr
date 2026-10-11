@@ -122,3 +122,4 @@ body{background:var(--pickr-canvas);color:var(--pickr-ink);font-family:'PICKR No
 
 .bottom-nav button{overflow-wrap:normal;word-break:normal}
 .offer-fare{flex-wrap:wrap;align-items:center}.offer-fare>div{flex:1;min-width:140px}.offer-fare>strong{flex-shrink:0;white-space:nowrap;overflow-wrap:normal;word-break:normal}
+.pilot-shell .trip-action:disabled{opacity:1;background:#e1c6b7;color:#57321e}
