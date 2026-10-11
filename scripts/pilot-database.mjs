@@ -2,7 +2,7 @@ import {readFile} from 'node:fs/promises';
 import {createHash,randomBytes,scryptSync} from 'node:crypto';
 import pg from 'pg';
 
-export const migrations=['20261010000000_real_pilot.sql','20261010010000_pilot_guards.sql','20261010020000_mappls_navigation.sql'];
+export const migrations=['20261010000000_real_pilot.sql','20261010010000_pilot_guards.sql','20261010020000_mappls_navigation.sql','20261011000000_release_before_loading.sql'];
 export function connectionOptions(connectionString,ca){
  const url=new URL(connectionString);
  if(!['postgres:','postgresql:'].includes(url.protocol))throw new Error('DATABASE_URL must be a PostgreSQL connection string.');
@@ -25,8 +25,8 @@ export async function migrate(client,root,log=console.log){
    const source=await readFile(new URL(`supabase/migrations/${name}`,root),'utf8');const checksum=createHash('sha256').update(source).digest('hex');
    const previous=await client.query('select checksum from pickr_internal.migrations where name=$1',[name]);
    if(previous.rowCount){if(previous.rows[0].checksum!==checksum)throw new Error(`Applied migration ${name} changed. Add a new migration instead.`);log(`Already applied: ${name}`);continue;}
-   const marker=name===migrations[0]?'public.pilot_accounts':name===migrations[1]?'public.pilot_rate_limits':'public.pilot_navigation';
-   if((await client.query('select to_regclass($1) as existing',[marker])).rows[0].existing)throw new Error(`Untracked existing pilot schema (${marker}). Do not replay migrations. Compare the existing schema with the supplied migrations before recording it in pickr_internal.migrations.`);
+   const marker=migrations.indexOf(name)>2?null:name===migrations[0]?'public.pilot_accounts':name===migrations[1]?'public.pilot_rate_limits':'public.pilot_navigation';
+   if(marker&&(await client.query('select to_regclass($1) as existing',[marker])).rows[0].existing)throw new Error(`Untracked existing pilot schema (${marker}). Do not replay migrations. Compare the existing schema with the supplied migrations before recording it in pickr_internal.migrations.`);
    await client.query(source);await client.query('insert into pickr_internal.migrations(name,checksum) values($1,$2)',[name,checksum]);log(`Applied: ${name}`);
   }
   await client.query("NOTIFY pgrst, 'reload schema'");await client.query('COMMIT');

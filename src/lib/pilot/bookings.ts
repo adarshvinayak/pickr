@@ -25,6 +25,8 @@ export async function tripAction(req: NextRequest,id: string): Promise<NextRespo
  const trip=check(await db.from('pilot_bookings').select('*').eq('id',id).single()) as Trip;
  if(actor.role!=='admin'&&trip.customer_id!==actor.id&&trip.driver_id!==actor.id) throw new ApiError(403,'This trip belongs to another account.');
  if(input.action==='REVIEW') { if(actor.id!==trip.customer_id||trip.status!=='COMPLETED'||!input.rating) throw new ApiError(409,'Review is available after delivery.'); check(await db.from('pilot_bookings').update({payload:{...trip.payload,review:{rating:input.rating,comment:input.comment||''}}}).eq('id',id)); await audit(actor.id,'REVIEW',{rating:input.rating},id); return NextResponse.json({data:true}); }
+ // Driver cancellation means release and rebroadcast, rather than terminating the customer request.
+ if(actor.role==='driver'&&input.action==='CANCEL')input.action='RELEASE';
  const patch:Record<string,unknown>={};
  if(input.action==='IN_TRANSIT') {
   const photos=input.loadPhotos||[];

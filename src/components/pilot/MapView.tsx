@@ -21,13 +21,13 @@ export function MapView({points=[],zones=[],line,onPick,height=300,editPoints=[]
   const m=map.current,sdk=window.mappls;if(!ready||!m||!sdk)return;
   layers.current.forEach(layer=>sdk.remove({map:m,layer}));layers.current=[];
   const add=(layer:object)=>layers.current.push(layer);
-  zones.filter(z=>z.active).forEach(z=>add(new sdk.Polygon({map:m,paths:z.polygon.map(([lng,lat])=>({lat,lng})),strokeColor:'#F25C05',strokeWeight:2,fillColor:'#F25C05',fillOpacity:.05,fitbounds:false})));
-  if(line){try{const coords=JSON.parse(line) as [number,number][];add(new sdk.Polyline({map:m,paths:coords.map(([lng,lat])=>({lat,lng})),strokeColor:'#F25C05',strokeWeight:5,fitbounds:false}));}catch{/* Never draw an invented route. */}}
-  if(editPoints.length>=3)add(new sdk.Polygon({map:m,paths:editPoints.map(([lng,lat])=>({lat,lng})),strokeColor:'#F25C05',fillColor:'#F25C05',fillOpacity:.12,fitbounds:false}));
+  zones.filter(z=>z.active).forEach(z=>add(new sdk.Polygon({map:m,paths:z.polygon.map(([lng,lat])=>({lat,lng})),strokeColor:'#a23a00',strokeWeight:2,fillColor:'#a23a00',fillOpacity:.05,fitbounds:false})));
+  if(line){try{const coords=JSON.parse(line) as [number,number][];add(new sdk.Polyline({map:m,paths:coords.map(([lng,lat])=>({lat,lng})),strokeColor:'#a23a00',strokeWeight:5,fitbounds:false}));}catch{/* Never draw an invented route. */}}
+  if(editPoints.length>=3)add(new sdk.Polygon({map:m,paths:editPoints.map(([lng,lat])=>({lat,lng})),strokeColor:'#a23a00',fillColor:'#a23a00',fillOpacity:.12,fitbounds:false}));
   points.forEach(p=>{
    const label=document.createElement('span');label.textContent=p.label;
-   const dot=p.kind==='driver'?'🚚':p.kind==='incident'?'⚠':'●';
-   add(new sdk.Marker({map:m,position:{lat:p.lat,lng:p.lng},html:`<span class="pickr-map-marker" aria-label="${p.kind==='driver'?'Driver':'Site'}">${dot}</span>`,popupHtml:label.outerHTML,fitbounds:false}));
+   const dot=p.kind==='driver'?'local_shipping':p.kind==='incident'?'warning':'pin_drop';
+   add(new sdk.Marker({map:m,position:{lat:p.lat,lng:p.lng},html:`<span class="pickr-map-marker material-symbols-outlined" aria-label="${p.kind==='driver'?'Driver':'Site'}">${dot}</span>`,popupHtml:label.outerHTML,fitbounds:false}));
   });
   const key=points.filter(p=>p.kind!=='driver').map(p=>`${p.lat},${p.lng}`).join('|');
   if(points.length&&fitted.current!==key){if(points.length===1){m.setCenter(points[0]);m.setZoom(15);}else new sdk.fitBounds({map:m,cType:0,bounds:points.map(p=>[p.lng,p.lat]),options:{padding:35,maxZoom:15,duration:0}});fitted.current=key;}
