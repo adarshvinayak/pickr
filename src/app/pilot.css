@@ -1,4 +1,34 @@
 @font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 600 700;
+  font-display: swap;
+  src: url(./fonts/jetbrains-mono.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}@font-face {
+  font-family: 'Material Symbols Outlined';
+  font-style: normal;
+  font-weight: 500;
+  font-display: block;
+  src: url(./fonts/material-symbols.woff2) format('woff2');
+}
+
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+@font-face {
   font-family: 'PICKR Noto';
   font-style: normal;
   font-weight: 400 700;
@@ -123,3 +153,21 @@
 body{background:#f5fafe;color:#171c1f;font-family:'PICKR Noto','PICKR Malayalam',system-ui,sans-serif}.pilot-shell fieldset{padding:16px;border:1px solid #d8dfe3;border-radius:6px}.pilot-shell summary{cursor:pointer;min-height:44px;padding:10px 0;font-size:14px}.pilot-shell .button:hover,.pilot-shell button:hover{filter:brightness(.97)}
 
 .trip-progress{list-style:none;display:flex;gap:8px;margin:0;padding:12px 0}.trip-progress li{flex:1;min-width:0;border-top:2px solid #d8dfe3;padding-top:8px}.trip-progress li.current{border-color:#a23a00;color:#a23a00}.trip-progress li.done{border-color:#186a22;color:#186a22}.trip-progress small{font-size:11px}.pickr-map-marker{border-color:#a23a00;color:#a23a00}
+
+.pilot-shell .trip-action{position:fixed;bottom:82px;left:50%;transform:translateX(-50%);width:calc(100% - 48px);max-width:548px;z-index:30;box-shadow:0 3px 10px #171c1f22}.pilot-shell .trip-view,.booking-flow{padding-bottom:88px!important}.admin-shell .trip-action{position:static;transform:none;width:100%;max-width:none;box-shadow:none}
+/* Shared components from the 11 October driver, profile and admin exports. */
+.material-symbols-outlined{font-family:'Material Symbols Outlined';font-weight:500;font-style:normal;font-size:24px;display:inline-block;line-height:1;letter-spacing:normal;text-transform:none;white-space:nowrap;word-wrap:normal;direction:ltr;font-feature-settings:'liga';-webkit-font-feature-settings:'liga';vertical-align:middle;flex-shrink:0}
+.mono{font-family:'JetBrains Mono','PICKR Noto',monospace;font-variant-numeric:tabular-nums}
+.brand>.material-symbols-outlined{font-size:24px}.brand small{padding-left:31px}.pilot-shell h3>.material-symbols-outlined{font-size:21px;color:#a23a00;margin-right:5px}
+.zone-strip{display:flex;align-items:center;gap:8px;border:1px solid #d8dfe3;background:#eff4f8;padding:10px 12px;border-radius:4px;font-size:13px;color:#566066}.zone-strip .material-symbols-outlined{font-size:18px;color:#a23a00}
+.profile-heading{display:flex;gap:16px;align-items:center}.profile-heading h2{margin:0}.avatar{display:flex;align-items:center;justify-content:center;min-width:56px;height:56px;background:#171c1f;color:#fff;border-radius:4px;font-family:'PICKR Space',sans-serif;font-size:20px;font-weight:700}
+.account-screen h1{font-size:28px}.account-screen h3{font-size:17px}.account-screen .card{padding:16px}.profile-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.profile-stats>div{padding:10px 8px;border:1px solid #d8dfe3;background:#eff4f8;border-radius:4px}.profile-stats strong{font-size:16px;overflow-wrap:anywhere}
+.truck-canvas{display:flex;align-items:center;justify-content:center;padding:24px;background:#eff4f8;border:1px solid #d8dfe3;border-radius:4px}.spec-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.spec-grid>div{border:1px solid #d8dfe3;padding:12px;background:#eff4f8;border-radius:4px}.spec-grid small{font-size:11px}.spec-grid strong{font-size:15px}.setting-row{display:flex;gap:12px;align-items:center;padding:12px 0;border-top:1px solid #d8dfe3}.setting-row>div{flex:1;min-width:0}.setting-row>.material-symbols-outlined{color:#566066}.setting-row strong{font-size:14px}.pilot-shell .icon-button{min-width:44px;min-height:44px;padding:8px}.language-options{display:flex;gap:8px}.language-options button{flex:1;min-width:0}.saved-site{border:1px solid #d8dfe3;padding:14px;border-radius:4px;background:#eff4f8}
+.driver-status{box-shadow:0 4px 0 #18212614}.driver-status .eyebrow{font-size:11px}.driver-status strong{display:block}.gps-strip{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding-top:10px;border-top:1px solid #d8dfe3}.gps-strip>.material-symbols-outlined{color:#186a22}.status-tag{display:inline-flex;padding:4px 7px;font-size:11px;font-weight:600;line-height:1.4;border:1px solid #d8dfe3;border-radius:3px;background:#eaeef2;color:#566066}.status-tag.good{background:#e5f6e3;border-color:#a3d39c;color:#186a22}
+.availability-switch{display:flex;border:2px solid #171c1f;padding:4px;gap:4px;border-radius:6px;background:#eaeef2}.availability-switch button{flex:1;min-width:0}.pilot-shell .availability-switch .online-current{background:#186a22;color:#fff;opacity:1}.pilot-shell .availability-switch .offline-current{background:#171c1f;color:#fff;opacity:1}.shift-summary{display:flex;align-items:center;gap:12px;padding:14px;border:1px solid #d8dfe3;background:#eff4f8;border-radius:4px}.shift-summary>.material-symbols-outlined{color:#a23a00}.shift-summary>div{flex:1}.shift-summary strong{display:block;font-size:14px}
+.offer-dialog{top:4vh;max-height:88dvh;overflow-y:auto;padding:18px;box-shadow:0 4px 0 #18212614,0 0 0 100vmax #171c1f88;border-width:2px}.offer-heading{border-bottom:1px solid #d8dfe3;padding-bottom:12px}.offer-heading h2{font-size:20px;margin:0;color:#a23a00}.offer-progress{width:100%;height:6px;accent-color:#ca4b00}.cargo-readout{background:#171c1f;color:#f5fafe;border-left:4px solid #ca4b00;padding:16px;border-radius:4px}.cargo-readout small{color:#bec8ce}.cargo-readout h2{font-size:24px;margin:4px 0}.route-manifest{background:#eff4f8;border:1px solid #d8dfe3;border-radius:4px;padding:14px}.route-manifest>div{display:flex;gap:10px;padding:8px 0}.route-manifest>div+div{border-top:1px dashed #c6c9ca}.route-manifest .material-symbols-outlined{color:#a23a00;font-size:20px}.route-manifest strong{display:block;font-size:16px}.offer-fare{display:flex;align-items:center;justify-content:space-between;gap:12px}.offer-fare>strong{font-family:'PICKR Space',sans-serif;font-size:30px;color:#a23a00}.directives{padding:12px;background:#eff4f8;border:1px solid #d8dfe3;border-radius:4px;font-size:14px}
+.pilot-shell .timer{background:#171c1f;color:#fff;font-family:'JetBrains Mono',monospace;font-size:25px;padding:22px;border-left:4px solid #ca4b00}.trip-view>section.stack{border:1px solid #d8dfe3;padding:16px;border-radius:4px}.trip-view input[type=file]{background:#eff4f8;border-style:dashed}.trip-view input[type=file]::file-selector-button{border:0;border-radius:4px;background:#a23a00;color:#fff;padding:9px;margin-right:10px}
+.admin-operations-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:18px}.admin-operations-grid h2{font-size:19px}.admin-map-panel,.admin-queue-panel{min-width:0}.admin-queue-panel{background:#fff;padding:16px;border:1px solid #d8dfe3;border-radius:4px}.table-scroll{overflow:auto;max-height:640px}.trip-table{width:100%;border-collapse:collapse;text-align:left;font-size:12px}.trip-table th{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#566066;padding:12px 8px;border-bottom:1px solid #d8dfe3}.trip-table td{padding:14px 8px;vertical-align:top;border-bottom:1px solid #d8dfe3}.trip-table small{font-size:11px}.pilot-shell .table-link{background:transparent;color:#a23a00;padding:0;min-height:44px;border:0;font-size:12px;text-align:left;justify-content:flex-start}.trip-table select{min-height:44px;font-size:12px;padding:6px;min-width:115px}.admin-workspace>nav{background:#fff;border-color:#d8dfe3}.admin-workspace>nav button{font-size:13px;gap:8px}.admin-workspace>nav .material-symbols-outlined{font-size:18px}
+@media(min-width:1200px){.admin-shell{max-width:1600px}.admin-workspace{padding-left:206px}.admin-workspace>nav{width:184px}.admin-operations-grid{grid-template-columns:minmax(0,1.3fr) minmax(400px,1fr)}}
+@media(max-width:1050px){.admin-operations-grid{grid-template-columns:1fr}.admin-map-panel .row{flex-wrap:wrap}}
+@media(max-width:480px){.offer-dialog{left:10px;right:10px;padding:16px}.offer-heading h2{font-size:18px}.offer-heading .status-tag{max-width:100px;overflow-wrap:anywhere}.profile-stats{grid-template-columns:1fr 1fr}.profile-stats>div:last-child{grid-column:1/-1}.pilot-shell .driver-status{padding:14px}.driver-status p{margin:0}}

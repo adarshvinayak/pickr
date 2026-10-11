@@ -4,13 +4,13 @@ import type { Point,Zone } from '@/lib/pilot/model';
 import { api,currentLocation } from '@/lib/pilot/client';
 import { MapView } from './MapView';
 import {useLanguage} from './Experience';
-export function LocationPicker({label,value,onChange,zones}:{label:string;value:Point|null;onChange:(point:Point)=>void;zones:Zone[]}) {
+export function LocationPicker({label,value,onChange,zones,onSaved}:{onSaved?:()=>void;label:string;value:Point|null;onChange:(point:Point)=>void;zones:Zone[]}) {
  const {t}=useLanguage();
  const [query,setQuery]=useState('');const [results,setResults]=useState<Point[]>([]);const [open,setOpen]=useState(false);const [busy,setBusy]=useState(false);const [error,setError]=useState('');const [saved,setSaved]=useState<(Point&{id:string})[]>([]);
  useEffect(()=>{api<(Point&{id:string})[]>('sites').then(setSaved).catch(()=>{});},[]);
  async function search(){setBusy(true);setError('');try{setResults(await api<Point[]>(`geocode?q=${encodeURIComponent(query)}`));}catch(e){setError((e as Error).message);}finally{setBusy(false);}}
  async function locate(){setBusy(true);setError('');try{const p=await currentLocation();onChange({...p,label:'Current location',address:`${p.lat.toFixed(6)}, ${p.lng.toFixed(6)}`});setOpen(true);}catch(e){setError((e as Error).message);}finally{setBusy(false);}}
- async function save(){if(!value)return;try{const item=await api<Point&{id:string}>('sites',value);setSaved(s=>[...s,item]);}catch(e){setError((e as Error).message);}}
+ async function save(){if(!value)return;try{const item=await api<Point&{id:string}>('sites',value);setSaved(s=>[...s,item]);onSaved?.();}catch(e){setError((e as Error).message);}}
  return <section className="location-picker"><label>{label}</label>{value&&<div className="location-value"><strong>{value.label}</strong><small>{value.address}</small></div>}
  <div className="row"><input aria-label={`Search ${label}`} placeholder="Search town, site or address" value={query} onChange={e=>setQuery(e.target.value)} onKeyDown={e=>{if(e.key==='Enter'){e.preventDefault();void search();}}}/><button type="button" className="secondary" disabled={query.length<3||busy} onClick={search}>{t('Search','തിരയുക')}</button></div>
  <div className="row"><button type="button" className="secondary" onClick={locate} disabled={busy}>{t('Use my location','എന്റെ സ്ഥലം')}</button><button type="button" className="secondary" onClick={()=>setOpen(!open)}>{t('Choose on map','മാപ്പിൽ തിരഞ്ഞെടുക്കുക')}</button></div>
