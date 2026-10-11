@@ -2,9 +2,13 @@
 
 One shared React interface and Next.js backend. Customer web `/customer`, driver web `/driver`, admin web `/admin`. Two sideloadable Android packages contain the interface locally and add native GPS, request notifications, optional overlays, microphone/speech and camera/file handling.
 
+## Current pilot delivery
+
+Hosted web: https://pickr-xueh.onrender.com (`/customer`, `/driver`, `/admin`). Current APKs are **0.8.0-pilot / code 8**, about 3.1 MiB each, with this HTTPS backend embedded. See [Android emulator QA](docs/ANDROID_QA_2026-10-11.md) for fixes, checksums, test coverage and remaining Mappls/Firebase/physical-device checks.
+
 ## Start local testing
 
-**Quick setup:** fill `NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `DATABASE_URL`, `MAPPLS_REST_KEY`, `MAPPLS_WEB_KEY` and `ADMIN_BOOTSTRAP_PHONE` in `.env.local`, then run `npm run pilot:setup`. It creates missing private secrets/admin password in that file, applies the three pilot migrations transactionally, creates the first admin, installs Cron if available, and verifies Supabase/private storage/Mappls access. It does not print secrets. The migration runner records checksums and refuses to overwrite an untracked existing pilot schema or edited migration history. `DATABASE_URL` is setup-only, never included in APKs; use Supabase's direct or session-pooler connection (not transaction pooler port 6543). Remote SQL uses verified TLS; set `DATABASE_SSL_CA_FILE` to a trusted CA certificate if your project needs one.
+**Quick setup:** fill `NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `DATABASE_URL`, `MAPPLS_REST_KEY`, `MAPPLS_WEB_KEY` and `ADMIN_BOOTSTRAP_PHONE` in `.env.local`, then run `npm run pilot:setup`. It creates missing private secrets/admin password in that file, applies the tracked pilot migrations transactionally, creates the first admin, installs Cron if available, and verifies Supabase/private storage/Mappls access. It does not print secrets. The migration runner records checksums and refuses to overwrite an untracked existing pilot schema or edited migration history. `DATABASE_URL` is setup-only, never included in APKs; use Supabase's direct or session-pooler connection (not transaction pooler port 6543). Remote SQL uses verified TLS; set `DATABASE_SSL_CA_FILE` to a trusted CA certificate if your project needs one.
 
 Start the web backend **and dispatch/routing worker together** with `npm run pilot:start`. This requires valid configuration; it stops early when keys are missing. For production: `npm run build`, then `npm run pilot:start -- --production`. The worker handles dispatch even if Cron is unavailable and no screens are open, refreshes Mappls routes/ETAs and handles FCM when configured. Stop both with Ctrl+C. Existing standalone commands remain available below.
 
@@ -21,6 +25,8 @@ Choose the automated setup above **or** the manual SQL steps below. Do not repla
    - `supabase/migrations/20261010000000_real_pilot.sql`
    - `supabase/migrations/20261010010000_pilot_guards.sql`
    - `supabase/migrations/20261010020000_mappls_navigation.sql`
+   - `supabase/migrations/20261011000000_release_before_loading.sql`
+   - `supabase/migrations/20261011010000_record_cancellation_fee.sql`
    - `supabase/pilot-cron.sql` (enable Cron integration if needed).
    These create private tables, a private upload bucket, transaction functions and a dispatch job. Do not run the old demo seed. Existing legacy schema is preserved; the new runtime uses only `pilot_*` tables.
 4. `npm run pilot:start`. Visit `http://localhost:3000/admin`, sign in using the bootstrap credentials, review the initial Thrissur service rectangle (remote customers are allowed), set support phone, and confirm test skips are enabled.
@@ -35,7 +41,7 @@ The delivery files are `artifacts/pickr-customer-debug.apk` and `artifacts/pickr
 
 Android 8.0+ (API 26) required. Both apps can be installed on the same phone. They are pilot/debug-signed builds; retain the signing key on this build machine for compatible updates. Neither APK contains server credentials.
 
-New APK builds preconfigure `PICKR_BACKEND_URL` (if set), otherwise a non-localhost `PUBLIC_APP_URL`, otherwise an automatically detected private LAN address. The current delivery defaults to `http://192.168.0.123:3000`; that address must remain assigned to this laptop. Put phones and laptop on the same Wi-Fi and allow inbound port 3000 in the laptop firewall. To change the address, expand **Backend connection** on the APK sign-in screen, or set `PICKR_BACKEND_URL` and rebuild. Saved overrides take precedence over the compiled default. Android pilot builds allow local HTTP; use HTTPS before using public networks. Release build configuration blocks HTTP.
+New APK builds preconfigure `PICKR_BACKEND_URL` (if set), otherwise a non-localhost `PUBLIC_APP_URL`, otherwise an automatically detected private LAN address. The current delivery defaults to `https://pickr-xueh.onrender.com`. For local testing, set a reachable LAN URL, put phones and laptop on the same Wi-Fi and allow the backend port through the laptop firewall. To change the address, expand **Backend connection** on the APK sign-in screen, or set `PICKR_BACKEND_URL` and rebuild. Saved overrides take precedence over the compiled default. Android pilot builds allow local HTTP; use HTTPS before using public networks. Release build configuration blocks HTTP.
 
 The native interface is bundled and does not load a hosted website. Booking, maps, storage and dispatch still need a reachable backend and internet. No fabricated data is used when these services are unavailable.
 
@@ -71,7 +77,7 @@ English structured voice parsing works without an AI key. Native speech recognit
 
 ## Hosting and iOS
 
-`render.yaml` supplies a Next.js web service template and starts the dispatch/push worker alongside the web process. Apply migrations with `npm run pilot:setup` from this machine first. Set environment values in Render, set `PUBLIC_APP_URL` to its HTTPS URL, then set `PICKR_BACKEND_URL` and rebuild for automatic APK connection (or use the in-app override). This repository has not been deployed. Render plans that suspend while idle are unsuitable for reliable pilot dispatch.
+`render.yaml` supplies a Next.js web service template and starts the dispatch/push worker alongside the web process. Apply migrations with `npm run pilot:setup` from this machine first. Set environment values in Render, set `PUBLIC_APP_URL` to its HTTPS URL, then set `PICKR_BACKEND_URL` and rebuild for automatic APK connection (or use the in-app override). The repository is deployed at `https://pickr-xueh.onrender.com`, with the application and worker configured on Render. Render plans that suspend while idle are unsuitable for reliable pilot dispatch.
 
 The UI uses no Android-only imports. Platform functions are isolated in `src/lib/pilot/client.ts`; Android implements them in `native/android`. An iOS WKWebView/Capacitor host can reuse the bundled interface and APIs, but requires Swift implementations for permissions, background location, APNs/FCM, speech, camera and external links. No iOS binary has been built.
 

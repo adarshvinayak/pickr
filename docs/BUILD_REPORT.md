@@ -1,6 +1,6 @@
 # PICKR build report
 
-Updated 11 October 2026. This is an implementation and local verification report. It does not certify cloud-provider integration, physical-phone behavior or completed road trips.
+Updated 11 October 2026. Latest acceptance evidence is in [Android emulator QA](ANDROID_QA_2026-10-11.md): APK 0.8.0-pilot/code 8, hosted backend, a completed synthetic trip with two camera photos, payment confirmation and PDF receipt, cancellation/release and admin checks. Mappls coordinate search and Firebase push remain configuration gaps; physical-phone/road behavior is not certified. Historical implementation/setup checkpoints below are retained for context.
 
 ## Deliverables
 
@@ -12,7 +12,7 @@ Updated 11 October 2026. This is an implementation and local verification report
 | Driver web | `/driver` |
 | Admin web | `/admin` |
 
-Both APKs are approximately 2.6 MB, support Android 8.0+ and contain a local shared React interface. Android Java implements GPS, foreground service, notifications, overlays, speech, camera and navigation. This is a hybrid native host with a bundled interface. Shared UI and APIs can be reused on iOS; iOS native services and signing remain to be implemented.
+Both current APKs are approximately 3.1 MiB, support Android 8.0+ and contain a local shared React interface. Android Java implements GPS, foreground service, notifications, overlays, speech, camera and navigation. This is a hybrid native host with a bundled interface. Shared UI and APIs can be reused on iOS; iOS native services and signing remain to be implemented.
 
 ## Implemented
 
