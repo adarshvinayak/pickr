@@ -19,7 +19,11 @@ export function nextVoiceQuestion(slots: VoiceParseResponse): VoiceParseResponse
 export function parseWithLocalRules(transcript:string,current:Record<string,unknown>={}):VoiceParseResponse {
  const previous=VoiceParseResponseSchema.safeParse(current); const slots:VoiceParseResponse=previous.success?{...previous.data}:{material:null,quantity:null,unit:null,pickupText:null,dropText:null,when:null,labourNeeded:null,siteAccess:null,confidence:.8,nextQuestion:null,readyToConfirm:false};
  const lower=transcript.toLowerCase().trim(); const slot=slots.nextQuestion?.slot;
- const material=MATERIALS.find(m=>[m.displayName,...m.synonyms,m.id.replaceAll('_',' ')].some(n=>lower.includes(n.toLowerCase())));
+ const normalized=lower.replaceAll(/[-_]/g,' ');
+ // Prefer specific names (P-Sand / River Sand) and match whole words: ACC is
+ // a cement brand, but the word "access" is a road answer, never a new load.
+ const aliases=MATERIALS.flatMap(material=>[material.displayName,...material.synonyms,material.id.replaceAll('_',' ')].map(name=>({material,name:name.toLowerCase().replaceAll(/[-_]/g,' ')}))).sort((a,b)=>b.name.length-a.name.length);
+ const material=aliases.find(({name})=>new RegExp(`(?<![\\p{L}\\p{N}])${name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}(?![\\p{L}\\p{N}])`,'u').test(normalized))?.material;
  if(material){slots.material=material.id;slots.unit=material.nativeUnit;if(material.selfTipping)slots.labourNeeded=false;}
  const words:Record<string,number>={one:1,two:2,three:3,four:4,five:5,ten:10,twenty:20,thirty:30,fifty:50,hundred:100};
  const amount=lower.match(/\b(\d+(?:\.\d+)?|one|two|three|four|five|ten|twenty|thirty|fifty|hundred)\s*(?:units?|loads?|bags?|boxes|bundles?|bricks?|nos|kg|kilos?)\b/);
@@ -29,8 +33,8 @@ export function parseWithLocalRules(transcript:string,current:Record<string,unkn
  else if(/\ba load\b/.test(lower))slots.quantity=1;
  const from=transcript.match(/\bfrom\s+(.+?)(?=\s+to\s+|$)/i); const to=transcript.match(/\bto\s+(.+?)(?=\s+(?:now|in \d+ hours?|with helpers)\b|$)/i);
  if(from)slots.pickupText=from[1].trim();if(to)slots.dropText=to[1].trim();
- if(slot==='pickupLocation'&&!material&&!amount&&!/make it|hours?|helpers?|access|narrow|now/i.test(lower)&&!from&&!['choose on map','search location','use current location'].includes(lower))slots.pickupText=transcript.trim();
- if(slot==='dropLocation'&&!material&&!amount&&!/make it|hours?|helpers?|access|narrow|now/i.test(lower)&&!to&&!['choose on map','search location','saved sites'].includes(lower))slots.dropText=transcript.trim();
+ if(slot==='pickupLocation'&&!slots.pickupText&&!material&&!amount&&!/make it|hours?|helpers?|access|narrow|now/i.test(lower)&&!from&&!['continue','choose on map','search location','use current location'].includes(lower))slots.pickupText=transcript.trim();
+ if(slot==='dropLocation'&&!slots.dropText&&!material&&!amount&&!/make it|hours?|helpers?|access|narrow|now/i.test(lower)&&!to&&!['continue','choose on map','search location','saved sites'].includes(lower))slots.dropText=transcript.trim();
  if(/\b(now|immediately|urgent)\b/.test(lower))slots.when='now';
  const hours=lower.match(/\bin\s+(\d+|two)\s+hours?\b/);if(hours)slots.when=new Date(Date.now()+(hours[1]==='two'?2:Number(hours[1]))*3600000).toISOString();
  if(/no helpers|no labour|without helpers/.test(lower))slots.labourNeeded=false;else if(/helpers needed|with helpers|need labour|yes.*helpers/.test(lower))slots.labourNeeded=true;
