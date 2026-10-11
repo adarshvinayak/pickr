@@ -21,9 +21,9 @@ export function MapView({points=[],zones=[],line,onPick,height=300,editPoints=[]
   const m=map.current,sdk=window.mappls;if(!ready||!m||!sdk)return;
   layers.current.forEach(layer=>sdk.remove({map:m,layer}));layers.current=[];
   const add=(layer:object)=>layers.current.push(layer);
-  zones.filter(z=>z.active).forEach(z=>add(new sdk.Polygon({map:m,paths:z.polygon.map(([lng,lat])=>({lat,lng})),strokeColor:'#a23a00',strokeWeight:2,fillColor:'#a23a00',fillOpacity:.05,fitbounds:false})));
-  if(line){try{const coords=JSON.parse(line) as [number,number][];add(new sdk.Polyline({map:m,paths:coords.map(([lng,lat])=>({lat,lng})),strokeColor:'#a23a00',strokeWeight:5,fitbounds:false}));}catch{/* Never draw an invented route. */}}
-  if(editPoints.length>=3)add(new sdk.Polygon({map:m,paths:editPoints.map(([lng,lat])=>({lat,lng})),strokeColor:'#a23a00',fillColor:'#a23a00',fillOpacity:.12,fitbounds:false}));
+  zones.filter(z=>z.active).forEach(z=>add(new sdk.Polygon({map:m,paths:z.polygon.map(([lng,lat])=>({lat,lng})),strokeColor:'#b44718',strokeWeight:2,fillColor:'#b44718',fillOpacity:.05,fitbounds:false})));
+  if(line){try{const coords=JSON.parse(line) as [number,number][];add(new sdk.Polyline({map:m,paths:coords.map(([lng,lat])=>({lat,lng})),strokeColor:'#b44718',strokeWeight:5,fitbounds:false}));}catch{/* Never draw an invented route. */}}
+  if(editPoints.length>=3)add(new sdk.Polygon({map:m,paths:editPoints.map(([lng,lat])=>({lat,lng})),strokeColor:'#b44718',fillColor:'#b44718',fillOpacity:.12,fitbounds:false}));
   points.forEach(p=>{
    const label=document.createElement('span');label.textContent=p.label;
    const dot=p.kind==='driver'?'local_shipping':p.kind==='incident'?'warning':'pin_drop';
