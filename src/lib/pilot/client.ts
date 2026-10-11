@@ -1,6 +1,6 @@
 import { compressPhoto } from './images';
 import type { Role } from './model';
-interface NativeBridge { getRole(): string; getBackendUrl(): string; setBackendUrl(url:string):void; startDriver(token:string,url:string):void; stopDriver():void; requestOverlay():void; requestNotifications():void; speak(text:string):void; listen(language:string):void; configurePush(token:string,url:string):void; openExternal(url:string):void; printReceipt():void }
+interface NativeBridge { getRole(): string; getBackendUrl(): string; setBackendUrl(url:string):void; startDriver(token:string,url:string):void; stopDriver():void; requestOverlay():void; requestNotifications():void; speak(text:string):void; listen(language:string):void; stopListening():void; configurePush(token:string,url:string):void; openExternal(url:string):void; printReceipt():void }
 declare global { interface Window { PickrNative?:NativeBridge } }
 export class ClientApiError extends Error {constructor(message:string,public status:number){super(message);this.name='ClientApiError';}}
 let role:Role='customer';

@@ -33,7 +33,7 @@ The operations/map/dispatch shell is supplied. Dedicated designs are still neede
 
 The missing screens have functional layouts using the exported design system. Booking is six sequential steps, driver setup is three steps, current driver work opens separately, and customer navigation has Home / Trips / Account. Main booking and driver actions have Malayalam alternatives. Technical provider diagnostics remain available in English; Malayalam wording should be reviewed by a local speaker before wider rollout.
 
-Do not design predictive routing, fastest truck-safe routing, guaranteed traffic-event avoidance, verified phone login, or reliable remote push as available features: these require additional provider access/configuration. Mappls standard traffic ETA and map pins remain supported. No backend tables or fare rules changed for this UI update.
+Do not design predictive routing, fastest truck-safe routing, guaranteed traffic-event avoidance, verified phone login, or reliable remote push as available features: these require additional provider access/configuration. Mappls standard traffic ETA and map pins remain supported. Fare rules remain unchanged. The subsequent QA pass applied SQL function migrations to fix driver release before departure and persistence of existing cancellation fees; see the comprehensive QA report.
 
 ## Necessary changes to new exports
 

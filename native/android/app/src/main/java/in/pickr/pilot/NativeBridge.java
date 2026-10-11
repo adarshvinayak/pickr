@@ -34,6 +34,7 @@ public final class NativeBridge {
  @JavascriptInterface public void openExternal(String value){activity.runOnUiThread(()->{try{Uri uri=Uri.parse(value);String scheme=uri.getScheme();if(!"https".equals(scheme)&&!"tel".equals(scheme)&&!"geo".equals(scheme))return;activity.startActivity(new Intent(Intent.ACTION_VIEW,uri));}catch(Exception e){emitError("No app can open this link.");}});}
  @JavascriptInterface public void printReceipt(){activity.runOnUiThread(()->{try{android.print.PrintManager manager=(android.print.PrintManager)activity.getSystemService(Context.PRINT_SERVICE);manager.print("PICKR trip receipt",activity.web.createPrintDocumentAdapter("PICKR trip receipt"),null);}catch(Exception e){emitError("Unable to open receipt printing. Try again or use the web app.");}});}
  @JavascriptInterface public void speak(String text){activity.runOnUiThread(()->speech.speak(text,TextToSpeech.QUEUE_FLUSH,null,"pickr-question"));}
+ @JavascriptInterface public void stopListening(){activity.runOnUiThread(()->{if(recognition!=null)recognition.cancel();});}
  @JavascriptInterface public void listen(String requestedLanguage){language=requestedLanguage;activity.runOnUiThread(()->{
  if(activity.checkSelfPermission(Manifest.permission.RECORD_AUDIO)!=PackageManager.PERMISSION_GRANTED){activity.requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO},12);return;}
  if(!SpeechRecognizer.isRecognitionAvailable(activity)){emitSpeech("Speech recognition is not installed on this phone.");return;}

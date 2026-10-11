@@ -20,10 +20,16 @@
 ## Validation
 
 - ESLint: passed.
-- Vitest: 58 tests across 9 suites passed.
-- Next production build: passed; customer/driver/admin first-load JavaScript approximately 132 KB.
-- Native Vite bundle and both Gradle APK builds: passed. APK version 0.5.0-pilot, version code 5; default backend https://pickr-xueh.onrender.com; approximately 3 MB each.
+- Vitest: 62 tests across 10 suites passed.
+- Next production build: passed; customer/driver/admin first-load JavaScript approximately 134 KB.
+- Native Vite bundle and both Gradle APK builds: passed. APK version 0.6.0-pilot, version code 6; default backend https://pickr-xueh.onrender.com; approximately 3 MB each.
 - Browser: customer sign-in, step progression, back navigation, draft restoration, Malayalam rendering, real customer/driver profile data, driver availability and admin dispatch layout verified. A clearly labelled mock trip completed booking → acceptance → pickup/loading → delivery/unloading → cash confirmation; the driver was released afterward. Synthetic GPS and the explicit testing photo skip were used; no real load or financial payment occurred.
-- Physical Android GPS, camera permissions, overlays and remote push were not newly tested during this UI change. Existing Mappls entitlement and Firebase limitations are unaffected.
+- Android API35 emulator tested customer GPS booking, driver precise GPS/online, request acceptance/decline, foreground service notification, loading/unloading, cash collection, native photo chooser and receipt print preview. Physical-phone background/lock-screen behaviour, captured-photo upload, overlays and remote Firebase push remain unverified. Existing Mappls entitlement and Firebase limitations are documented in the comprehensive QA report.
 
 See STITCH_MISSING_SCREENS.md for the missing-screen inventory and a brief ready to send to Stitch. Placeholder marketing data, alternative visual themes and the missing 3D placeholder were not imported into the functional app.
+
+## Additional QA refinements — 11 October
+
+Added nested route/cargo/driver manifest cards, introduction feature cards, real uploaded-photo thumbnails, dark fare/timer panels and map icons. Primary booking actions stay above bottom navigation. Fixed trusted Android GPS origin parsing, status-bar contrast, resume refresh, native receipt printing, microphone error/stop handling and Android Home Back. Admin editing preserves partial coordinate input, rejects crossed/collapsed polygons, keeps a stable new-zone identifier and excludes labelled test receipts by default. Driver release before departure and recorded customer cancellation fees are backed by applied SQL migrations. Rates and capacities are unchanged.
+
+See `../QA_REPORT_2026-10-11.md` for the executed test matrix, ratings, findings, limitations and cleanup evidence.
