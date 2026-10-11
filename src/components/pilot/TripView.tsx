@@ -21,6 +21,7 @@ export function TripView({trip,role,settings,zones,refresh,onReleased}:{trip:Tri
  const modalRef=useModalFocus(Boolean(confirmation),()=>setConfirmation(null));
  const [now,setNow]=useState(Date.now());const [busy,setBusy]=useState(false);const [error,setError]=useState('');const [photos,setPhotos]=useState<string[]>([]);const [skip,setSkip]=useState(false);const [reason,setReason]=useState('');const [method,setMethod]=useState<'cash'|'upi'>('cash');const [reference,setRef]=useState('');const [rating,setRating]=useState(5);const [comment,setComment]=useState('');
  useEffect(()=>{const interval=setInterval(()=>setNow(Date.now()),1000);return()=>clearInterval(interval);},[]);
+ useEffect(()=>{window.scrollTo({top:0,behavior:'instant'});},[trip.status]);
  async function action(value:string,extra:Record<string,unknown>={}){setBusy(true);setError('');try{await api(`bookings/${trip.id}/action`,{action:value,...extra});if(value==='RELEASE')onReleased?.();refresh();}catch(e){setError((e as Error).message);refresh();}finally{setBusy(false);}}
  async function load(files:FileList|null){if(!files)return;setBusy(true);setError('');try{for(const file of Array.from(files).slice(0,8-photos.length)){const path=await uploadFile(file,'load');setPhotos(current=>[...current,path]);}}catch(e){setError((e as Error).message);}finally{setBusy(false);}}
 
