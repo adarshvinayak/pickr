@@ -16,6 +16,7 @@ public class MainActivity extends Activity {
  GeolocationPermissions.Callback geoCallback;String geoOrigin;
  @Override public void onCreate(Bundle state){super.onCreate(state);
   getWindow().setStatusBarColor(Color.WHITE);getWindow().setNavigationBarColor(Color.WHITE);
+  getWindow().getDecorView().setSystemUiVisibility(android.view.View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR|android.view.View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
   web=new WebView(this);android.widget.FrameLayout container=new android.widget.FrameLayout(this);container.addView(web,new android.widget.FrameLayout.LayoutParams(-1,-1));container.setOnApplyWindowInsetsListener((v,insets)->{if(android.os.Build.VERSION.SDK_INT>=30){var bars=insets.getInsets(android.view.WindowInsets.Type.systemBars());v.setPadding(bars.left,bars.top,bars.right,bars.bottom);}else v.setPadding(insets.getSystemWindowInsetLeft(),insets.getSystemWindowInsetTop(),insets.getSystemWindowInsetRight(),insets.getSystemWindowInsetBottom());return insets;});setContentView(container);WebSettings settings=web.getSettings();settings.setJavaScriptEnabled(true);settings.setDomStorageEnabled(true);settings.setAllowFileAccess(false);settings.setAllowContentAccess(true);settings.setGeolocationEnabled(true);
   settings.setMixedContentMode(BuildConfig.DEBUG?WebSettings.MIXED_CONTENT_ALWAYS_ALLOW:WebSettings.MIXED_CONTENT_NEVER_ALLOW);
   bridge=new NativeBridge(this);web.addJavascriptInterface(bridge,"PickrNative");
