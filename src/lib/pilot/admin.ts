@@ -1,3 +1,4 @@
+import {validServicePolygon} from './geo';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { ApiError, audit, check, database, identity, json, passwordHash, PhoneSchema } from './server';
@@ -10,8 +11,7 @@ export async function adminAction(req:NextRequest):Promise<NextResponse> {
  if(action==='settings') {const input=z.object({allow_skips:z.boolean(),support_phone:z.string().max(20),paused:z.boolean(),require_device_area:z.boolean(),initial_radius_km:z.number().int().min(1).max(50),radius_step_km:z.number().int().min(1).max(50)}).parse(raw);check(await db.from('pilot_settings').update(input).eq('id',true));}
  if(action==='zone') {
  const input=z.object({id:z.string().uuid().optional(),name:z.string().trim().min(2).max(100),active:z.boolean(),polygon:z.array(z.tuple([z.number().min(-180).max(180),z.number().min(-90).max(90)])).min(3).max(200)}).parse(raw);
- const area=input.polygon.reduce((sum,p,i)=>{const next=input.polygon[(i+1)%input.polygon.length];return sum+p[0]*next[1]-next[0]*p[1];},0);
- if(Math.abs(area)<1e-8) throw new ApiError(400,'Draw a polygon with a nonzero area.');
+ if(!validServicePolygon(input.polygon))throw new ApiError(400,'Draw a nonzero service boundary without crossed edges or repeated points.');
  check(await db.from('pilot_zones').upsert(input));
  }
  if(action==='deleteZone') {const {id}=z.object({id:z.string().uuid()}).parse(raw);check(await db.from('pilot_zones').delete().eq('id',id));}
