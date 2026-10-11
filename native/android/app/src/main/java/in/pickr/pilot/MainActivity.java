@@ -12,6 +12,7 @@ import androidx.core.content.FileProvider;
 import java.io.File;
 import java.util.ArrayList;
 public class MainActivity extends Activity {
+ static volatile boolean foreground;
  WebView web; NativeBridge bridge; ValueCallback<Uri[]> fileCallback; Uri cameraUri;
  GeolocationPermissions.Callback geoCallback;String geoOrigin;
  @Override public void onCreate(Bundle state){super.onCreate(state);
@@ -38,7 +39,8 @@ public class MainActivity extends Activity {
  void event(String event,org.json.JSONObject detail){runOnUiThread(()->web.evaluateJavascript("window.dispatchEvent(new CustomEvent("+org.json.JSONObject.quote(event)+",{detail:"+detail+"}));",null));}
  @Override public void onRequestPermissionsResult(int request,String[] permissions,int[] grants){super.onRequestPermissionsResult(request,permissions,grants);if(request==11&&geoCallback!=null){boolean ok=false;for(int grant:grants)ok|=grant==PackageManager.PERMISSION_GRANTED;geoCallback.invoke(geoOrigin,ok,false);geoCallback=null;}if(request==12){if(grants.length>0&&grants[0]==PackageManager.PERMISSION_GRANTED)bridge.listen(bridge.language);else bridge.emitSpeech("Microphone permission denied. Use typed answers.");}}
  @Override protected void onActivityResult(int request,int result,Intent data){super.onActivityResult(request,result,data);if(request==20&&fileCallback!=null){ArrayList<Uri> uris=new ArrayList<>();if(result==RESULT_OK){if(data!=null&&data.getClipData()!=null){for(int i=0;i<data.getClipData().getItemCount();i++)uris.add(data.getClipData().getItemAt(i).getUri());}else if(data!=null&&data.getData()!=null)uris.add(data.getData());else if(cameraUri!=null)uris.add(cameraUri);}fileCallback.onReceiveValue(uris.isEmpty()?null:uris.toArray(new Uri[0]));fileCallback=null;}}
- @Override protected void onResume(){super.onResume();if(web!=null)event("pickr-native",new org.json.JSONObject());}
+ @Override protected void onResume(){super.onResume();foreground=true;OfferAlerts.get(this).hideOverlays();if(web!=null)event("pickr-native",new org.json.JSONObject());}
+ @Override protected void onPause(){foreground=false;super.onPause();}
  @Override public void onBackPressed(){web.evaluateJavascript("window.dispatchEvent(new Event('pickr-back',{cancelable:true}))",value->{if("true".equals(value))moveTaskToBack(true);});}
  @Override protected void onDestroy(){bridge.destroy();web.removeJavascriptInterface("PickrNative");web.destroy();super.onDestroy();}
 }
