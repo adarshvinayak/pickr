@@ -69,3 +69,10 @@ export async function calculateRoute(pickup:{lat:number;lng:number},drop:{lat:nu
  if(options.avoid?.length)url.searchParams.set('avoid_locations',JSON.stringify(options.avoid.slice(0,50).map(p=>({lat:p.lat,lon:p.lng}))));
  return parseRoute(await request(url),truck?'trucking':'driving',mode);
 }
+
+export async function reverseGeocode(lat:number,lng:number):Promise<GeocodeResult> {
+ const url=new URL('https://search.mappls.com/search/address/rev-geocode');url.search=new URLSearchParams({lat:String(lat),lng:String(lng)}).toString();
+ const parsed=z.object({results:z.array(z.object({formatted_address:z.string().optional(),street:z.string().optional(),locality:z.string().optional(),village:z.string().optional(),district:z.string().optional(),pincode:z.string().optional()}).passthrough())}).parse(await request(url));
+ const p=parsed.results[0];if(!p)throw new ApiError(502,'Address unavailable for this pin.');
+ return {id:`${lat},${lng}`,lat,lng,label:p.street||p.locality||p.village||p.district||'Selected site',address:p.formatted_address||[p.street,p.locality,p.village,p.district,p.pincode].filter(Boolean).join(', ')};
+}

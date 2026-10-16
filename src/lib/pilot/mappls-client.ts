@@ -1,6 +1,6 @@
 import { api } from './client';
 interface MapEvent {lngLat?:{lat:number;lng:number};latlng?:{lat:number;lng:number}}
-export interface MapInstance {addListener(name:string,callback:(event:MapEvent)=>void):void;remove():void;loaded():boolean;resize():void;setCenter(point:{lat:number;lng:number}):void;setZoom(zoom:number):void}
+export interface MapInstance {addListener(name:string,callback:(event:MapEvent)=>void):void;remove():void;getCenter():{lat:number;lng:number};loaded():boolean;resize():void;setCenter(point:{lat:number;lng:number}):void;setZoom(zoom:number):void}
 type Layer=object;
 export interface MapplsSDK {
  Map:new(id:string,options:Record<string,unknown>)=>MapInstance;

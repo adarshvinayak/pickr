@@ -6,7 +6,7 @@ export function nextVoiceQuestion(slots: VoiceParseResponse): VoiceParseResponse
  const material=getMaterialById(slots.material||'');
  const questions:VoiceParseResponse['nextQuestion'][]=[
  !material?{slot:'material',text:'What construction material should we move?',chips:['M-Sand','Cement','Bricks','Mixed / Other']}:null,
- !slots.quantity?{slot:'quantity',text:`How many ${material?.nativeUnit||'loads'}?`,chips:material?.nativeUnit==='bag'?['10 bags','30 bags','50 bags']:['1 load','2 loads','Choose quantity']}:null,
+ !slots.quantity?{slot:'quantity',text:`How many ${({nos:'numbers',bag:'bags',box:'boxes',bundle:'bundles',unit:'units',load:'loads',kg:'kilograms'}[material?.nativeUnit||'load'])||'loads'}?`,chips:material?.nativeUnit==='bag'?['10 bags','30 bags','50 bags']:['1 load','2 loads','Choose quantity']}:null,
  !slots.pickupText?{slot:'pickupLocation',text:'Where should we pick it up?',chips:['Use current location','Choose on map','Search location']}:null,
  !slots.dropText?{slot:'dropLocation',text:'Where should we deliver it?',chips:['Choose on map','Search location','Saved sites']}:null,
  !slots.when?{slot:'when',text:'When do you need the truck?',chips:['Now','In 2 hours','Pick a time']}:null,
@@ -26,7 +26,7 @@ export function parseWithLocalRules(transcript:string,current:Record<string,unkn
  const material=aliases.find(({name})=>new RegExp(`(?<![\\p{L}\\p{N}])${name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}(?![\\p{L}\\p{N}])`,'u').test(normalized))?.material;
  if(material){slots.material=material.id;slots.unit=material.nativeUnit;if(material.selfTipping)slots.labourNeeded=false;}
  const words:Record<string,number>={one:1,two:2,three:3,four:4,five:5,ten:10,twenty:20,thirty:30,fifty:50,hundred:100};
- const amount=lower.match(/\b(\d+(?:\.\d+)?|one|two|three|four|five|ten|twenty|thirty|fifty|hundred)\s*(?:units?|loads?|bags?|boxes|bundles?|bricks?|nos|kg|kilos?)\b/);
+ const amount=lower.match(/\b(\d+(?:\.\d+)?|one|two|three|four|five|ten|twenty|thirty|fifty|hundred)\s*(?:units?|loads?|bags?|boxes|bundles?|bricks?|numbers?|nos|kg|kilos?)\b/);
  if(amount)slots.quantity=Number(amount[1])||words[amount[1]];
  else if(slot==='quantity'&&/^\d+(?:\.\d+)?$/.test(lower))slots.quantity=Number(lower);
  else if(slot==='quantity'&&words[lower])slots.quantity=words[lower];

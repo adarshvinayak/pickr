@@ -16,6 +16,12 @@ export async function api<T>(path:string,body?:unknown,method?:string):Promise<T
  if(!response.ok)throw new ClientApiError(content.error||`Request failed (${response.status}).`,response.status);return content.data as T;
 }
 export async function uploadFile(file:File,purpose:'load'|'document'):Promise<string> {const form=new FormData();form.set('file',purpose==='load'?await compressPhoto(file):file);form.set('purpose',purpose);return (await api<{path:string}>('upload',form)).path;}
-export function currentLocation():Promise<{lat:number;lng:number;accuracy:number;sampledAt:string}> {return new Promise((resolve,reject)=>navigator.geolocation.getCurrentPosition(p=>resolve({lat:p.coords.latitude,lng:p.coords.longitude,accuracy:p.coords.accuracy,sampledAt:new Date(p.timestamp).toISOString()}),e=>reject(new Error(e.message||'Enable precise location in device settings.')),{enableHighAccuracy:true,timeout:20000,maximumAge:0}));}
+export function currentLocation():Promise<{lat:number;lng:number;accuracy:number;sampledAt:string}> {
+ return new Promise((resolve,reject)=>{
+  if(!window.isSecureContext){reject(new Error('Location needs HTTPS. Open the hosted PICKR address or localhost.'));return;}
+  if(!navigator.geolocation){reject(new Error('This browser does not provide location. Open PICKR in Chrome or Safari on your phone.'));return;}
+  navigator.geolocation.getCurrentPosition(p=>resolve({lat:p.coords.latitude,lng:p.coords.longitude,accuracy:p.coords.accuracy,sampledAt:new Date(p.timestamp).toISOString()}),e=>reject(new Error(e.code===1?'Location permission is blocked. Allow Location in this website’s browser settings and in your phone or computer privacy settings, then retry.':e.code===2?'Your device cannot find its location. Turn on device Location and precise location, then retry near a window or outdoors.':e.code===3?'Location took too long. Keep device Location on, check internet and retry near a window or outdoors.':e.message||'Location is unavailable.')),{enableHighAccuracy:true,timeout:20000,maximumAge:10000});
+ });
+}
 export function external(url:string):void {if(window.PickrNative)window.PickrNative.openExternal(url);else window.open(url,'_blank','noopener,noreferrer');}
 export function say(text:string,language="en-IN"):void {if(window.PickrNative){window.PickrNative.setSpeechLanguage?.(language);window.PickrNative.speak(text);}else if('speechSynthesis' in window){speechSynthesis.cancel();const utterance=new SpeechSynthesisUtterance(text);utterance.lang=language;utterance.onend=()=>window.dispatchEvent(new Event('pickr-tts-end'));speechSynthesis.speak(utterance);}}
