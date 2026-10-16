@@ -1,6 +1,7 @@
 'use client';
 import { useEffect,useRef,useState,useId } from 'react';
 import { loadMappls,type MapInstance } from '@/lib/pilot/mappls-client';
+import {StitchIcon} from './StitchIcon';
 import type { Point, Zone } from '@/lib/pilot/model';
 export function MapView({points=[],zones=[],line,onPick,height=300,editPoints=[],showInactiveZones=false,showHint=true,fitAllZones=false,centerPin=false}:{points?:Array<Point&{kind?:string}>;zones?:Zone[];line?:string;onPick?:(point:Point)=>void;height?:number;editPoints?:[number,number][];showInactiveZones?:boolean;showHint?:boolean;fitAllZones?:boolean;centerPin?:boolean}) {
  const id=`pickr-map-${useId().replace(/[^a-zA-Z0-9]/g,'')}`;const map=useRef<MapInstance|null>(null);const layers=useRef<object[]>([]);const pick=useRef(onPick);pick.current=onPick;
@@ -41,5 +42,5 @@ export function MapView({points=[],zones=[],line,onPick,height=300,editPoints=[]
 
  },[ready,serialized,centerPin]);
  useEffect(()=>{const m=map.current;const element=document.getElementById(id);if(!ready||!m||!element)return;const observer=new ResizeObserver(()=>m.resize());observer.observe(element);return()=>observer.disconnect();},[ready,id]);
- return <div className="pilot-map"><div id={id} style={{height}} aria-label="Interactive Mappls road map"/>{centerPin&&ready&&!error&&<span className="map-center-pin" aria-hidden="true">📍</span>}{!ready&&!error&&<p className="hint">Loading Mappls…</p>}{error&&<div className="stack notice"><p>{error}</p><button className="secondary" onClick={()=>setAttempt(a=>a+1)}>Retry map</button></div>}<p className="hint" hidden={!showHint}>Mappls · Live traffic ETA appears in your trip details when available.{onPick?' Tap the map to select the exact site entrance.':''}</p></div>;
+ return <div className="pilot-map"><div id={id} style={{height}} aria-label="Interactive Mappls road map"/>{centerPin&&ready&&!error&&<span className="map-center-pin" aria-hidden="true"><StitchIcon name="pin_drop" className="fill"/></span>}{!ready&&!error&&<p className="hint">Loading Mappls…</p>}{error&&<div className="stack notice"><p>{error}</p><button className="secondary" onClick={()=>setAttempt(a=>a+1)}>Retry map</button></div>}<p className="hint" hidden={!showHint}>Mappls · Live traffic ETA appears in your trip details when available.{onPick?' Tap the map to select the exact site entrance.':''}</p></div>;
 }
