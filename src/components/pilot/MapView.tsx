@@ -4,20 +4,21 @@ import { loadMappls,type MapInstance } from '@/lib/pilot/mappls-client';
 import type { Point, Zone } from '@/lib/pilot/model';
 export function MapView({points=[],zones=[],line,onPick,height=300,editPoints=[],showInactiveZones=false,showHint=true,fitAllZones=false,centerPin=false}:{points?:Array<Point&{kind?:string}>;zones?:Zone[];line?:string;onPick?:(point:Point)=>void;height?:number;editPoints?:[number,number][];showInactiveZones?:boolean;showHint?:boolean;fitAllZones?:boolean;centerPin?:boolean}) {
  const id=`pickr-map-${useId().replace(/[^a-zA-Z0-9]/g,'')}`;const map=useRef<MapInstance|null>(null);const layers=useRef<object[]>([]);const pick=useRef(onPick);pick.current=onPick;
- const [ready,setReady]=useState(false);const [error,setError]=useState('');const [attempt,setAttempt]=useState(0);const fitted=useRef('unset');
- useEffect(()=>{let cancelled=false;let timeout:ReturnType<typeof setTimeout>|undefined;setReady(false);setError('');
+ const [ready,setReady]=useState(false);const [error,setError]=useState('');const [attempt,setAttempt]=useState(0);const fitted=useRef('unset');const lastPicked=useRef('');
+ useEffect(()=>{let cancelled=false;let timeout:ReturnType<typeof setTimeout>|undefined;let settle:ReturnType<typeof setTimeout>|undefined;setReady(false);setError('');
  void loadMappls().then(sdk=>{
   if(cancelled)return;const m=new sdk.Map(id,{center:{lat:10.5276,lng:76.2144},zoom:12,zoomControl:true,traffic:true,fullscreenControl:false,tilt:0});map.current=m;
   const loaded=()=>{if(!cancelled){clearTimeout(timeout);setReady(true);setError('');}};
   m.addListener('load',loaded);if(m.loaded())loaded();
   timeout=setTimeout(()=>{if(!cancelled&&!m.loaded())setError('Mappls map has not loaded. Check map access and connection.');},20000);
   m.addListener('error',()=>{if(!cancelled)setError('Some Mappls resources are unavailable. Route estimates may still be shown; retry the map.');});
-  m.addListener('moveend',()=>{if(centerPin){const p=m.getCenter();centerKey.current=`${p.lat},${p.lng}`;pick.current?.({label:'Selected site',address:'Looking up address…',lat:p.lat,lng:p.lng});}});
+  m.addListener('movestart',()=>clearTimeout(settle));
+  m.addListener('moveend',()=>{if(!centerPin)return;clearTimeout(settle);settle=setTimeout(()=>{if(cancelled)return;const p=m.getCenter();const key=`${p.lat.toFixed(6)},${p.lng.toFixed(6)}`;if(key===lastPicked.current)return;lastPicked.current=key;centerKey.current=`${p.lat},${p.lng}`;pick.current?.({label:'Selected site',address:'Looking up address…',lat:p.lat,lng:p.lng});},350);});
   m.addListener('click',e=>{if(centerPin)return;const p=e.lngLat||e.latlng;if(p&&Number.isFinite(p.lat)&&Number.isFinite(p.lng))pick.current?.({label:'Pinned location',address:`${p.lat.toFixed(6)}, ${p.lng.toFixed(6)}`,lat:p.lat,lng:p.lng});});
  }).catch(e=>{if(!cancelled)setError((e as Error).message);});
- return()=>{cancelled=true;clearTimeout(timeout);map.current?.remove();map.current=null;layers.current=[];fitted.current='unset';};},[id,attempt,centerPin]);
+ return()=>{cancelled=true;clearTimeout(timeout);clearTimeout(settle);lastPicked.current='';map.current?.remove();map.current=null;layers.current=[];fitted.current='unset';};},[id,attempt,centerPin]);
  const centerKey=useRef('');
- const serialized=JSON.stringify({points,zones,line,editPoints,showInactiveZones,fitAllZones});
+ const serialized=JSON.stringify({points:centerPin?points.map(({lat,lng})=>({lat,lng})):points,zones,line,editPoints,showInactiveZones,fitAllZones});
  useEffect(()=>{
   const {points,zones,line,editPoints,showInactiveZones,fitAllZones}=JSON.parse(serialized) as {points:Array<Point&{kind?:string}>;zones:Zone[];line?:string;editPoints:[number,number][];showInactiveZones:boolean;fitAllZones:boolean};
   const m=map.current,sdk=window.mappls;if(!ready||!m||!sdk)return;
@@ -37,7 +38,8 @@ export function MapView({points=[],zones=[],line,onPick,height=300,editPoints=[]
   const bounds=points.length?points.map(p=>[p.lng,p.lat]):(fitAllZones?shownZones:shownZones.slice(0,1)).flatMap(z=>z.polygon);
   // cType 1 preserves GeoJSON [longitude, latitude] order in the Mappls SDK.
   if(bounds.length&&fitted.current!==key&&(!centerPin||fitted.current==='unset'||key!==centerKey.current)){if(bounds.length===1){m.setCenter({lng:bounds[0][0],lat:bounds[0][1]});m.setZoom(15);}else new sdk.fitBounds({map:m,cType:1,bounds,options:{padding:35,maxZoom:15,duration:0}});fitted.current=key;}
-  m.resize();
+
  },[ready,serialized,centerPin]);
+ useEffect(()=>{const m=map.current;const element=document.getElementById(id);if(!ready||!m||!element)return;const observer=new ResizeObserver(()=>m.resize());observer.observe(element);return()=>observer.disconnect();},[ready,id]);
  return <div className="pilot-map"><div id={id} style={{height}} aria-label="Interactive Mappls road map"/>{centerPin&&ready&&!error&&<span className="map-center-pin" aria-hidden="true">📍</span>}{!ready&&!error&&<p className="hint">Loading Mappls…</p>}{error&&<div className="stack notice"><p>{error}</p><button className="secondary" onClick={()=>setAttempt(a=>a+1)}>Retry map</button></div>}<p className="hint" hidden={!showHint}>Mappls · Live traffic ETA appears in your trip details when available.{onPick?' Tap the map to select the exact site entrance.':''}</p></div>;
 }
