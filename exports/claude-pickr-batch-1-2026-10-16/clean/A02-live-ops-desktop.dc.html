@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8">
+<title>A02 Live operations</title>
+
+</head>
+<body>
+
+
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&amp;family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+.ic{font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;font-size:20px;line-height:1;display:inline-block;white-space:nowrap;letter-spacing:normal;text-transform:none;direction:ltr;font-feature-settings:'liga';-webkit-font-smoothing:antialiased}
+.fill{font-variation-settings:'FILL' 1}
+a{color:#B44718}a:hover{color:#963A12}
+th{font-weight:600;text-align:left}
+</style>
+
+<div style="width: 100%; min-height: 100vh; box-sizing: border-box; background: #FAFAF7; color: #18221F; font-family: 'Noto Sans', sans-serif; display: flex; flex-wrap: wrap; align-items: stretch">
+
+<nav aria-label="Admin sections" style="flex: 1 1 220px; max-width: 100%; box-sizing: border-box; background: #FFFFFF; border-right: 1px solid #DCDFD8; padding: 20px 12px; display: flex; flex-direction: column; gap: 4px">
+<div style="display: flex; align-items: center; gap: 10px; padding: 4px 8px 20px">
+<div style="width: 32px; height: 32px; border-radius: 9px; background: #B44718; color: #FFFFFF; display: flex; align-items: center; justify-content: center"><span class="ic fill" aria-hidden="true">local_shipping</span></div>
+<span style="font-size: 16px; font-weight: 700; letter-spacing: 0.03em">PICKR Admin</span>
+</div>
+<a href="A02-live-ops-desktop.dc.html" aria-current="page" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 12px; border-radius: 10px; background: #F6E8E0; color: #963A12; font-size: 15px; font-weight: 600; text-decoration: none"><span class="ic fill" aria-hidden="true">monitoring</span>Trips</a>
+<a href="A02-live-ops-desktop.dc.html" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 12px; border-radius: 10px; color: #46504C; font-size: 15px; font-weight: 500; text-decoration: none"><span class="ic" aria-hidden="true">map</span>Service areas</a>
+<a href="A02-live-ops-desktop.dc.html" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 12px; border-radius: 10px; color: #46504C; font-size: 15px; font-weight: 500; text-decoration: none"><span class="ic" aria-hidden="true">badge</span>Drivers</a>
+<a href="A02-live-ops-desktop.dc.html" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 12px; border-radius: 10px; color: #46504C; font-size: 15px; font-weight: 500; text-decoration: none"><span class="ic" aria-hidden="true">group</span>People</a>
+<a href="A02-live-ops-desktop.dc.html" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 12px; border-radius: 10px; color: #46504C; font-size: 15px; font-weight: 500; text-decoration: none"><span class="ic" aria-hidden="true">receipt_long</span>Trip ledger</a>
+<a href="A02-live-ops-desktop.dc.html" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 12px; border-radius: 10px; color: #46504C; font-size: 15px; font-weight: 500; text-decoration: none"><span class="ic" aria-hidden="true">tune</span>Settings</a>
+<a href="A02-live-ops-desktop.dc.html" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 12px; border-radius: 10px; color: #46504C; font-size: 15px; font-weight: 500; text-decoration: none"><span class="ic" aria-hidden="true">report</span>Road issues</a>
+<a href="A02-live-ops-desktop.dc.html" style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 12px; border-radius: 10px; color: #46504C; font-size: 15px; font-weight: 500; text-decoration: none"><span class="ic" aria-hidden="true">history</span>Activity</a>
+</nav>
+
+<main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; padding: 24px 32px 40px; display: flex; flex-direction: column; gap: 20px">
+
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<h1 style="margin: 0; font-size: 26px; font-weight: 700">Live operations</h1>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px; font-size: 14px; color: #68736E">
+<span style="display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 10px; border-radius: 999px; background: #E3F1EB; color: #15805D; font-weight: 600"><span class="ic fill" aria-hidden="true" style="font-size: 16px">location_on</span>Thrissur · active</span>
+<span>Updated 10:42:05</span>
+<span style="font-size: 12px; font-weight: 500; border: 1px dashed #B9BEB6; border-radius: 6px; padding: 1px 8px">Design example</span>
+</div>
+</div>
+<button type="button" style="height: 40px; padding: 0 14px; border: 1px solid #DCDFD8; border-radius: 10px; background: #FFFFFF; color: #18221F; font: 600 14px 'Noto Sans', sans-serif; display: flex; align-items: center; gap: 6px"><span class="ic" aria-hidden="true">refresh</span>Refresh</button>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px">
+<div style="background: #FFFFFF; border: 1px solid #DCDFD8; border-radius: 16px; padding: 16px 18px; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 14px; color: #68736E; font-weight: 500">Active trips</span><span style="font-size: 30px; font-weight: 700">6</span><span style="font-size: 13px; color: #68736E">1 searching · 1 payment due</span></div>
+<div style="background: #FFFFFF; border: 1px solid #DCDFD8; border-radius: 16px; padding: 16px 18px; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 14px; color: #68736E; font-weight: 500">Drivers online, GPS fresh</span><span style="font-size: 30px; font-weight: 700">9</span><span style="font-size: 13px; color: #68736E">5 available · 4 busy · 2 more stale</span></div>
+<div style="background: #FFFFFF; border: 1px solid #DCDFD8; border-radius: 16px; padding: 16px 18px; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 14px; color: #68736E; font-weight: 500">Collections recorded today</span><span style="font-size: 30px; font-weight: 700">₹24,780</span><span style="font-size: 13px; color: #68736E">Cash/UPI marked by drivers. Not net revenue.</span></div>
+</div>
+
+<a href="A02-live-ops-desktop.dc.html" style="text-decoration: none; color: #18221F; background: #FAF0DC; border: 1px solid #EBD3A3; border-radius: 12px; padding: 12px 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px">
+<span class="ic fill" aria-hidden="true" style="color: #B77913">schedule</span>
+<span style="font-size: 15px; font-weight: 600">PK-1042 loading 41 min</span>
+<span style="font-size: 14px; color: #46504C; flex: 1; min-width: 200px">11 min past the free 30 minutes · driver Suresh</span>
+<span style="font-size: 14px; font-weight: 600; color: #963A12; display: flex; align-items: center; gap: 4px">Open trip<span class="ic" aria-hidden="true" style="font-size: 18px">arrow_forward</span></span>
+</a>
+
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px">
+<div style="flex: 1 1 260px; display: flex; align-items: center; gap: 8px; height: 44px; box-sizing: border-box; padding: 0 12px; border: 1px solid #DCDFD8; border-radius: 10px; background: #FFFFFF">
+<span class="ic" aria-hidden="true" style="color: #68736E">search</span>
+<label for="a02-search" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Search trips</label>
+<input id="a02-search" type="search" placeholder="Trip code, customer, driver" style="flex: 1; min-width: 0; border: 0; font: 400 15px 'Noto Sans', sans-serif; color: #18221F; background: transparent">
+</div>
+<div role="group" aria-label="Stage filter" style="display: flex; flex-wrap: wrap; gap: 6px">
+<button type="button" aria-pressed="true" style="height: 36px; padding: 0 12px; border: 0; border-radius: 999px; background: #18221F; color: #FFFFFF; font: 600 13px 'Noto Sans', sans-serif">All 6</button>
+<button type="button" aria-pressed="false" style="height: 36px; padding: 0 12px; border: 1px solid #DCDFD8; border-radius: 999px; background: #FFFFFF; color: #18221F; font: 500 13px 'Noto Sans', sans-serif">Searching</button>
+<button type="button" aria-pressed="false" style="height: 36px; padding: 0 12px; border: 1px solid #DCDFD8; border-radius: 999px; background: #FFFFFF; color: #18221F; font: 500 13px 'Noto Sans', sans-serif">At a site</button>
+<button type="button" aria-pressed="false" style="height: 36px; padding: 0 12px; border: 1px solid #DCDFD8; border-radius: 999px; background: #FFFFFF; color: #18221F; font: 500 13px 'Noto Sans', sans-serif">Payment due</button>
+</div>
+<label style="display: flex; align-items: center; gap: 8px; font-size: 14px; color: #46504C; margin-left: auto">
+<span style="width: 40px; height: 24px; border-radius: 999px; background: #C9CDC5; position: relative; display: inline-block"><span style="position: absolute; left: 3px; top: 3px; width: 18px; height: 18px; border-radius: 999px; background: #FFFFFF"></span></span>
+<input type="checkbox" style="position: absolute; opacity: 0; width: 1px; height: 1px">Include QA test trips
+</label>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: stretch">
+
+<section aria-label="Live map" style="flex: 1 1 480px; min-width: 0; position: relative; height: 520px; border: 1px solid #DCDFD8; border-radius: 16px; overflow: hidden; background: #E9ECE5">
+<svg viewBox="0 0 800 520" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+<rect width="800" height="520" fill="#E9ECE5"></rect>
+<path d="M-20 360 C 160 340, 300 300, 420 250 S 700 150, 820 120" stroke="#C9DCE6" stroke-width="22" fill="none"></path>
+<path d="M0 140 L800 210" stroke="#FFFFFF" stroke-width="14" fill="none"></path>
+<path d="M0 440 L800 400" stroke="#FFFFFF" stroke-width="10" fill="none"></path>
+<path d="M180 0 L240 520" stroke="#FFFFFF" stroke-width="12" fill="none"></path>
+<path d="M520 0 L480 520" stroke="#FFFFFF" stroke-width="16" fill="none"></path>
+<path d="M640 0 L720 520" stroke="#FFFFFF" stroke-width="8" fill="none"></path>
+<path d="M60 0 L340 520" stroke="#FFFFFF" stroke-width="6" fill="none"></path>
+<rect x="300" y="60" width="120" height="60" rx="6" fill="#D4E4D3"></rect>
+<rect x="560" y="260" width="90" height="70" rx="6" fill="#DDE3D6"></rect>
+<rect x="80" y="220" width="70" height="90" rx="6" fill="#DDE3D6"></rect>
+<path d="M236 470 L252 380 L360 330 L500 300 L506 220" stroke="#B44718" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<div style="position: absolute; left: 12px; top: 12px; background: rgba(255,255,255,0.95); border: 1px solid #DCDFD8; border-radius: 10px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; font-size: 13px">
+<span style="display: flex; align-items: center; gap: 8px"><span style="width: 14px; height: 14px; border-radius: 999px; background: #15805D; border: 2px solid #FFFFFF; box-shadow: 0 0 0 1px #15805D"></span>Available</span>
+<span style="display: flex; align-items: center; gap: 8px"><span style="width: 14px; height: 14px; border-radius: 4px; background: #B44718; border: 2px solid #FFFFFF; box-shadow: 0 0 0 1px #B44718"></span>Busy</span>
+<span style="display: flex; align-items: center; gap: 8px"><span style="width: 14px; height: 14px; border-radius: 999px; background: #FFFFFF; border: 2px dashed #68736E"></span>GPS stale (&gt; 2 min)</span>
+</div>
+<span style="position: absolute; left: 30%; top: 22%; width: 18px; height: 18px; border-radius: 999px; background: #15805D; border: 3px solid #FFFFFF; box-shadow: 0 1px 3px rgba(0,0,0,0.25)"></span>
+<span style="position: absolute; left: 62%; top: 34%; width: 18px; height: 18px; border-radius: 999px; background: #15805D; border: 3px solid #FFFFFF; box-shadow: 0 1px 3px rgba(0,0,0,0.25)"></span>
+<span style="position: absolute; left: 80%; top: 64%; width: 18px; height: 18px; border-radius: 999px; background: #15805D; border: 3px solid #FFFFFF; box-shadow: 0 1px 3px rgba(0,0,0,0.25)"></span>
+<span style="position: absolute; left: 44%; top: 60%; width: 18px; height: 18px; border-radius: 5px; background: #B44718; border: 3px solid #FFFFFF; box-shadow: 0 1px 3px rgba(0,0,0,0.25)"></span>
+<span style="position: absolute; left: 22%; top: 76%; width: 18px; height: 18px; border-radius: 999px; background: #FFFFFF; border: 2px dashed #68736E"></span>
+<div style="position: absolute; left: calc(62% - 8px); top: calc(40% - 64px); background: #18221F; color: #FFFFFF; border-radius: 10px; padding: 8px 10px; font-size: 12px; line-height: 1.4; display: flex; flex-direction: column">
+<span style="font-weight: 600">Suresh · PK-1042</span><span style="color: #D6DAD3">Loading · GPS 20 s ago</span>
+</div>
+<div style="position: absolute; left: 26%; top: 70%; background: #FFFFFF; border: 1px solid #DCDFD8; border-radius: 8px; padding: 4px 8px; font-size: 12px; color: #46504C; transform: translateX(16px)">Manoj · last GPS 7 min ago</div>
+<div style="position: absolute; right: 12px; top: 12px; display: flex; flex-direction: column; border: 1px solid #DCDFD8; border-radius: 10px; overflow: hidden; background: #FFFFFF">
+<button type="button" aria-label="Zoom in" style="width: 40px; height: 40px; border: 0; border-bottom: 1px solid #DCDFD8; background: #FFFFFF; color: #18221F; display: flex; align-items: center; justify-content: center"><span class="ic" aria-hidden="true">add</span></button>
+<button type="button" aria-label="Zoom out" style="width: 40px; height: 40px; border: 0; background: #FFFFFF; color: #18221F; display: flex; align-items: center; justify-content: center"><span class="ic" aria-hidden="true">remove</span></button>
+</div>
+<span style="position: absolute; right: 8px; bottom: 6px; font-size: 11px; color: #46504C; background: rgba(255,255,255,0.85); padding: 1px 6px; border-radius: 3px">Map data © provider</span>
+</section>
+
+<section aria-label="Trip queue" style="flex: 1 1 440px; min-width: 0; background: #FFFFFF; border: 1px solid #DCDFD8; border-radius: 16px; display: flex; flex-direction: column">
+<div style="padding: 14px 16px; border-bottom: 1px solid #ECEEE9; display: flex; justify-content: space-between; align-items: center"><h2 style="margin: 0; font-size: 16px; font-weight: 600">Trip queue</h2><span style="font-size: 13px; color: #68736E">Oldest action first</span></div>
+<div style="overflow-x: auto">
+<table style="width: 100%; min-width: 460px; border-collapse: collapse; font-size: 14px">
+<thead><tr style="color: #68736E; font-size: 13px"><th style="padding: 10px 16px; font-weight: 500">Trip</th><th style="padding: 10px 8px; font-weight: 500">Stage</th><th style="padding: 10px 8px; font-weight: 500">Driver</th><th style="padding: 10px 16px; font-weight: 500; text-align: right">Time</th></tr></thead>
+<tbody>
+<tr style="border-top: 1px solid #ECEEE9; background: #FDF8EE"><td style="padding: 12px 16px"><div style="font-weight: 600">PK-1042</div><div style="font-size: 13px; color: #68736E">M-Sand · 2 bulk units</div></td><td style="padding: 12px 8px"><span style="display: inline-flex; align-items: center; gap: 4px; height: 26px; padding: 0 8px; border-radius: 999px; background: #F6E8E0; color: #963A12; font-size: 12px; font-weight: 600"><span class="ic" aria-hidden="true" style="font-size: 15px">conveyor_belt</span>Loading</span></td><td style="padding: 12px 8px">Suresh</td><td style="padding: 12px 16px; text-align: right"><div style="font-weight: 700; color: #8A5A0B">41:20</div><div style="font-size: 12px; color: #8A5A0B">+11 min extra</div></td></tr>
+<tr style="border-top: 1px solid #ECEEE9"><td style="padding: 12px 16px"><div style="font-weight: 600">PK-1047</div><div style="font-size: 13px; color: #68736E">Site transfer</div></td><td style="padding: 12px 8px"><span style="display: inline-flex; align-items: center; gap: 4px; height: 26px; padding: 0 8px; border-radius: 999px; background: #FAF0DC; color: #8A5A0B; font-size: 12px; font-weight: 600"><span class="ic" aria-hidden="true" style="font-size: 15px; color: #B77913">travel_explore</span>Searching</span></td><td style="padding: 12px 8px; color: #68736E">—</td><td style="padding: 12px 16px; text-align: right"><div style="font-weight: 600">2:10</div><div style="font-size: 12px; color: #68736E">of 5 min</div></td></tr>
+<tr style="border-top: 1px solid #ECEEE9"><td style="padding: 12px 16px"><div style="font-weight: 600">PK-1035</div><div style="font-size: 13px; color: #68736E">M-Sand · 1 bulk unit</div></td><td style="padding: 12px 8px"><span style="display: inline-flex; align-items: center; gap: 4px; height: 26px; padding: 0 8px; border-radius: 999px; background: #FAF0DC; color: #8A5A0B; font-size: 12px; font-weight: 600"><span class="ic" aria-hidden="true" style="font-size: 15px; color: #B77913">payments</span>Payment due</span></td><td style="padding: 12px 8px">Rajesh</td><td style="padding: 12px 16px; text-align: right"><div style="font-weight: 600">14 min</div><div style="font-size: 12px; color: #68736E">since done</div></td></tr>
+<tr style="border-top: 1px solid #ECEEE9"><td style="padding: 12px 16px"><div style="font-weight: 600">PK-1038</div><div style="font-size: 13px; color: #68736E">Site transfer</div></td><td style="padding: 12px 8px"><span style="display: inline-flex; align-items: center; gap: 4px; height: 26px; padding: 0 8px; border-radius: 999px; background: #F6E8E0; color: #963A12; font-size: 12px; font-weight: 600"><span class="ic" aria-hidden="true" style="font-size: 15px">move_to_inbox</span>Unloading</span></td><td style="padding: 12px 8px">Biju</td><td style="padding: 12px 16px; text-align: right"><div style="font-weight: 600">08:15</div><div style="font-size: 12px; color: #68736E">of 30 free</div></td></tr>
+<tr style="border-top: 1px solid #ECEEE9"><td style="padding: 12px 16px"><div style="font-weight: 600">PK-1039</div><div style="font-size: 13px; color: #68736E">M-Sand · 2 bulk units</div></td><td style="padding: 12px 8px"><span style="display: inline-flex; align-items: center; gap: 4px; height: 26px; padding: 0 8px; border-radius: 999px; background: #F6E8E0; color: #963A12; font-size: 12px; font-weight: 600"><span class="ic" aria-hidden="true" style="font-size: 15px">route</span>On the way</span></td><td style="padding: 12px 8px">Vinod</td><td style="padding: 12px 16px; text-align: right"><div style="font-weight: 600">~9 min</div><div style="font-size: 12px; color: #68736E">GPS 30 s ago</div></td></tr>
+<tr style="border-top: 1px solid #ECEEE9"><td style="padding: 12px 16px"><div style="font-weight: 600">PK-1046</div><div style="font-size: 13px; color: #68736E">Site transfer</div></td><td style="padding: 12px 8px"><span style="display: inline-flex; align-items: center; gap: 4px; height: 26px; padding: 0 8px; border-radius: 999px; background: #F6E8E0; color: #963A12; font-size: 12px; font-weight: 600"><span class="ic" aria-hidden="true" style="font-size: 15px">local_shipping</span>To pickup</span></td><td style="padding: 12px 8px">Manoj</td><td style="padding: 12px 16px; text-align: right"><div style="font-weight: 600; color: #46504C">GPS 7 min ago</div><div style="font-size: 12px; color: #68736E">stale</div></td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+</div>
+</main>
+</div>
+
+
+</body>
+</html>

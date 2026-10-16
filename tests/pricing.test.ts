@@ -1,7 +1,13 @@
 import { describe, it, expect } from 'vitest';
-import { calculateQuote, getSurgeMultiplier } from '@/lib/pricing';
+import { calculateQuote, getSurgeMultiplier, waitingRatePerMinute } from '@/lib/pricing';
 
 describe('Pricing Engine (BUSINESS_RULES.md §4)', () => {
+  it('shows the same waiting rate that is charged for a 17ft closed truck', () => {
+    const quote = calculateQuote({vehicleTypeId:'container_17ft',distanceKm:4,scheduledFor:'2026-10-16T14:00:00+05:30',waitingMinutesPickup:31,waitingMinutesDrop:32});
+    expect(waitingRatePerMinute('container_17ft')).toBe(8);
+    expect(quote.waitingFare).toBe(24);
+  });
+
   it('Sanity check §4.2: tipper_100 at 10 km ≈ ₹1,588', () => {
     // Standard daytime booking (14:00 / 2 PM local)
     const middayDate = new Date('2026-08-24T14:00:00');

@@ -1,6 +1,6 @@
 # PICKR build report
 
-Updated 11 October 2026. Latest acceptance evidence is in [Android emulator QA](ANDROID_QA_2026-10-11.md): APK 0.8.0-pilot/code 8, hosted backend, a completed synthetic trip with two camera photos, payment confirmation and PDF receipt, cancellation/release and admin checks. Mappls coordinate search and Firebase push remain configuration gaps; physical-phone/road behavior is not certified. Historical implementation/setup checkpoints below are retained for context.
+Updated 16 October 2026. Current UI/APK delivery is 0.9.0-pilot/code 9. See [the design handover](design/CLAUDE_UI_REPLACEMENT_2026-10-16.md) and [current QA report](CLAUDE_UI_QA_2026-10-16.md): 63 exported references, the replacement interface, 71 passing unit tests and 19 passing hosted API regression cases. Mappls works for the hosted/APK origin, while local origin/IP restrictions and coordinate-search access remain separate setup items. Firebase push and physical road behaviour are not certified. Historical setup checkpoints below are retained for context.
 
 ## Deliverables
 

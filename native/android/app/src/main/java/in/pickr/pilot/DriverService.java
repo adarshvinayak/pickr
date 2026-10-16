@@ -21,7 +21,7 @@ public class DriverService extends Service implements LocationListener {
   if(worker!=null)return START_STICKY;
   try{boolean fine=checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED;boolean coarse=checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)==PackageManager.PERMISSION_GRANTED;
    if(!fine&&!coarse){stopSelf();return START_NOT_STICKY;}
-   for(String provider:locations.getProviders(true)){if(provider.equals(LocationManager.GPS_PROVIDER)&&!fine)continue;if(provider.equals(LocationManager.PASSIVE_PROVIDER))continue;locations.requestLocationUpdates(provider,5000,0,this);}
+   for(String provider:locations.getProviders(false)){if(provider.equals(LocationManager.GPS_PROVIDER)&&!fine)continue;if(provider.equals(LocationManager.PASSIVE_PROVIDER))continue;locations.requestLocationUpdates(provider,5000,0,this);}
   }catch(Exception e){stopSelf();return START_NOT_STICKY;}
   worker=Executors.newSingleThreadScheduledExecutor();worker.scheduleWithFixedDelay(this::tick,0,10,TimeUnit.SECONDS);return START_STICKY;
  }

@@ -1,0 +1,78 @@
+[
+  {
+    "name": "Completed native trip paid and driver released",
+    "status": "passed"
+  },
+  {
+    "name": "Admin health database and migrations",
+    "status": "passed"
+  },
+  {
+    "name": "Real route quote and booking",
+    "status": "passed"
+  },
+  {
+    "name": "Duplicate booking key returns same trip",
+    "status": "passed"
+  },
+  {
+    "name": "Customer cancellation before acceptance has no fee",
+    "status": "passed"
+  },
+  {
+    "name": "Second QA driver created and onboarded for race",
+    "status": "passed"
+  },
+  {
+    "name": "Decline suppresses the same search session",
+    "status": "passed"
+  },
+  {
+    "name": "Other driver can accept after decline",
+    "status": "passed"
+  },
+  {
+    "name": "Customer accepted cancellation records a fee",
+    "status": "passed"
+  },
+  {
+    "name": "Concurrent acceptance has exactly one winner",
+    "status": "passed"
+  },
+  {
+    "name": "Driver release returns booking to search",
+    "status": "passed"
+  },
+  {
+    "name": "Customer cannot cancel after arrival",
+    "status": "passed"
+  },
+  {
+    "name": "Photo gate rejects starting without evidence",
+    "status": "passed"
+  },
+  {
+    "name": "Permitted recorded test photo skip starts trip",
+    "status": "passed"
+  },
+  {
+    "name": "Driver cannot release after pickup",
+    "status": "passed"
+  },
+  {
+    "name": "Unpaid completion keeps driver reserved",
+    "status": "passed"
+  },
+  {
+    "name": "UPI confirmation records method and releases driver",
+    "status": "passed"
+  },
+  {
+    "name": "Unchanged pilot settings save successfully",
+    "status": "passed"
+  },
+  {
+    "name": "Create and remove paused QA boundary",
+    "status": "passed"
+  }
+]

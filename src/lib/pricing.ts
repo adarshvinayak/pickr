@@ -66,6 +66,15 @@ export function getSurgeMultiplier(scheduledDate?: Date, isExpress = false): { m
   };
 }
 
+/** One source for the upfront waiting policy and the final fare calculation. */
+export function waitingRatePerMinute(vehicleTypeId: string): number {
+  const vehicle = getVehicleById(vehicleTypeId);
+  if (!vehicle) throw new Error(`Unknown vehicle type id: ${vehicleTypeId}`);
+  return vehicle.capacityKg <= 2500
+    ? PRICING_CONFIG.waitingCharges.smallVehicleRatePerMin
+    : PRICING_CONFIG.waitingCharges.largeVehicleRatePerMin;
+}
+
 export function calculateQuote(input: QuoteInput): QuoteBreakdown {
   const vehicle = getVehicleById(input.vehicleTypeId);
   if (!vehicle) {
@@ -90,10 +99,7 @@ export function calculateQuote(input: QuoteInput): QuoteBreakdown {
       (input.waitingMinutesDrop || 0) - PRICING_CONFIG.waitingCharges.freeMinutesDrop
     );
     const totalWaitMinutes = Math.ceil(billablePickupWait) + Math.ceil(billableDropWait);
-    const waitRate =
-      vehicle.capacityKg <= 2500
-        ? PRICING_CONFIG.waitingCharges.smallVehicleRatePerMin
-        : PRICING_CONFIG.waitingCharges.largeVehicleRatePerMin;
+    const waitRate = waitingRatePerMinute(input.vehicleTypeId);
     waitingFare = totalWaitMinutes * waitRate;
   }
 

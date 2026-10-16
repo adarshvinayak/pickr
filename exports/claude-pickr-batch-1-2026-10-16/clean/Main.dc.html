@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8">
+<title>PICKR design system</title>
+
+</head>
+<body>
+
+
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&amp;family=Noto+Sans+Malayalam:wght@400;500;600;700&amp;family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+.ic{font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;font-size:24px;line-height:1;display:inline-block;white-space:nowrap;letter-spacing:normal;text-transform:none;direction:ltr;font-feature-settings:'liga';-webkit-font-smoothing:antialiased}
+.fill{font-variation-settings:'FILL' 1}
+a{color:#B44718}a:hover{color:#963A12}
+</style>
+
+<div style="width: 1280px; height: 1700px; box-sizing: border-box; padding: 56px 64px; background: #FAFAF7; color: #18221F; font-family: 'Noto Sans', 'Noto Sans Malayalam', sans-serif; display: flex; flex-direction: column; gap: 48px">
+
+<div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; align-items: center; gap: 12px">
+<div style="width: 44px; height: 44px; border-radius: 12px; background: #B44718; color: #FFFFFF; display: flex; align-items: center; justify-content: center"><span class="ic fill" aria-hidden="true">local_shipping</span></div>
+<span style="font-size: 24px; font-weight: 700; letter-spacing: 0.04em">PICKR</span>
+</div>
+<h1 style="margin: 0; font-size: 40px; font-weight: 700; line-height: 1.2">One system for Customer, Driver and Admin</h1>
+<p style="margin: 0; font-size: 16px; color: #68736E; max-width: 760px; line-height: 1.5">Batch 1 for theme approval. 8px grid, 16px card radius, 1px borders, almost no shadow. Status always pairs colour with an icon and a label.</p>
+</div>
+<span style="font-size: 14px; font-weight: 500; color: #68736E; border: 1px solid #DCDFD8; border-radius: 999px; padding: 6px 14px; white-space: nowrap">Proposed tokens · v0.1</span>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px">
+
+<section style="display: flex; flex-direction: column; gap: 16px">
+<h2 style="margin: 0; font-size: 20px; font-weight: 600">Colour</h2>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 64px; border-radius: 12px; background: #FAFAF7; border: 1px solid #DCDFD8"></div><span style="font-size: 14px; font-weight: 500">Ground</span><span style="font-size: 13px; color: #68736E">#FAFAF7</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 64px; border-radius: 12px; background: #FFFFFF; border: 1px solid #DCDFD8"></div><span style="font-size: 14px; font-weight: 500">Surface</span><span style="font-size: 13px; color: #68736E">#FFFFFF</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 64px; border-radius: 12px; background: #DCDFD8"></div><span style="font-size: 14px; font-weight: 500">Border</span><span style="font-size: 13px; color: #68736E">#DCDFD8</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 64px; border-radius: 12px; background: #18221F"></div><span style="font-size: 14px; font-weight: 500">Ink</span><span style="font-size: 13px; color: #68736E">#18221F · 15.8:1</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 64px; border-radius: 12px; background: #68736E"></div><span style="font-size: 14px; font-weight: 500">Muted ink</span><span style="font-size: 13px; color: #68736E">#68736E · 4.7:1</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 64px; border-radius: 12px; background: #B44718"></div><span style="font-size: 14px; font-weight: 500">Rust · action</span><span style="font-size: 13px; color: #68736E">#B44718 · 5.4:1</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 64px; border-radius: 12px; background: #963A12"></div><span style="font-size: 14px; font-weight: 500">Rust pressed</span><span style="font-size: 13px; color: #68736E">#963A12</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 64px; border-radius: 12px; background: #F6E8E0"></div><span style="font-size: 14px; font-weight: 500">Rust tint</span><span style="font-size: 13px; color: #68736E">#F6E8E0</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 64px; border-radius: 12px; background: #15805D"></div><span style="font-size: 14px; font-weight: 500">Green · done</span><span style="font-size: 13px; color: #68736E">#15805D · 4.9:1</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 64px; border-radius: 12px; background: #B77913"></div><span style="font-size: 14px; font-weight: 500">Amber · fill only</span><span style="font-size: 13px; color: #68736E">#B77913 · 3.6:1</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 64px; border-radius: 12px; background: #8A5A0B"></div><span style="font-size: 14px; font-weight: 500">Amber ink · text</span><span style="font-size: 13px; color: #68736E">#8A5A0B · 5.9:1</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 64px; border-radius: 12px; background: #C43D3D"></div><span style="font-size: 14px; font-weight: 500">Red · error</span><span style="font-size: 13px; color: #68736E">#C43D3D · 5.1:1</span></div>
+</div>
+<p style="margin: 0; font-size: 14px; color: #68736E; line-height: 1.5">Ratios are against white. Amber #B77913 fails 4.5:1 for small text, so it is used only for icons, dots and fills; waiting labels use amber ink #8A5A0B. Tints: green #E3F1EB, amber #FAF0DC, red #F8E4E4.</p>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 16px">
+<h2 style="margin: 0; font-size: 20px; font-weight: 600">Type · Noto Sans / Noto Sans Malayalam</h2>
+<div style="background: #FFFFFF; border: 1px solid #DCDFD8; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 18px">
+<div style="display: flex; align-items: baseline; gap: 16px"><span style="width: 120px; flex-shrink: 0; font-size: 13px; color: #68736E">Title 28 / 700</span><span style="font-size: 28px; font-weight: 700; line-height: 1.25">Book a truck</span></div>
+<div style="display: flex; align-items: baseline; gap: 16px"><span style="width: 120px; flex-shrink: 0; font-size: 13px; color: #68736E">Title 24 / 700</span><span style="font-size: 24px; font-weight: 700; line-height: 1.35; font-family: 'Noto Sans Malayalam', sans-serif">വണ്ടി ബുക്ക് ചെയ്യുക</span></div>
+<div style="display: flex; align-items: baseline; gap: 16px"><span style="width: 120px; flex-shrink: 0; font-size: 13px; color: #68736E">Section 20 / 600</span><span style="font-size: 20px; font-weight: 600">Pickup → Delivery</span></div>
+<div style="display: flex; align-items: baseline; gap: 16px"><span style="width: 120px; flex-shrink: 0; font-size: 13px; color: #68736E">Body 16 / 400</span><span style="font-size: 16px; line-height: 1.5">Pay the driver after the work, in cash or direct UPI.</span></div>
+<div style="display: flex; align-items: baseline; gap: 16px"><span style="width: 120px; flex-shrink: 0; font-size: 13px; color: #68736E">Body ml 16 / 1.6</span><span style="font-size: 16px; line-height: 1.6; font-family: 'Noto Sans Malayalam', sans-serif">ജോലി കഴിഞ്ഞ് ഡ്രൈവർക്ക് പണം നൽകുക.</span></div>
+<div style="display: flex; align-items: baseline; gap: 16px"><span style="width: 120px; flex-shrink: 0; font-size: 13px; color: #68736E">Support 14 / 400</span><span style="font-size: 14px; color: #68736E">Last updated 1 min ago</span></div>
+<div style="display: flex; align-items: baseline; gap: 16px"><span style="width: 120px; flex-shrink: 0; font-size: 13px; color: #68736E">Button 17 / 600</span><span style="font-size: 17px; font-weight: 600">Take job</span></div>
+</div>
+<p style="margin: 0; font-size: 14px; color: #68736E; line-height: 1.5">Malayalam gets line-height 1.6 and labels may wrap to two lines; nothing truncates. Fonts should be bundled in the APK; the Google Fonts link is for these mockups only.</p>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 16px">
+<h2 style="margin: 0; font-size: 20px; font-weight: 600">Buttons</h2>
+<div style="background: #FFFFFF; border: 1px solid #DCDFD8; border-radius: 16px; padding: 24px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px">
+<button type="button" style="height: 56px; border: 0; border-radius: 14px; background: #B44718; color: #FFFFFF; font: 600 17px 'Noto Sans', sans-serif; display: flex; align-items: center; justify-content: center; gap: 8px">Confirm and find a truck</button>
+<button type="button" style="height: 56px; border: 0; border-radius: 14px; background: #963A12; color: #FFFFFF; font: 600 17px 'Noto Sans', sans-serif">Pressed</button>
+<button type="button" style="height: 52px; border: 1.5px solid #18221F; border-radius: 14px; background: #FFFFFF; color: #18221F; font: 600 16px 'Noto Sans', sans-serif; display: flex; align-items: center; justify-content: center; gap: 8px"><span class="ic" aria-hidden="true">mic</span>Speak to book</button>
+<button type="button" style="height: 52px; border: 1.5px solid #C43D3D; border-radius: 14px; background: #FFFFFF; color: #C43D3D; font: 600 16px 'Noto Sans', sans-serif">Cancel booking</button>
+<button type="button" disabled style="height: 56px; border: 0; border-radius: 14px; background: #E6E8E3; color: #5E6964; font: 600 17px 'Noto Sans', sans-serif">Continue (disabled)</button>
+<button type="button" style="height: 56px; border: 0; border-radius: 14px; background: #B44718; color: #FFFFFF; font: 600 17px 'Noto Sans', sans-serif; display: flex; align-items: center; justify-content: center; gap: 10px"><span class="ic" aria-hidden="true" style="font-size: 22px">progress_activity</span>Sending…</button>
+</div>
+<p style="margin: 0; font-size: 14px; color: #68736E; line-height: 1.5">Primary 56px, secondary 52px, radius 14px. One primary per screen. Submitting keeps the button in place and blocks repeat taps.</p>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 16px">
+<h2 style="margin: 0; font-size: 20px; font-weight: 600">Fields</h2>
+<div style="background: #FFFFFF; border: 1px solid #DCDFD8; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 18px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="ds-phone" style="font-size: 14px; font-weight: 500">Phone number</label>
+<div style="display: flex; height: 56px; border: 1.5px solid #B44718; border-radius: 12px; overflow: hidden">
+<span style="display: flex; align-items: center; padding: 0 14px; background: #F3F4F0; color: #18221F; font-size: 16px; border-right: 1px solid #DCDFD8">+91</span>
+<input id="ds-phone" type="tel" value="98470 00001" style="flex: 1; min-width: 0; border: 0; padding: 0 14px; font: 400 18px 'Noto Sans', sans-serif; color: #18221F; letter-spacing: 0.04em">
+</div>
+<span style="font-size: 14px; color: #68736E">Focused · 10-digit mobile number</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 14px; font-weight: 500">Quantity</span>
+<div style="display: flex; align-items: center; gap: 12px">
+<button type="button" aria-label="Decrease" style="width: 56px; height: 56px; border-radius: 12px; border: 1.5px solid #DCDFD8; background: #FFFFFF; color: #18221F; display: flex; align-items: center; justify-content: center"><span class="ic" aria-hidden="true">remove</span></button>
+<div style="flex: 1; height: 56px; border: 1.5px solid #DCDFD8; border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 8px"><span style="font-size: 22px; font-weight: 700">2</span><span style="font-size: 16px; color: #68736E">bulk units</span></div>
+<button type="button" aria-label="Increase" style="width: 56px; height: 56px; border-radius: 12px; border: 1.5px solid #DCDFD8; background: #FFFFFF; color: #18221F; display: flex; align-items: center; justify-content: center"><span class="ic" aria-hidden="true">add</span></button>
+</div>
+<span style="font-size: 14px; color: #68736E">1 bulk unit = 100 CFT · 2 units = 200 CFT</span>
+</div>
+<div style="display: flex; align-items: flex-start; gap: 8px; color: #C43D3D; font-size: 14px; font-weight: 500"><span class="ic fill" aria-hidden="true" style="font-size: 20px">error</span><span>Inline error sits under its field: “Enter a 10-digit phone number.”</span></div>
+</div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 16px">
+<h2 style="margin: 0; font-size: 20px; font-weight: 600">Status chips</h2>
+<div style="background: #FFFFFF; border: 1px solid #DCDFD8; border-radius: 16px; padding: 24px; display: flex; flex-wrap: wrap; gap: 10px">
+<span style="display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 999px; background: #FAF0DC; color: #8A5A0B; font-size: 14px; font-weight: 600"><span class="ic" aria-hidden="true" style="font-size: 18px; color: #B77913">travel_explore</span>Finding a driver</span>
+<span style="display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 999px; background: #F6E8E0; color: #963A12; font-size: 14px; font-weight: 600"><span class="ic" aria-hidden="true" style="font-size: 18px">local_shipping</span>Driver coming</span>
+<span style="display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 999px; background: #F6E8E0; color: #963A12; font-size: 14px; font-weight: 600"><span class="ic" aria-hidden="true" style="font-size: 18px">conveyor_belt</span>Loading</span>
+<span style="display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 999px; background: #F6E8E0; color: #963A12; font-size: 14px; font-weight: 600"><span class="ic" aria-hidden="true" style="font-size: 18px">route</span>On the way</span>
+<span style="display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 999px; background: #FAF0DC; color: #8A5A0B; font-size: 14px; font-weight: 600"><span class="ic" aria-hidden="true" style="font-size: 18px; color: #B77913">payments</span>Payment due</span>
+<span style="display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 999px; background: #E3F1EB; color: #15805D; font-size: 14px; font-weight: 600"><span class="ic fill" aria-hidden="true" style="font-size: 18px">check_circle</span>Paid</span>
+<span style="display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 999px; background: #E3F1EB; color: #15805D; font-size: 14px; font-weight: 600"><span class="ic fill" aria-hidden="true" style="font-size: 18px">radio_button_checked</span>Available</span>
+<span style="display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 999px; background: #EEF0EB; color: #46504C; font-size: 14px; font-weight: 600"><span class="ic" aria-hidden="true" style="font-size: 18px">location_off</span>GPS stale · 6 min</span>
+<span style="display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 999px; background: #F8E4E4; color: #C43D3D; font-size: 14px; font-weight: 600"><span class="ic fill" aria-hidden="true" style="font-size: 18px">cancel</span>No driver found</span>
+<span style="display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 999px; background: #FFFFFF; border: 1px dashed #68736E; color: #46504C; font-size: 14px; font-weight: 600"><span class="ic" aria-hidden="true" style="font-size: 18px">science</span>Pilot test access</span>
+</div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 16px">
+<h2 style="margin: 0; font-size: 20px; font-weight: 600">Route summary · vehicle card</h2>
+<div style="display: flex; flex-direction: column; gap: 12px">
+<div style="background: #FFFFFF; border: 1px solid #DCDFD8; border-radius: 16px; padding: 16px 20px; display: flex; gap: 14px">
+<div style="display: flex; flex-direction: column; align-items: center; padding-top: 4px"><span style="width: 14px; height: 14px; border-radius: 999px; background: #B44718"></span><span style="width: 2px; flex: 1; min-height: 28px; background: #DCDFD8; margin: 4px 0"></span><span style="width: 14px; height: 14px; border-radius: 3px; background: #18221F"></span></div>
+<div style="display: flex; flex-direction: column; gap: 14px; flex: 1"><div><div style="font-size: 13px; color: #68736E; font-weight: 500">Pickup</div><div style="font-size: 16px; font-weight: 600">Ollur, Thrissur</div></div><div><div style="font-size: 13px; color: #68736E; font-weight: 500">Delivery</div><div style="font-size: 16px; font-weight: 600">Ayyanthole, Thrissur</div></div></div>
+</div>
+<div style="background: #FFFFFF; border: 2px solid #B44718; border-radius: 16px; padding: 16px; display: flex; align-items: center; gap: 14px">
+<div style="width: 72px; height: 56px; border-radius: 12px; background: #F3F4F0; display: flex; align-items: center; justify-content: center; color: #46504C"><span class="ic" aria-hidden="true" style="font-size: 36px">local_shipping</span></div>
+<div style="flex: 1; display: flex; flex-direction: column; gap: 2px"><div style="display: flex; gap: 8px; align-items: center"><span style="font-size: 16px; font-weight: 600">Tipper truck</span><span style="font-size: 12px; font-weight: 600; color: #15805D; background: #E3F1EB; border-radius: 999px; padding: 2px 8px">Recommended</span></div><span style="font-size: 14px; color: #68736E">Fits 2 bulk units · narrow access OK</span><span style="font-size: 16px; font-weight: 700">₹3,450</span></div>
+<span style="width: 24px; height: 24px; border-radius: 999px; border: 2px solid #B44718; display: flex; align-items: center; justify-content: center"><span style="width: 12px; height: 12px; border-radius: 999px; background: #B44718"></span></span>
+</div>
+</div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 16px">
+<h2 style="margin: 0; font-size: 20px; font-weight: 600">Timer · banner · empty state · tab bar</h2>
+<div style="display: flex; flex-direction: column; gap: 12px">
+<div style="background: #FFFFFF; border: 1px solid #DCDFD8; border-radius: 16px; padding: 16px 20px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; justify-content: space-between; align-items: baseline"><span style="font-size: 14px; font-weight: 500; color: #68736E">Loading time</span><span style="font-size: 28px; font-weight: 700; font-variant-numeric: tabular-nums">24:10</span></div>
+<div style="height: 10px; border-radius: 999px; background: #EEF0EB; overflow: hidden"><div style="width: 80%; height: 100%; background: #15805D"></div></div>
+<span style="font-size: 14px; color: #68736E">5 min 50 s left of the 30 min free allowance</span>
+</div>
+<div style="background: #18221F; color: #FFFFFF; border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; gap: 10px; font-size: 14px"><span class="ic" aria-hidden="true" style="font-size: 20px">wifi_off</span><span style="flex: 1">No internet. Your booking details are kept.</span><span style="font-weight: 600; text-decoration: underline">Retry</span></div>
+<div style="display: flex; gap: 12px">
+<div style="flex: 1; background: #FFFFFF; border: 1px solid #DCDFD8; border-radius: 16px; padding: 16px; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center"><span class="ic" aria-hidden="true" style="font-size: 32px; color: #68736E">receipt_long</span><span style="font-size: 15px; font-weight: 600">Your trips will appear here</span></div>
+<div style="flex: 1; background: #FFFFFF; border: 1px solid #DCDFD8; border-radius: 16px; display: flex; align-items: stretch">
+<div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; color: #B44718"><span style="width: 56px; height: 30px; border-radius: 999px; background: #F6E8E0; display: flex; align-items: center; justify-content: center"><span class="ic fill" aria-hidden="true">home</span></span><span style="font-size: 12px; font-weight: 600">Home</span></div>
+<div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; color: #46504C"><span class="ic" aria-hidden="true">receipt_long</span><span style="font-size: 12px; font-weight: 500">Trips</span></div>
+<div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; color: #46504C"><span class="ic" aria-hidden="true">person</span><span style="font-size: 12px; font-weight: 500">Account</span></div>
+</div>
+</div>
+</div>
+</section>
+
+</div>
+</div>
+
+
+</body>
+</html>

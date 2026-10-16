@@ -1,22 +1,25 @@
 'use client';
-import { useEffect,useState } from 'react';
-import type { Point,Zone } from '@/lib/pilot/model';
-import { api,currentLocation } from '@/lib/pilot/client';
-import { MapView } from './MapView';
-import {StitchIcon} from './StitchIcon';
+import {useEffect,useState} from 'react';
+import type {Point,Zone} from '@/lib/pilot/model';
+import {api,currentLocation} from '@/lib/pilot/client';
+import {serviceable} from '@/lib/pilot/geo';
+import {MapView} from './MapView';
+import {StitchIcon as Icon} from './StitchIcon';
 import {useLanguage} from './Experience';
-export function LocationPicker({label,value,onChange,zones,onSaved}:{onSaved?:()=>void;label:string;value:Point|null;onChange:(point:Point)=>void;zones:Zone[]}) {
- const {t}=useLanguage();
- const [query,setQuery]=useState('');const [results,setResults]=useState<Point[]>([]);const [open,setOpen]=useState(true);const [busy,setBusy]=useState(false);const [error,setError]=useState('');const [saved,setSaved]=useState<(Point&{id:string})[]>([]);
+import {Notice} from './design/Primitives';
+export function LocationPicker({label,value,onChange,zones,onSaved,onConfirm}:{onSaved?:()=>void;onConfirm?:()=>void;label:string;value:Point|null;onChange:(point:Point)=>void;zones:Zone[]}){
+ const {t}=useLanguage();const [query,setQuery]=useState('');const [results,setResults]=useState<Point[]>([]);const [busy,setBusy]=useState(false);const [error,setError]=useState('');const [saved,setSaved]=useState<(Point&{id:string})[]>([]);const [savedMessage,setSavedMessage]=useState('');const inside=value&&serviceable(value,zones);
  useEffect(()=>{api<(Point&{id:string})[]>('sites').then(setSaved).catch(()=>{});},[]);
- async function search(){setBusy(true);setError('');try{setResults(await api<Point[]>(`geocode?q=${encodeURIComponent(query)}`));}catch(e){setError((e as Error).message);}finally{setBusy(false);}}
- async function locate(){setBusy(true);setError('');try{const p=await currentLocation();onChange({...p,label:'Current location',address:`${p.lat.toFixed(6)}, ${p.lng.toFixed(6)}`});setOpen(true);}catch(e){setError((e as Error).message);}finally{setBusy(false);}}
- async function save(){if(!value)return;try{const item=await api<Point&{id:string}>('sites',value);setSaved(s=>[...s,item]);onSaved?.();}catch(e){setError((e as Error).message);}}
- return <section className="location-picker stack"><label>{label}</label>{value&&<div className="location-value"><strong>{value.label}</strong><small>{value.address}</small></div>}
- <div className="row"><input aria-label={`Search ${label}`} placeholder="Search town, site or address" value={query} onChange={e=>setQuery(e.target.value)} onKeyDown={e=>{if(e.key==='Enter'){e.preventDefault();void search();}}}/><button type="button" className="secondary" disabled={query.length<3||busy} onClick={search}>{t('Search','തിരയുക')}</button></div>
- <div className="row"><button type="button" className="secondary" onClick={locate} disabled={busy}><StitchIcon name="my_location"/>{t('Use my location','എന്റെ സ്ഥലം')}</button><button type="button" className="secondary" onClick={()=>setOpen(!open)}><StitchIcon name="pin_drop"/>{t(open?'Hide map':'Choose on map',open?'മാപ്പ് മറയ്ക്കുക':'മാപ്പിൽ തിരഞ്ഞെടുക്കുക')}</button></div>
- {results.map((p,i)=><button type="button" className="result" key={i} onClick={()=>{onChange(p);setResults([]);setOpen(true);}}><strong>{p.label}</strong><small>{p.address}</small></button>)}
- {!!saved.length&&<select aria-label={`Saved ${label}`} value="" onChange={e=>{const p=saved.find(s=>s.id===e.target.value);if(p)onChange(p);}}><option value="">Choose a saved site</option>{saved.map(s=><option key={s.id} value={s.id}>{s.label}</option>)}</select>}
- {open&&<><MapView points={value?[value]:[]} zones={zones} onPick={onChange} height={300}/>{value&&<div className="row"><input aria-label="Site name" value={value.label} onChange={e=>onChange({...value,label:e.target.value})}/><button type="button" className="secondary" onClick={save}>{t('Save site','സ്ഥലം സേവ് ചെയ്യുക')}</button></div>}</>}
- {error&&<p role="alert" className="error">{error}<small>{t('You can choose the exact site on the map instead.','മാപ്പിൽ സ്ഥലം തിരഞ്ഞെടുത്ത് തുടരാം.')}</small></p>}</section>;
+ async function search(){if(query.trim().length<3||busy)return;setBusy(true);setError('');try{const points=await api<Point[]>(`geocode?q=${encodeURIComponent(query)}`);setResults(points);if(!points.length)setError(t('No places found. Try another name or choose the exact site on the map.','സ്ഥലങ്ങൾ കണ്ടെത്തിയില്ല. മറ്റൊരു പേര് നൽകുക അല്ലെങ്കിൽ മാപ്പിൽ തിരഞ്ഞെടുക്കുക.'));}catch(e){setError((e as Error).message);}finally{setBusy(false);}}
+ async function locate(){setBusy(true);setError('');try{const p=await currentLocation();onChange({...p,label:t('Current location','ഇപ്പോഴത്തെ സ്ഥലം'),address:`${p.lat.toFixed(6)}, ${p.lng.toFixed(6)}`});}catch(e){setError((e as Error).message);}finally{setBusy(false);}}
+ async function save(){if(!value)return;setBusy(true);setError('');try{const item=await api<Point&{id:string}>('sites',value);setSaved(current=>[...current,item]);setSavedMessage(t('Site saved.','സ്ഥലം സേവ് ചെയ്തു.'));onSaved?.();}catch(e){setError((e as Error).message);}finally{setBusy(false);}}
+ return <section className="location-picker" aria-label={label}>
+ <label><span className="sr-only">{t('Search','തിരയുക')} {label}</span><div className="search-input"><Icon name="search"/><input type="search" aria-label={`Search ${label}`} placeholder={t('Search town, site or address','സ്ഥലമോ വിലാസമോ തിരയുക')} value={query} onChange={e=>setQuery(e.target.value)} onKeyDown={e=>{if(e.key==='Enter'){e.preventDefault();void search();}}}/><button type="button" className="search-submit" aria-label={t('Search places','സ്ഥലങ്ങൾ തിരയുക')} disabled={query.trim().length<3||busy} onClick={search}><Icon name={busy?'progress_activity':'arrow_forward'}/></button></div></label>
+ {error&&<Notice tone="warning"><strong>{t('Search or location is unavailable','തിരയാനോ സ്ഥാനം എടുക്കാനോ കഴിയുന്നില്ല')}</strong><p>{error}</p><p>{t('Choose the exact site on the map.','മാപ്പിൽ കൃത്യമായ സ്ഥലം തിരഞ്ഞെടുക്കുക.')}</p></Notice>}
+ {results.length>0&&<div className="location-results">{results.map((point,index)=><button type="button" key={index} onClick={()=>{onChange(point);setResults([]);}}><Icon name="location_on"/><span><strong>{point.label}</strong><small>{point.address}</small></span></button>)}</div>}
+ <div className="location-map-block"><MapView points={value?[{...value,kind:'pickup'}]:[]} zones={zones} onPick={onChange} height={300} showHint={false}/><span className="map-pick-instruction">{t('Tap the map to choose a site','സ്ഥലം തിരഞ്ഞെടുക്കാൻ മാപ്പിൽ അമർത്തുക')}</span><button type="button" aria-label={t('Use my location','എന്റെ സ്ഥലം')} className="map-locate" onClick={locate} disabled={busy}><Icon name="my_location"/>{t('Use my location','എന്റെ സ്ഥലം')}</button></div>
+ {saved.length>0&&<div className="saved-sites"><small>{t('Saved:','സേവ് ചെയ്തത്:')}</small>{saved.map(site=><button type="button" key={site.id} onClick={()=>onChange(site)} aria-pressed={value?.lat===site.lat&&value?.lng===site.lng}>{site.label}</button>)}</div>}
+ {value?<><section className="pin-summary"><span className={`pin-icon ${inside?'':'outside'}`}><Icon name="location_on" className="fill"/></span><div><small>{label} {t('pin','പിൻ')}</small><strong>{value.label}</strong><small>{value.address}</small><small className={inside?'inside-label':'outside-label'}>{value.lat.toFixed(5)}, {value.lng.toFixed(5)} · {inside?t('inside service area','സേവന മേഖലയ്ക്കുള്ളിൽ'):t('outside service area','സേവന മേഖലയ്ക്ക് പുറത്ത്')}</small></div></section><details className="site-save-options"><summary>{t('Name and save this site','സ്ഥലത്തിന് പേര് നൽകി സേവ് ചെയ്യുക')}</summary><label>{t('Site name','സ്ഥലത്തിന്റെ പേര്')}<input aria-label={t('Site name','സ്ഥലത്തിന്റെ പേര്')} value={value.label} onChange={e=>onChange({...value,label:e.target.value})}/></label><button type="button" className="bs" disabled={busy||!value.label.trim()} onClick={save}>{t('Save site','സ്ഥലം സേവ് ചെയ്യുക')}</button>{savedMessage&&<p role="status" className="hint">{savedMessage}</p>}</details></>:<p className="sm mut">{t('Tap the map to place the pin at the exact site entrance.','സൈറ്റിന്റെ കൃത്യമായ പ്രവേശന സ്ഥലത്ത് പിൻ വയ്ക്കാൻ മാപ്പിൽ അമർത്തുക.')}</p>}
+ {onConfirm&&<button type="button" className="bp" disabled={!value||!inside} onClick={onConfirm}>{t('Confirm this place','ഈ സ്ഥലം ഉറപ്പാക്കുക')}</button>}
+ </section>;
 }

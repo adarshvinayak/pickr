@@ -4,7 +4,7 @@ One shared React interface and Next.js backend. Customer web `/customer`, driver
 
 ## Current pilot delivery
 
-Hosted web: https://pickr-xueh.onrender.com (`/customer`, `/driver`, `/admin`). Current APKs are **0.8.0-pilot / code 8**, about 3.1 MiB each, with this HTTPS backend embedded. See [Android emulator QA](docs/ANDROID_QA_2026-10-11.md) for fixes, checksums, test coverage and remaining Mappls/Firebase/physical-device checks.
+Hosted web: https://pickr-xueh.onrender.com (`/customer`, `/driver`, `/admin`). Current APKs are **0.9.0-pilot / code 9**, about 3.1 MiB each, with this HTTPS backend embedded. The customer, driver and admin interfaces now follow the supplied Claude design set. See [UI handover](docs/design/CLAUDE_UI_REPLACEMENT_2026-10-16.md) and [current QA report](docs/CLAUDE_UI_QA_2026-10-16.md) for coverage, necessary prototype adaptations and remaining provider/physical-device checks. The [October 11 Android report](docs/ANDROID_QA_2026-10-11.md) is historical evidence.
 
 ## Start local testing
 

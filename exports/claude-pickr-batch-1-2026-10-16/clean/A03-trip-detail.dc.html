@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8">
+<title>A03 Trip detail</title>
+
+<style>
+.ic{font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;font-size:20px;line-height:1;display:inline-block;white-space:nowrap;letter-spacing:normal;text-transform:none;direction:ltr;font-feature-settings:'liga';-webkit-font-smoothing:antialiased}
+.fill{font-variation-settings:'FILL' 1}
+.pg{width:100%;min-height:100vh;box-sizing:border-box;background:#FAFAF7;color:#18221F;font-family:'Noto Sans','Noto Sans Malayalam',sans-serif;display:flex;flex-wrap:wrap;align-items:stretch;position:relative}
+.sb{flex:1 1 220px;max-width:100%;box-sizing:border-box;background:#fff;border-right:1px solid #DCDFD8;padding:20px 12px;display:flex;flex-direction:column;gap:4px}
+.brand{display:flex;align-items:center;gap:10px;padding:4px 8px 20px;font-size:16px;font-weight:700;letter-spacing:.03em}
+.logo{width:32px;height:32px;border-radius:9px;background:#B44718;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sb a{display:flex;align-items:center;gap:12px;height:44px;padding:0 12px;border-radius:10px;color:#46504C;font-size:15px;font-weight:500;text-decoration:none}
+.sb a.on{background:#F6E8E0;color:#963A12;font-weight:600}
+.mn{flex:999 1 560px;min-width:0;box-sizing:border-box;padding:24px 32px 40px;display:flex;flex-direction:column;gap:20px}
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px}
+.h1{margin:0;font-size:26px;font-weight:700;line-height:1.25}
+.h2{margin:0;font-size:16px;font-weight:600}
+.crumb{font-size:14px;color:#68736E;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.crumb a{color:#46504C;text-decoration:none}
+.card{background:#fff;border:1px solid #DCDFD8;border-radius:16px;padding:16px 18px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.mut{color:#68736E}.ink2{color:#46504C}
+.sm{font-size:14px;line-height:1.5}.xs{font-size:13px;line-height:1.45}.b{font-weight:600}
+.big{font-size:28px;font-weight:700;font-variant-numeric:tabular-nums}
+.row{display:flex;align-items:center;gap:12px}
+.rw{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.col{display:flex;flex-direction:column;gap:4px}
+.f1{flex:1;min-width:0}
+.btn{height:40px;padding:0 14px;border-radius:10px;font:600 14px 'Noto Sans',sans-serif;display:inline-flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;white-space:nowrap;box-sizing:border-box;cursor:pointer}
+.bp{border:0;background:#B44718;color:#fff}
+.bs{border:1px solid #DCDFD8;background:#fff;color:#18221F}
+.bx{border:1px solid #C43D3D;background:#fff;color:#C43D3D}
+.bg{border:0;background:#15805D;color:#fff}
+.dis{background:#E6E8E3;color:#5E6964;border:0;cursor:not-allowed}
+.chip{display:inline-flex;align-items:center;gap:5px;min-height:26px;padding:0 10px;border-radius:999px;font-size:13px;font-weight:600;white-space:nowrap}
+.chip .ic{font-size:15px}
+.c-r{background:#F6E8E0;color:#963A12}
+.c-a{background:#FAF0DC;color:#8A5A0B}.c-a .ic{color:#B77913}
+.c-g{background:#E3F1EB;color:#15805D}
+.c-e{background:#F8E4E4;color:#C43D3D}
+.c-n{background:#EEF0EB;color:#46504C}
+.c-t{background:#fff;border:1px dashed #68736E;color:#46504C}
+.tbx{overflow-x:auto;background:#fff;border:1px solid #DCDFD8;border-radius:16px}
+table.t{width:100%;border-collapse:collapse;font-size:14px;min-width:760px}
+.t th{font-size:13px;font-weight:500;color:#68736E;text-align:left;padding:10px 16px;border-bottom:1px solid #ECEEE9;white-space:nowrap}
+.t td{padding:12px 16px;border-top:1px solid #ECEEE9;vertical-align:middle}
+.t tbody tr:first-child td{border-top:0}
+.t tr.sel td{background:#FDF6F2}
+.t tr.mutd td{color:#68736E}
+.t .r{text-align:right}
+.tb{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.srch{flex:1 1 260px;display:flex;align-items:center;gap:8px;height:42px;box-sizing:border-box;padding:0 12px;border:1px solid #DCDFD8;border-radius:10px;background:#fff}
+.srch input{flex:1;min-width:0;border:0;font:400 15px 'Noto Sans',sans-serif;background:transparent;color:#18221F}
+.pill{height:36px;padding:0 12px;border:1px solid #DCDFD8;border-radius:999px;background:#fff;color:#18221F;font:500 13px 'Noto Sans',sans-serif;display:inline-flex;align-items:center;gap:6px}
+.pill.on{background:#18221F;color:#fff;border-color:#18221F;font-weight:600}
+.fl{font-size:14px;font-weight:500}
+.in{height:44px;box-sizing:border-box;border:1px solid #C9CDC5;border-radius:10px;padding:0 12px;font:400 15px 'Noto Sans',sans-serif;color:#18221F;background:#fff;width:100%}
+textarea.in{height:96px;padding:10px 12px;resize:vertical;line-height:1.5}
+.in.er{border:2px solid #C43D3D}
+.inw{display:flex;align-items:center;gap:8px;height:44px;box-sizing:border-box;border:1px solid #C9CDC5;border-radius:10px;padding:0 12px;background:#fff}
+.inw input{flex:1;min-width:0;border:0;font:400 15px 'Noto Sans',sans-serif;color:#18221F;background:transparent}
+.ert{color:#C43D3D;font-size:13px;font-weight:500;display:flex;gap:6px;align-items:center}
+.ban{border-radius:12px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.5}
+.ban>.ic{flex-shrink:0}
+.b-a{background:#FAF0DC;border:1px solid #EBD3A3}.b-a>.ic{color:#B77913}
+.b-e{background:#F8E4E4;border:1px solid #EDBDBD}.b-e>.ic{color:#C43D3D}
+.b-i{background:#F3F4F0;border:1px solid #DCDFD8}.b-i>.ic{color:#68736E}
+.b-g{background:#E3F1EB;border:1px solid #B9DCCB}.b-g>.ic{color:#15805D}
+.b-k{background:#18221F;color:#fff}
+.map{position:relative;background:#E9ECE5;overflow:hidden;border:1px solid #DCDFD8;border-radius:16px}
+.map svg{position:absolute;left:0;top:0;width:100%;height:100%}
+.attr{position:absolute;right:8px;bottom:6px;font-size:11px;color:#46504C;background:rgba(255,255,255,.85);padding:1px 6px;border-radius:3px}
+.mz{position:absolute;right:12px;top:12px;display:flex;flex-direction:column;background:#fff;border:1px solid #DCDFD8;border-radius:10px;overflow:hidden}
+.mz button{width:40px;height:40px;border:0;background:#fff;color:#18221F;display:flex;align-items:center;justify-content:center}
+.mz button+button{border-top:1px solid #DCDFD8}
+.mk{position:absolute;transform:translate(-50%,-50%)}
+.pin-p{width:18px;height:18px;border-radius:999px;background:#B44718;border:3px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.pin-d{width:18px;height:18px;border-radius:5px;background:#18221F;border:3px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.d-av{width:16px;height:16px;border-radius:999px;background:#15805D;border:3px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.d-bz{width:16px;height:16px;border-radius:5px;background:#B44718;border:3px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.d-st{width:16px;height:16px;border-radius:999px;background:#fff;border:2px dashed #68736E}
+.scrim{position:absolute;left:0;top:0;right:0;bottom:0;background:rgba(24,34,31,.45)}
+.modal{position:absolute;left:50%;top:80px;transform:translateX(-50%);width:min(760px,calc(100% - 32px));background:#fff;border-radius:18px;box-shadow:0 12px 40px rgba(0,0,0,.2);display:flex;flex-direction:column;overflow:hidden}
+.mh{padding:18px 20px;border-bottom:1px solid #ECEEE9;display:flex;align-items:flex-start;gap:12px}
+.mb{padding:16px 20px;display:flex;flex-direction:column;gap:14px}
+.mf{padding:14px 20px;border-top:1px solid #ECEEE9;display:flex;flex-wrap:wrap;justify-content:flex-end;gap:10px}
+.drawer{position:absolute;right:0;top:0;bottom:0;width:min(480px,100%);background:#fff;box-shadow:-8px 0 30px rgba(0,0,0,.15);display:flex;flex-direction:column}
+.cols{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+.c1{flex:2 1 520px;min-width:0;display:flex;flex-direction:column;gap:16px}
+.c2{flex:1 1 320px;min-width:0;display:flex;flex-direction:column;gap:16px}
+.kv{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-size:14px;line-height:1.5}
+.hr{height:1px;background:#ECEEE9}
+.sw{width:44px;height:26px;border-radius:999px;background:#C9CDC5;position:relative;flex-shrink:0;display:inline-block}
+.sw::after{content:'';position:absolute;left:3px;top:3px;width:20px;height:20px;border-radius:999px;background:#fff}
+.sw.on{background:#15805D}.sw.on::after{left:21px}
+.rad{width:20px;height:20px;border-radius:999px;border:2px solid #9AA39E;box-sizing:border-box;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center}
+.rad.on{border-color:#B44718}.rad.on::after{content:'';width:10px;height:10px;border-radius:999px;background:#B44718}
+.ubar{position:sticky;bottom:16px;background:#18221F;color:#fff;border-radius:14px;padding:12px 16px;display:flex;flex-wrap:wrap;align-items:center;gap:12px;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+.ubar .btn.bs{background:transparent;color:#fff;border-color:#68736E}
+.met{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.ex{font-size:12px;font-weight:500;color:#68736E;border:1px dashed #B9BEB6;border-radius:6px;padding:1px 8px;white-space:nowrap}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.tline{display:flex;flex-direction:column}
+.tline .it{display:flex;gap:12px;padding-bottom:14px;position:relative}
+.tline .dot{width:12px;height:12px;border-radius:999px;background:#15805D;margin-top:5px;flex-shrink:0;box-shadow:0 0 0 3px #E3F1EB}
+.tline .dot.now{background:#B44718;box-shadow:0 0 0 3px #F6E8E0}
+.tline .dot.nx{background:#fff;border:2px solid #C9CDC5;box-shadow:none;box-sizing:border-box}
+.ph{border-radius:10px;background:#D9D3C7;color:#5E5648;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;font-size:12px}
+.av{width:40px;height:40px;border-radius:999px;background:#EEF0EB;color:#46504C;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0}
+</style>
+</head>
+<body>
+
+
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&amp;family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0&amp;display=swap" rel="stylesheet">
+<style>body{margin:0}a{color:#B44718}a:hover{color:#963A12}</style>
+
+<div class="pg">
+<nav class="sb" aria-label="Admin sections">
+<div class="brand"><span class="logo"><span class="ic fill" aria-hidden="true">local_shipping</span></span>PICKR Admin</div>
+<a class="on" aria-current="page" href="A02-live-ops-desktop.dc.html"><span class="ic fill" aria-hidden="true">monitoring</span>Trips</a>
+<a href="A05-service-areas.dc.html"><span class="ic" aria-hidden="true">map</span>Service areas</a>
+<a href="A07-drivers.dc.html"><span class="ic" aria-hidden="true">badge</span>Drivers</a>
+<a href="A09-people.dc.html"><span class="ic" aria-hidden="true">group</span>People</a>
+<a href="A11-trip-ledger.dc.html"><span class="ic" aria-hidden="true">receipt_long</span>Trip ledger</a>
+<a href="A12-settings.dc.html"><span class="ic" aria-hidden="true">tune</span>Settings</a>
+<a href="A13-road-issues.dc.html"><span class="ic" aria-hidden="true">report</span>Road issues</a>
+<a href="A14-activity.dc.html"><span class="ic" aria-hidden="true">history</span>Activity</a>
+</nav>
+<main class="mn">
+<div class="crumb"><a href="A02-live-ops-desktop.dc.html">Live operations</a><span class="ic" aria-hidden="true" style="font-size: 16px">chevron_right</span><span>PK-1042</span></div>
+<div class="top">
+<div class="rw"><h1 class="h1">PK-1042</h1><span class="chip c-r"><span class="ic" aria-hidden="true">conveyor_belt</span>Loading · 41 min</span><span class="chip c-a"><span class="ic" aria-hidden="true">schedule</span>11 min over free time</span></div>
+<div class="rw"><button type="button" class="btn bs"><span class="ic" aria-hidden="true">refresh</span>Refresh</button><button type="button" class="btn bs"><span class="ic" aria-hidden="true">swap_horiz</span>Release and restart search</button><button type="button" class="btn bx">Cancel trip · ₹300 fee</button></div>
+</div>
+<div class="cols">
+<div class="c1">
+<div class="map" style="height: 280px">
+<svg viewBox="0 0 800 280" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="800" height="280" fill="#E9ECE5"></rect><path d="M0 80 L800 120 M0 240 L800 220 M200 0 L230 280 M560 0 L540 280" stroke="#FFFFFF" stroke-width="12" fill="none"></path><path d="M220 210 L330 160 L470 140 L560 90" stroke="#B44718" stroke-width="5" fill="none" stroke-dasharray="10 8" stroke-linecap="round"></path></svg>
+<div class="mk" style="left: 27%; top: 75%"><div class="pin-p"></div></div>
+<div class="mk" style="left: 70%; top: 32%"><div class="pin-d"></div></div>
+<div class="mk" style="left: 29%; top: 66%"><div class="d-bz"></div></div>
+<div class="mz"><button type="button" aria-label="Zoom in"><span class="ic" aria-hidden="true">add</span></button><button type="button" aria-label="Zoom out"><span class="ic" aria-hidden="true">remove</span></button></div>
+<span class="attr">Map data © provider</span>
+</div>
+<div class="card">
+<h2 class="h2">Timeline</h2>
+<div class="tline">
+<div class="it"><span class="dot"></span><div class="col f1" style="gap: 0"><span class="b sm">Booked by Anil Menon</span><span class="xs mut">10:05 · M-Sand, 2 bulk units · Tipper · ₹3,450 estimate</span></div></div>
+<div class="it"><span class="dot"></span><div class="col f1" style="gap: 0"><span class="b sm">Accepted by Suresh K.</span><span class="xs mut">10:07 · search radius 3 km, 1 min 40 s</span></div></div>
+<div class="it"><span class="dot"></span><div class="col f1" style="gap: 0"><span class="b sm">Arrived at pickup</span><span class="xs mut">10:31 · free loading time started</span></div></div>
+<div class="it"><span class="dot now"></span><div class="col f1" style="gap: 0"><span class="b sm">Loading · 2 photos added</span><span class="xs mut">since 10:31 · extra waiting accruing at ₹10/min</span></div></div>
+<div class="it" style="padding-bottom: 0"><span class="dot nx"></span><div class="col f1" style="gap: 0"><span class="sm mut">Start trip → arrive → unload → payment</span></div></div>
+</div>
+</div>
+</div>
+<div class="c2">
+<div class="card" style="gap: 10px">
+<h2 class="h2">People</h2>
+<div class="row"><span class="av">A</span><div class="col f1" style="gap: 0"><span class="b sm">Anil Menon · customer</span><span class="xs mut">+91 98470 00001</span></div></div>
+<div class="row"><span class="av">SK</span><div class="col f1" style="gap: 0"><span class="b sm">Suresh K. · driver</span><span class="xs mut">+91 94470 00002 · KL 08 BK 4521 · GPS 20 s ago</span></div></div>
+</div>
+<div class="card" style="gap: 8px">
+<h2 class="h2">Load photos <span class="chip c-n" style="margin-left: 6px"><span class="ic" aria-hidden="true">lock</span>Private</span></h2>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px"><div class="ph" style="height: 96px"><span class="ic" aria-hidden="true">image</span>10:48</div><div class="ph" style="height: 96px"><span class="ic" aria-hidden="true">image</span>10:49</div></div>
+</div>
+<div class="card" style="gap: 6px">
+<h2 class="h2">Fare and payment</h2>
+<div class="kv"><span>Trip fare · 9.4 km</span><span>₹3,450</span></div>
+<div class="kv"><span>Extra waiting · 11 min so far</span><span>₹110</span></div>
+<div class="hr"></div>
+<div class="kv"><span class="b">Current total</span><span class="b">₹3,560</span></div>
+<span class="chip c-n" style="align-self: flex-start">Payment not due yet</span>
+</div>
+<div class="ban b-i"><span class="ic" aria-hidden="true">info</span><span>Release and cancel are available until the driver starts the trip. After that, contact both parties.</span></div>
+</div>
+</div>
+</main>
+</div>
+
+
+</body>
+</html>
