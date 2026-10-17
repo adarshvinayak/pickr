@@ -1,4 +1,5 @@
 'use client';
+import {ReleaseNotice} from './ReleaseNotice';
 import { useCallback,useEffect,useRef,useState } from 'react';
 import { api,apiBase,currentLocation,setToken,token,useRole } from '@/lib/pilot/client';
 import { serviceable } from '@/lib/pilot/geo';
@@ -39,6 +40,7 @@ export function PilotApp({role}:{role:Role}) {
  const active=snapshot?.trips.find(t=>!['CANCELLED','NO_DRIVERS'].includes(t.status)&&!(t.status==='COMPLETED'&&t.payment_status==='paid'));
  const selectedTrip=snapshot?.trips.find(t=>t.id===selected);const canLogout=!active||role==='admin';
  return <div ref={shellRef} className={`pilot-shell pickr-design ${role==='admin'?'admin-shell':`${role}-shell`} ${signed?'is-signed':'is-login'} view-${view}`}>
+ <ReleaseNotice/>
  {gpsError&&!offlineOpen&&<p className="error" role="alert">{gpsError}</p>}{error&&signed&&snapshot&&!offlineOpen&&<p className="error" role="alert">{error}</p>}{signed&&snapshot&&!connection&&!offlineOpen&&<p ref={connectionRef} className="notice connection-banner" role="status">{t("Connection interrupted. Live location may be old. Reconnect before updating a trip.","ഇന്റർനെറ്റ് ലഭ്യമല്ല. സ്ഥാനം പഴയതായിരിക്കാം. യാത്രയുടെ വിവരങ്ങൾ മാറ്റുന്നതിന് മുൻപ് ഇന്റർനെറ്റ് ഓണാക്കുക.")}<button className="inline-link" onClick={()=>setOfflineOpen(true)}>{t('Connection help','കണക്ഷൻ സഹായം')}</button></p>}
  {!signed&&!loading&&<SignIn serverError={error} role={role} name={name} phone={phone} password={password} busy={busy||loading} onName={setName} onPhone={setPhone} onPassword={setPassword} onSubmit={()=>void signIn()}>{native&&<details className="backend-options"><summary>Backend connection</summary><label>Server URL<input type="url" value={backend} onChange={e=>setBackend(e.target.value)}/></label><button type="button" className="bs" onClick={()=>{window.PickrNative?.setBackendUrl(backend);setError('');void refresh();}}>Save backend URL</button><small>Use HTTPS for hosted testing, or a reachable LAN address.</small></details>}</SignIn>}
  {(signed||loading)&&!snapshot&&(connection?<section className="bd recovery-screen" role="status"><span className="empty-icon"><StitchIcon name="hourglass_empty"/></span><h1>{t('Loading your account…','അക്കൗണ്ട് തുറക്കുന്നു…')}</h1></section>:<OfflineScreen role={role} onRetry={()=>void refresh()}/>)}

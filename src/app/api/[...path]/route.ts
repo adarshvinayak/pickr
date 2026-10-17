@@ -23,6 +23,7 @@ async function handle(req:NextRequest):Promise<NextResponse> {
  if(!allowedOrigin(req))throw new ApiError(403,'Origin is not allowed.');
  const path=req.nextUrl.pathname.replace(/^\/api\//,'');const method=req.method;
  if(method==='OPTIONS') response=new NextResponse(null,{status:204});
+ else if(path==='release'&&method==='GET')response=NextResponse.json({data:{release:process.env.NEXT_PUBLIC_PICKR_RELEASE}});
  else if(path==='login'&&method==='POST')response=await login(req);
  else if(path==='admin/login'&&method==='POST')response=await adminLogin(req);
  else if(path==='logout'&&method==='POST')response=await logout(req);

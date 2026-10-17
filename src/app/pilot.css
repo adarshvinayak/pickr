@@ -84,3 +84,5 @@ html[lang=ml] .pilot-shell{line-height:1.6}html[lang=ml] .pilot-shell h1{font-si
 .customer-shell .moving-trip .trip-map-top{height:auto;min-height:320px}
 .schedule-date-tabs button{color:#18221f}.time-wheel button{color:#68736e}.time-wheel button[aria-selected=true]{color:#963a12}
 .location-map-modal>.hd>strong{flex:1;min-width:0;font-size:18px}.location-map-modal>.hd>.material-symbols-outlined{font-size:24px;flex:0 0 24px}.fullscreen-map-canvas .map-locate{color:#18221f}.fullscreen-map-canvas .map-locate>.material-symbols-outlined{font-size:26px}
+
+.release-notice{position:fixed;top:env(safe-area-inset-top,0px);left:50%;transform:translateX(-50%);width:min(100%,600px);z-index:20000;display:flex;gap:12px;align-items:center;padding:12px 16px;box-shadow:0 4px 16px #0002}.release-notice span{flex:1}.release-notice button{flex-shrink:0}
