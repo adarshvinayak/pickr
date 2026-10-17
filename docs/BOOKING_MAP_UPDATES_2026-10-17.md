@@ -23,3 +23,11 @@ Each SDK initialization now creates its own child container with a fresh UUID, i
 Local UI checks exercised past-trip Repeat to review, seven date choices, roller selection, recent locations, full-screen dialog and fresh driver pilot skip. The local Mappls origin/server IP lacks the required access, so local visual tests do not certify real map tiles or route calls. A repeated-trip quote on the allowed Render backend returned a real 1.5 km route and three eligible trucks. Two non-QA drivers were online during QA, so no synthetic dispatch was broadcast into their work queue. Tracking layout was checked with a rendering regression test without altering real trips.
 
 Latest delivery is 0.9.4-pilot / Android version code 13. Install the new APKs to receive bundled UI changes; browser users must reload after deployment. Artifacts retain only the two current APKs and the matching build manifest. Mappls coordinate-search entitlements are still a separate configuration limitation; recent places and exact map pins provide alternatives.
+
+## Delivery verification
+
+- Real Mappls maps loaded in Android full-screen selection. Closed and reopened the map three times without a destroy error; moving and confirming the pin returned the detailed address to the pickup selector.
+- Android Repeat opened Review directly and obtained a fresh Render quote (₹1,588 at the test time), retaining load/sites/truck. No new booking was submitted.
+- Live admin switched repeatedly between Drivers and Service areas with fresh UUID containers and no captured console errors.
+- Fresh driver pilot skip reached Jobs and remained there across polling refreshes.
+- Missing full-screen/replay/history font ligatures use small vector fallbacks; the current-location control has explicit contrast.
