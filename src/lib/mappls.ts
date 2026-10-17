@@ -1,7 +1,8 @@
 import { z } from 'zod';
+import {TRUCK_MEASUREMENTS as bounds} from '@/config/truck-measurements';
 import { ApiError } from '@/lib/pilot/server';
 import { decodePolyline } from '@/lib/pilot/navigation-geo';
-export const TruckSchema = z.object({height:z.number().min(.5).max(10),width:z.number().min(.5).max(6),length:z.number().min(1).max(30),weight:z.number().min(.2).max(100),axle_load:z.number().min(.1).max(30)});
+export const TruckSchema = z.object({height:z.number().min(bounds.height.min).max(bounds.height.max),width:z.number().min(bounds.width.min).max(bounds.width.max),length:z.number().min(bounds.length.min).max(bounds.length.max),weight:z.number().min(bounds.weight.min).max(bounds.weight.max),axle_load:z.number().min(bounds.axle_load.min).max(bounds.axle_load.max)});
 export type TruckProfile = z.infer<typeof TruckSchema>;
 export interface RouteResult {distanceKm:number;durationMin:number;durationSeconds:number;polyline:string;profile:'driving'|'trucking';trafficMode:'traffic'|'predictive'|'traffic_eta';restrictionsApplied:boolean;hasTimeRestrictions:boolean;instructions:string[]}
 export interface GeocodeResult {id:string;label:string;address:string;lat:number;lng:number}
