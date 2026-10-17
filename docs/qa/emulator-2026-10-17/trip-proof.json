@@ -1,0 +1,13 @@
+{
+  "code": "PK-10362F02",
+  "status": "COMPLETED",
+  "payment": "paid",
+  "photos": 2,
+  "photosSkipped": false,
+  "method": "cash",
+  "review": {
+    "rating": 4,
+    "comment": ""
+  },
+  "driverReleased": true
+}

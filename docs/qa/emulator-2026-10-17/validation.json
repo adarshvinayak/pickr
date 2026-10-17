@@ -1,0 +1,66 @@
+[
+  {
+    "name": "Unauthenticated snapshot rejected",
+    "status": "passed"
+  },
+  {
+    "name": "Customer admin access rejected",
+    "status": "passed"
+  },
+  {
+    "name": "Invalid phone rejected",
+    "status": "passed"
+  },
+  {
+    "name": "Out of zone destination rejected",
+    "status": "passed"
+  },
+  {
+    "name": "Zero quantity rejected",
+    "status": "passed"
+  },
+  {
+    "name": "Negative quantity rejected",
+    "status": "passed"
+  },
+  {
+    "name": "Over capacity rejected",
+    "status": "passed"
+  },
+  {
+    "name": "Incompatible narrow lane rejected",
+    "status": "passed"
+  },
+  {
+    "name": "Past schedule rejected",
+    "status": "passed"
+  },
+  {
+    "name": "Invalid boundary rejected",
+    "status": "passed"
+  },
+  {
+    "name": "Stale GPS rejected",
+    "status": "passed"
+  },
+  {
+    "name": "Future GPS rejected",
+    "status": "passed"
+  },
+  {
+    "name": "Tampered quote rejected",
+    "status": "passed"
+  },
+  {
+    "name": "Other customer cannot update completed trip",
+    "status": "passed"
+  },
+  {
+    "name": "Other customer cannot access load photos",
+    "status": "passed"
+  },
+  {
+    "name": "Assigned customer can view load photo",
+    "status": "passed"
+  }
+]

@@ -1,3 +1,4 @@
+import {voiceQuantityChoices} from './voice-quantities';
 import { GoogleGenAI } from '@google/genai';
 import { MATERIALS, getMaterialById } from '@/config/materials';
 import { VoiceParseResponse, VoiceParseResponseSchema } from '@/types';
@@ -6,7 +7,7 @@ export function nextVoiceQuestion(slots: VoiceParseResponse): VoiceParseResponse
  const material=getMaterialById(slots.material||'');
  const questions:VoiceParseResponse['nextQuestion'][]=[
  !material?{slot:'material',text:'What construction material should we move?',chips:['M-Sand','Cement','Bricks','Mixed / Other']}:null,
- !slots.quantity?{slot:'quantity',text:`How many ${({nos:'numbers',bag:'bags',box:'boxes',bundle:'bundles',unit:'units',load:'loads',kg:'kilograms'}[material?.nativeUnit||'load'])||'loads'}?`,chips:material?[1,2,3].map(n=>`${material.minQuantity*n} ${{nos:'numbers',bag:'bags',box:'boxes',bundle:'bundles',unit:'units',load:'loads',kg:'kilograms'}[material.nativeUnit]}`).concat('Choose quantity'):['Choose quantity']}:null,
+ !slots.quantity?{slot:'quantity',text:`How many ${({nos:'numbers',bag:'bags',box:'boxes',bundle:'bundles',unit:'units',load:'loads',kg:'kilograms'}[material?.nativeUnit||'load'])||'loads'}?`,chips:voiceQuantityChoices(slots.material)}:null,
  !slots.pickupText?{slot:'pickupLocation',text:'Where should we pick it up?',chips:['Use current location','Choose on map','Search location']}:null,
  !slots.dropText?{slot:'dropLocation',text:'Where should we deliver it?',chips:['Choose on map','Search location','Saved sites']}:null,
  !slots.when?{slot:'when',text:'When do you need the truck?',chips:['Now','In 2 hours','Pick a time']}:null,

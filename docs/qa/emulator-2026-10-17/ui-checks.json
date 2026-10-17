@@ -1,0 +1,202 @@
+[
+  {
+    "feature": "Driver sign-in and durable session after APK update",
+    "status": "passed"
+  },
+  {
+    "feature": "Truck catalogue and vehicle number entry",
+    "status": "passed after scroll fix"
+  },
+  {
+    "feature": "Missing measurements blocked",
+    "status": "passed"
+  },
+  {
+    "feature": "All five measurements entered",
+    "status": "passed"
+  },
+  {
+    "feature": "Four private documents selected and uploaded from Android chooser",
+    "status": "passed"
+  },
+  {
+    "feature": "Normal onboarding submits to pending approval",
+    "status": "passed"
+  },
+  {
+    "feature": "Pending and rejected state screens",
+    "status": "passed"
+  },
+  {
+    "feature": "Location deny then grant",
+    "status": "passed"
+  },
+  {
+    "feature": "Notification permission",
+    "status": "passed"
+  },
+  {
+    "feature": "Overlay permission settings",
+    "status": "passed"
+  },
+  {
+    "feature": "GPS off recovery",
+    "status": "passed after immediate native check"
+  },
+  {
+    "feature": "GPS upload and foreground tracking service",
+    "status": "passed; observed 5m accuracy"
+  },
+  {
+    "feature": "Customer empty-name and invalid-phone validation",
+    "status": "passed"
+  },
+  {
+    "feature": "Material search and quantity controls",
+    "status": "passed"
+  },
+  {
+    "feature": "Pickup map zoom, drag and stationary pin",
+    "status": "passed"
+  },
+  {
+    "feature": "Detailed reverse address without building fields",
+    "status": "passed"
+  },
+  {
+    "feature": "Customer device location and saved delivery site",
+    "status": "passed"
+  },
+  {
+    "feature": "Narrow-road incompatible load blocked",
+    "status": "passed"
+  },
+  {
+    "feature": "Eligible truck selection and larger override",
+    "status": "passed"
+  },
+  {
+    "feature": "Fare review and expandable breakdown",
+    "status": "passed"
+  },
+  {
+    "feature": "Manual booking through all six stages",
+    "status": "passed"
+  },
+  {
+    "feature": "Background native notification and floating alert display",
+    "status": "passed"
+  },
+  {
+    "feature": "No-driver timeout and customer retry",
+    "status": "passed"
+  },
+  {
+    "feature": "Driver in-app acceptance",
+    "status": "passed"
+  },
+  {
+    "feature": "Call handoff to dialler without placing a call",
+    "status": "passed"
+  },
+  {
+    "feature": "Google Maps route handoff to correct coordinates",
+    "status": "passed"
+  },
+  {
+    "feature": "Customer restart retains account and active booking",
+    "status": "passed"
+  },
+  {
+    "feature": "Busy driver receives no new offers",
+    "status": "passed"
+  },
+  {
+    "feature": "Customer cancellation keep-booking confirmation",
+    "status": "passed"
+  },
+  {
+    "feature": "Android camera capture and gallery load upload",
+    "status": "passed"
+  },
+  {
+    "feature": "Zero and one photo block starting; two photos permit trip",
+    "status": "passed"
+  },
+  {
+    "feature": "Loading and unloading timers",
+    "status": "passed"
+  },
+  {
+    "feature": "Start, unloading and payment Not yet confirmations",
+    "status": "passed"
+  },
+  {
+    "feature": "Simulated GPS travel visible on customer map with refreshed ETA",
+    "status": "passed"
+  },
+  {
+    "feature": "Cash confirmation releases driver; receipt and four-star feedback",
+    "status": "passed"
+  },
+  {
+    "feature": "Native GPS-off settings shortcut and return recovery",
+    "status": "passed"
+  },
+  {
+    "feature": "Driver account documents list and external-view handoff",
+    "status": "passed"
+  },
+  {
+    "feature": "Malayalam account layout and return to English",
+    "status": "passed"
+  },
+  {
+    "feature": "Driver past trips and recorded collection total",
+    "status": "passed"
+  },
+  {
+    "feature": "Updated job notification survives beyond 60 seconds",
+    "status": "passed"
+  },
+  {
+    "feature": "Android notification Accept assigns job and opens correct driver trip",
+    "status": "passed"
+  },
+  {
+    "feature": "Driver release confirmation returns to search and suppresses same driver",
+    "status": "passed"
+  },
+  {
+    "feature": "Two denied microphone attempts automatically reveal typed answer",
+    "status": "passed"
+  },
+  {
+    "feature": "Vertical voice intake completed using chips and map confirmations",
+    "status": "passed"
+  },
+  {
+    "feature": "Voice quantity correction preserves both sites and other answers",
+    "status": "passed"
+  },
+  {
+    "feature": "Real voice-intake quote recommends larger truck for two units",
+    "status": "passed"
+  },
+  {
+    "feature": "Voice booking created and cancelled in customer UI with zero charge",
+    "status": "passed"
+  },
+  {
+    "feature": "Final customer and driver APK install and launch",
+    "status": "passed"
+  },
+  {
+    "feature": "Driver dashboard at 320dp width and 130 percent text",
+    "status": "passed"
+  },
+  {
+    "feature": "Driver reconnect after network restoration",
+    "status": "passed"
+  }
+]

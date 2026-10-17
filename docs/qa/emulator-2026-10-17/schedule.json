@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Future scheduled booking retains chosen time",
+    "status": "passed"
+  },
+  {
+    "name": "Future booking not offered early to available nearby driver",
+    "status": "passed"
+  },
+  {
+    "name": "Scheduled booking cancellation succeeds",
+    "status": "passed"
+  }
+]

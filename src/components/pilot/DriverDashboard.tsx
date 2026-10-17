@@ -2,6 +2,7 @@
 import {useState} from 'react';
 import {api,apiBase,currentLocation,token} from '@/lib/pilot/client';
 import type {Snapshot,Trip} from '@/lib/pilot/model';
+import {useDevicePermissions} from './design/useDevicePermissions';
 import {Onboarding} from './Onboarding';
 import {LanguageSwitch,useLanguage} from './Experience';
 import {StitchIcon as Icon} from './StitchIcon';
@@ -9,6 +10,7 @@ import {money} from './BookingForm';
 import {Notice,Sites,StatusChip} from './design/Primitives';
 import {DriverApproval} from './design/DriverApproval';
 export function DriverDashboard({snapshot,refresh,onOpenTrip}:{snapshot:Snapshot;refresh:()=>void;onOpenTrip:(trip:Trip)=>void}){
+ const permission=useDevicePermissions();
  const {t}=useLanguage();const [error,setError]=useState('');const [busy,setBusy]=useState(false);const [edit,setEdit]=useState(false);const d=snapshot.driver;const isNative=typeof window!=='undefined'&&Boolean(window.PickrNative);
  async function toggle(){setBusy(true);setError('');try{if(!d?.online){const p=await currentLocation();await api('driver/position',p);if(p.accuracy>150){refresh();throw new Error(`Your location is only accurate to ${Math.round(p.accuracy)} metres. Driver matching needs 150 metres or better. Try your phone with precise location enabled, near a window or outdoors.`);}}await api('driver/availability',{online:!d?.online});if(window.PickrNative){if(d?.online)window.PickrNative.stopDriver();else window.PickrNative.startDriver(token(),apiBase());}refresh();}catch(e){setError((e as Error).message);}finally{setBusy(false);}}
  async function refreshGPS(){setBusy(true);setError('');try{await api('driver/position',await currentLocation());window.PickrNative?.startDriver(token(),apiBase());refresh();}catch(e){setError((e as Error).message);}finally{setBusy(false);}}
@@ -22,7 +24,7 @@ export function DriverDashboard({snapshot,refresh,onOpenTrip}:{snapshot:Snapshot
  {d.online&&!active&&gpsFresh&&<section className="waiting-for-jobs"><span><Icon name="work"/></span><h2>{t('New jobs will appear here','പുതിയ ജോലി വന്നാൽ ഇവിടെ കാണിക്കും')}</h2><p>{t('Keep PICKR running with GPS and internet on. Keep your phone safely mounted.','GPS-ഉം ഇന്റർനെറ്റും ഓണാക്കി PICKR തുറന്നു വയ്ക്കുക. ഫോൺ വണ്ടിയിൽ സുരക്ഷിതമായി വയ്ക്കുക.')}</p></section>}
  {!active&&<section className="today-section"><h2>{t('Today','ഇന്ന്')}</h2><div className="today-metrics"><div><small>{t('Trips finished','പൂർത്തിയായവ')}</small><strong>{finished.length}</strong></div><div><small>{t('Payments recorded','രേഖപ്പെടുത്തിയ പണം')}</small><strong>{money(collected)}</strong></div></div><p>{t('Cash and UPI you marked as received. This is not a balance.','ലഭിച്ചതായി നിങ്ങൾ രേഖപ്പെടുത്തിയ ക്യാഷും UPI-യും. ഇത് വാലറ്റ് ബാലൻസ് അല്ല.')}</p></section>}
  {d.approval==='test'&&<Notice>{t('Pilot test access · documents are not verified.','പരീക്ഷണത്തിന് പ്രവേശനം · രേഖകൾ സ്ഥിരീകരിച്ചിട്ടില്ല.')}<button className="tl" onClick={()=>setEdit(true)}>{t('Finish setup','വിവരങ്ങൾ പൂർത്തിയാക്കുക')}</button></Notice>}
- {error&&<div role="alert" className="error"><p>{error}</p>{isNative&&<button className="bs" onClick={()=>window.PickrNative?.openAppSettings?.()}>Open phone permissions</button>}<p>Allow Location in the browser’s site settings and device privacy settings. On a computer, Wi-Fi location may be too approximate for driver matching. After changing permissions, return and tap Refresh.</p></div>}
+ {error&&<div role="alert" className="error"><p>{error}</p>{isNative&&<button className="bs" onClick={()=>permission.gps===false?window.PickrNative?.openLocationSettings?.():window.PickrNative?.openAppSettings?.()}>{permission.gps===false?"Turn on device location":"Open app permissions"}</button>}<p>Allow Location in the browser’s site settings and device privacy settings. On a computer, Wi-Fi location may be too approximate for driver matching. After changing permissions, return and tap Refresh.</p></div>}
  <div className="job-alert-footnote"><Icon name="notifications"/><p>{isNative?t('The online service checks for jobs in the background.','ഓൺലൈൻ സർവീസ് പശ്ചാത്തലത്തിൽ ജോലി പരിശോധിക്കും.'):t('Job alerts arrive while PICKR Driver is open.','PICKR Driver തുറന്നിരിക്കുമ്പോൾ ജോലി അറിയിപ്പുകൾ ലഭിക്കും.')} <button className="inline-link" onClick={()=>window.location.hash='account'}>{t('Alert settings','അറിയിപ്പുകളുടെ ക്രമീകരണം')}</button></p></div>
  </section>;
 }
