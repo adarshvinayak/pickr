@@ -9,6 +9,7 @@ The main customer-to-driver journey passed: booking → dispatch → acceptance 
 - Customer package: `in.pickr.pilot.customer`; driver package: `in.pickr.pilot.driver`.
 - Version 0.9.2-pilot, code 11. Separate APKs, each about 3.1 MB, with the Render HTTPS backend built in.
 - Lint, TypeScript, 75 automated tests in 12 suites, production Next build and both Android builds passed.
+- No PICKR application crash was recorded in the captured crash buffer; UiAutomation process errors were separated from app failures.
 - Fresh backend checks: **42 passed**: 19 trip/dispatch regressions, 16 validation/privacy checks, four admin account checks and three scheduling checks. These are API checks, not claims that each admin control was tapped in Android.
 - [Machine-readable results and selected screenshots](qa/emulator-2026-10-17/). Full local screenshots and build manifest remain under `artifacts/`.
 - Main trip **PK-10362F02** completed/paid, two photos, no photo skip, cash recorded and customer rating 4/5. [Saved proof](qa/emulator-2026-10-17/trip-proof.json).
