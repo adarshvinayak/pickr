@@ -7,8 +7,8 @@ export function mapLifecycle(map:MapInstance,onReady:()=>void):MapLifecycle{
  let initialized=false,disposed=false,removed=false;
  let fallback:ReturnType<typeof setTimeout>|undefined;
  function remove():void{
-  if(removed)return;removed=true;clearTimeout(fallback);
-  try{map.remove();}catch{console.warn('Mappls could not finish map cleanup.');}
+  if(removed)return;clearTimeout(fallback);
+  try{map.remove();removed=true;}catch{console.warn('Mappls could not finish map cleanup.');}
  }
  function loaded():void{
   initialized=true;
