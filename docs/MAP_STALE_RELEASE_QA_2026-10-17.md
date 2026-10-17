@@ -12,7 +12,7 @@ The downloaded Mappls Web SDK 3.0 source confirms that its constructor removes t
 - Guard each map instance's remove method against repeat calls.
 - Add a no-cache release endpoint and web update notice, checked on focus, visibility change and every minute. Build versions derive from the Git commit; APKs do not offer a misleading browser refresh update.
 - Do not forcibly reload an active trip or erase a booking draft.
-- Recent pickup/drop places capped at five, addresses clamped to two lines, and one context-sensitive Select/Adjust on map button.
+- Recent pickup/drop places capped at five, addresses clamped to two lines, and one Select on map button.
 - Android release 0.9.6-pilot, version code 15.
 
 ## Verification
