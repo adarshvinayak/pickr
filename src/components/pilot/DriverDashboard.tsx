@@ -9,12 +9,12 @@ import {StitchIcon as Icon} from './StitchIcon';
 import {money} from './BookingForm';
 import {Notice,Sites,StatusChip} from './design/Primitives';
 import {DriverApproval} from './design/DriverApproval';
-export function DriverDashboard({snapshot,refresh,onOpenTrip}:{snapshot:Snapshot;refresh:()=>void;onOpenTrip:(trip:Trip)=>void}){
+export function DriverDashboard({snapshot,refresh,onOpenTrip}:{snapshot:Snapshot;refresh:()=>void|Promise<void>;onOpenTrip:(trip:Trip)=>void}){
  const permission=useDevicePermissions();
  const {t}=useLanguage();const [error,setError]=useState('');const [busy,setBusy]=useState(false);const [edit,setEdit]=useState(false);const d=snapshot.driver;const isNative=typeof window!=='undefined'&&Boolean(window.PickrNative);
  async function toggle(){setBusy(true);setError('');try{if(!d?.online){const p=await currentLocation();await api('driver/position',p);if(p.accuracy>150){refresh();throw new Error(`Your location is only accurate to ${Math.round(p.accuracy)} metres. Driver matching needs 150 metres or better. Try your phone with precise location enabled, near a window or outdoors.`);}}await api('driver/availability',{online:!d?.online});if(window.PickrNative){if(d?.online)window.PickrNative.stopDriver();else window.PickrNative.startDriver(token(),apiBase());}refresh();}catch(e){setError((e as Error).message);}finally{setBusy(false);}}
  async function refreshGPS(){setBusy(true);setError('');try{await api('driver/position',await currentLocation());window.PickrNative?.startDriver(token(),apiBase());refresh();}catch(e){setError((e as Error).message);}finally{setBusy(false);}}
- if(!d||edit)return <Onboarding allowSkips={snapshot.settings.allow_skips} current={d} onDone={()=>{setEdit(false);refresh();}}/>;
+ if(!d||edit)return <Onboarding allowSkips={snapshot.settings.allow_skips} current={d} onDone={async()=>{await refresh();setEdit(false);}}/>;
  const active=snapshot.trips.find(trip=>trip.id===d.active_booking_id);const pendingPayment=active?.status==='COMPLETED'&&active.payment_status!=='paid';
  if(!active&&['pending','rejected'].includes(d.approval))return <DriverApproval driver={d} onEdit={()=>setEdit(true)} support={snapshot.settings.support_phone}/>;
  const today=new Date().toLocaleDateString('en-IN',{timeZone:'Asia/Kolkata'});const finished=snapshot.trips.filter(trip=>trip.status==='COMPLETED'&&trip.completed_at&&new Date(trip.completed_at).toLocaleDateString('en-IN',{timeZone:'Asia/Kolkata'})===today);const collected=finished.filter(trip=>trip.payment_status==='paid').reduce((sum,trip)=>sum+trip.payload.quote.totalFare,0);const age=d.position_at?Math.max(0,Math.floor((Date.now()-Date.parse(d.position_at))/1000)):null;const gpsFresh=age!==null&&age<60&&d.accuracy!==null&&d.accuracy<=150;

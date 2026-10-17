@@ -1,5 +1,5 @@
 import {afterEach,beforeEach,describe,expect,it,vi} from 'vitest';
-import {calculateRoute,geocodeAddress,parseRoute,parseStandardRoute,TruckSchema} from '@/lib/mappls';
+import {calculateRoute,geocodeAddress,reverseGeocode,parseRoute,parseStandardRoute,TruckSchema} from '@/lib/mappls';
 import {decodePolyline,routeDeviationMeters} from '@/lib/pilot/navigation-geo';
 function encode(points:[number,number][]){let oldLat=0,oldLng=0;let out='';for(const [lng,lat] of points){const a=Math.round(lat*1e6),b=Math.round(lng*1e6);for(const delta of [a-oldLat,b-oldLng]){let value=delta<0?~(delta<<1):delta<<1;while(value>=32){out+=String.fromCharCode((32|(value&31))+63);value>>=5;}out+=String.fromCharCode(value+63);}oldLat=a;oldLng=b;}return out;}
 const coordinates:[number,number][]=[[76.2144,10.5276],[76.22,10.53]];
@@ -8,6 +8,7 @@ const truck={height:3.1,width:2.2,length:6.5,weight:8,axle_load:4};
 beforeEach(()=>{vi.stubEnv('MAPPLS_REST_KEY','test-server-key');vi.stubEnv('MAPPLS_ROUTING_MODE','predictive');vi.stubGlobal('fetch',vi.fn(async()=>new Response(JSON.stringify(response),{status:200})));});
 afterEach(()=>{vi.unstubAllGlobals();vi.unstubAllEnvs();});
 describe('Mappls routing and geometry',()=>{
+ it('puts available neighbourhood details before the road without house or shop names',async()=>{vi.mocked(fetch).mockResolvedValueOnce(new Response(JSON.stringify({results:[{street:'Premji Road',subSubLocality:'Bini Junction',subLocality:'Patturikkal',city:'Thrissur',district:'Thrissur District',state:'Kerala',pincode:'680001',houseNumber:'123',poi:'Private Store'}]})));const p=await reverseGeocode(10.53,76.21);expect(p.address).toBe('Bini Junction, Patturikkal, Premji Road, Thrissur, Thrissur District, Kerala, PIN 680001');expect(p.address).not.toMatch(/Private Store|123/);});
  it('uses the enabled standard traffic ETA API by default, with metres converted to kilometres',async()=>{
   vi.stubEnv('MAPPLS_ROUTING_MODE','');vi.mocked(fetch).mockResolvedValue(new Response(JSON.stringify({code:'Ok',routes:[{distance:1036.4,duration:169,geometry:{type:'LineString',coordinates}}]})));
   const route=await calculateRoute(coordinatesPoint(0),coordinatesPoint(1),{truck,scheduledFor:'2099-01-01T00:00:00Z',avoid:[coordinatesPoint(0)]});
