@@ -2,6 +2,7 @@ import { z } from 'zod';
 import {TRUCK_MEASUREMENTS as bounds} from '@/config/truck-measurements';
 import { ApiError } from '@/lib/pilot/server';
 import { decodePolyline } from '@/lib/pilot/navigation-geo';
+import { calculateHaversineDistanceKm } from '@/lib/pilot/geo';
 
 /**
  * Google Maps Platform integration (server side): place search (Places API New),
@@ -64,17 +65,20 @@ export async function reverseGeocode(lat:number,lng:number):Promise<GeocodeResul
 }
 
 const RoutesResponse=z.object({routes:z.array(z.object({distanceMeters:z.number().finite().nonnegative().optional(),duration:z.string().regex(/^\d+(\.\d+)?s$/),polyline:z.object({encodedPolyline:z.string().min(2)}),legs:z.array(z.object({steps:z.array(z.object({navigationInstruction:z.object({instructions:z.string().optional()}).optional()})).optional()})).optional()})).min(1)});
+const SAME_PLACE='Pickup and drop are the same place. Choose two different sites.';
 export function parseRoute(data:unknown,mode:'traffic'|'predictive'):RouteResult {
  const parsed=RoutesResponse.safeParse(data);
  if(!parsed.success)throw new ApiError(422,'No suitable route was returned. Choose accessible sites or contact pilot support.');
  const route=parsed.data.routes[0];const seconds=Math.round(parseFloat(route.duration));
  let coords:[number,number][];try{coords=decodePolyline(route.polyline.encodedPolyline,5);}catch{throw new ApiError(502,'Route geometry is unavailable.');}
- if(coords.length<2)throw new ApiError(502,'Route geometry is unavailable.');
+ // Google returns a single point when both ends snap to the same spot on the road.
+ if(coords.length<2)throw new ApiError(422,SAME_PLACE);
  return {distanceKm:Math.ceil((route.distanceMeters||0)/100)/10,durationMin:Math.max(1,Math.ceil(seconds/60)),durationSeconds:seconds,polyline:JSON.stringify(coords),profile:'driving',trafficMode:mode,restrictionsApplied:false,hasTimeRestrictions:false,instructions:route.legs?.flatMap(l=>l.steps?.flatMap(s=>s.navigationInstruction?.instructions?[s.navigationInstruction.instructions]:[])||[])||[]};
 }
 export async function calculateRoute(pickup:{lat:number;lng:number},drop:{lat:number;lng:number},options:{truck?:TruckProfile|null;scheduledFor?:string;avoid?:{lat:number;lng:number}[]}={}):Promise<RouteResult> {
  // Validate the recorded vehicle profile even though Google cannot apply it, so bad data is still rejected.
  if(options.truck)TruckSchema.parse(options.truck);
+ if(calculateHaversineDistanceKm(pickup.lat,pickup.lng,drop.lat,drop.lng)<0.03)throw new ApiError(422,SAME_PLACE);
  const future=Boolean(options.scheduledFor&&Date.parse(options.scheduledFor)>Date.now()+60000);
  const point=(p:{lat:number;lng:number})=>({location:{latLng:{latitude:p.lat,longitude:p.lng}}});
  const data=await request('https://routes.googleapis.com/directions/v2:computeRoutes',{method:'POST',headers:{'content-type':'application/json'},fieldMask:'routes.distanceMeters,routes.duration,routes.polyline.encodedPolyline,routes.legs.steps.navigationInstruction.instructions',body:JSON.stringify({origin:point(pickup),destination:point(drop),travelMode:'DRIVE',routingPreference:'TRAFFIC_AWARE',polylineEncoding:'ENCODED_POLYLINE',languageCode:'en-IN',units:'METRIC',...(future?{departureTime:new Date(options.scheduledFor!).toISOString()}:{})})});

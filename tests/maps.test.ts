@@ -38,6 +38,12 @@ describe('Google routing',()=>{
   expect(()=>parseRoute({routes:[{distanceMeters:10,duration:'five',polyline:{encodedPolyline:'abc'}}]},'traffic')).toThrow();
   expect(()=>parseRoute({routes:[{distanceMeters:10,duration:'5s',polyline:{encodedPolyline:'~'}}]},'traffic')).toThrow();
  });
+ it('explains identical or too-close sites instead of a geometry error, without calling Google',async()=>{
+  await expect(calculateRoute(pointA,pointA)).rejects.toThrow('same place');expect(fetch).not.toHaveBeenCalled();
+  await expect(calculateRoute(pointA,{lat:pointA.lat+0.0001,lng:pointA.lng})).rejects.toThrow('same place');
+  // Google can also snap two nearby sites to one point and return a single-point route.
+  expect(()=>parseRoute({routes:[{distanceMeters:0,duration:'0s',polyline:{encodedPolyline:encode([coordinates[0]])}}]},'traffic')).toThrow('same place');
+ });
  it('reports a missing key as a configuration error',async()=>{vi.stubEnv('GOOGLE_MAPS_SERVER_KEY','your-google-key');await expect(calculateRoute(pointA,pointB)).rejects.toThrow('GOOGLE_MAPS_SERVER_KEY');expect(()=>{vi.stubEnv('GOOGLE_MAPS_WEB_KEY','');mapPublicKey();}).toThrow('GOOGLE_MAPS_WEB_KEY');});
 });
 
