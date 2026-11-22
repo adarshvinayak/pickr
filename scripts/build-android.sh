@@ -8,8 +8,10 @@ else
  echo "No default backend available. Set PICKR_BACKEND_URL in .env.local or use Backend connection in the apps."
 fi
 npm run native:bundle
-if [ -z "${JAVA_HOME:-}" ] && [ -d /tmp/lorry-android-tools/jdk-17.0.20.1+1/Contents/Home ]; then
- export JAVA_HOME=/tmp/lorry-android-tools/jdk-17.0.20.1+1/Contents/Home
+if [ -z "${JAVA_HOME:-}" ]; then
+ for pickr_jdk in /tmp/lorry-android-tools/jdk-17*/Contents/Home; do
+  if [ -x "$pickr_jdk/bin/javac" ]; then export JAVA_HOME="$pickr_jdk"; fi
+ done
 fi
 if [ -z "${ANDROID_HOME:-}" ] && [ -d /tmp/lorry-android-tools/sdk ]; then
  export ANDROID_HOME=/tmp/lorry-android-tools/sdk

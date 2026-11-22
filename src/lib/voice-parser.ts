@@ -11,11 +11,10 @@ export function nextVoiceQuestion(slots: VoiceParseResponse): VoiceParseResponse
  !slots.pickupText?{slot:'pickupLocation',text:'Where should we pick it up?',chips:['Use current location','Choose on map','Search location']}:null,
  !slots.dropText?{slot:'dropLocation',text:'Where should we deliver it?',chips:['Choose on map','Search location','Saved sites']}:null,
  !slots.when?{slot:'when',text:'When do you need the truck?',chips:['Now','In 2 hours','Pick a time']}:null,
- material&&!material.selfTipping&&slots.labourNeeded===null?{slot:'labour',text:'Do you need loading and unloading helpers?',chips:['Yes, helpers needed','No helpers']}:null,
- !slots.siteAccess?{slot:'siteAccess',text:'Is the pickup or destination on a narrow lane?',chips:['Normal road access','Narrow lane']}:null
+ material&&!material.selfTipping&&slots.labourNeeded===null?{slot:'labour',text:'Do you need loading and unloading helpers?',chips:['Yes, helpers needed','No helpers']}:null
  ];
  const question=questions.find(Boolean)||null;
- return {...slots,unit:material?.nativeUnit||slots.unit,labourNeeded:material?.selfTipping?false:slots.labourNeeded,nextQuestion:question,readyToConfirm:!question};
+ return {...slots,siteAccess:slots.siteAccess||'normal',unit:material?.nativeUnit||slots.unit,labourNeeded:material?.selfTipping?false:slots.labourNeeded,nextQuestion:question,readyToConfirm:!question};
 }
 export function parseWithLocalRules(transcript:string,current:Record<string,unknown>={}):VoiceParseResponse {
  const previous=VoiceParseResponseSchema.safeParse(current); const slots:VoiceParseResponse=previous.success?{...previous.data}:{material:null,quantity:null,unit:null,pickupText:null,dropText:null,when:null,labourNeeded:null,siteAccess:null,confidence:.8,nextQuestion:null,readyToConfirm:false};

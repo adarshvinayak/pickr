@@ -1,3 +1,4 @@
+import {customerProfile} from '@/lib/pilot/customer';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { adminLogin, login, logout } from '@/lib/pilot/accounts';
@@ -12,6 +13,7 @@ import { navigationRefresh,refreshRoutes,roadReports } from '@/lib/pilot/navigat
 import { MATERIALS } from '@/config/materials';
 import { VEHICLE_TYPES } from '@/config/vehicles';
 import { parseVoiceTranscript } from '@/lib/voice-parser';
+import { AgentContextSchema, createAgentToken } from '@/lib/voice-agent';
 import { flushPush } from '@/lib/pilot/push';
 import { allowedRequestOrigin } from '@/lib/pilot/origin';
 export const runtime='nodejs';
@@ -27,6 +29,7 @@ async function handle(req:NextRequest):Promise<NextResponse> {
  else if(path==='login'&&method==='POST')response=await login(req);
  else if(path==='admin/login'&&method==='POST')response=await adminLogin(req);
  else if(path==='logout'&&method==='POST')response=await logout(req);
+ else if(path==='profile'&&['GET','POST'].includes(method))response=await customerProfile(req);
  else if(path==='snapshot'&&method==='GET')response=await snapshot(req);
  else if(path==='quote'&&method==='POST')response=await quoteRoute(req);
  else if(path==='bookings'&&method==='POST')response=await createBooking(req);
@@ -47,10 +50,11 @@ async function handle(req:NextRequest):Promise<NextResponse> {
  else if(path==='road-reports'&&['GET','POST'].includes(method))response=await roadReports(req);
  else if(/^bookings\/[a-f0-9-]+\/navigation$/.test(path)&&method==='POST')response=await navigationRefresh(req,path.split('/')[1]);
  else if(path==='voice/parse'&&method==='POST') {await identity(req,['customer']);const input=z.object({transcript:z.string().min(1).max(2000),currentSlots:z.record(z.unknown()).optional()}).parse(await json(req));response=NextResponse.json({data:await parseVoiceTranscript(input)});}
+ else if(path==='voice/session'&&method==='POST') {const account=await identity(req,['customer']);const ctx=AgentContextSchema.parse(await json(req));response=NextResponse.json({data:await createAgentToken(ctx,account.id)});}
  else if(path==='sites') {
  const account=await identity(req,['customer']);const db=database();
  if(method==='GET')response=NextResponse.json({data:check(await db.from('pilot_saved_sites').select('*').eq('owner_id',account.id))});
- else if(method==='POST')response=NextResponse.json({data:check(await db.from('pilot_saved_sites').insert({...PointSchema.parse(await json(req)),owner_id:account.id}).select('*').single())});
+ else if(method==='POST'){const input=PointSchema.extend({id:z.string().uuid().optional(),pinned:z.boolean().default(false),uses:z.number().int().min(0).default(0)}).parse(await json(req));const {id,...values}=input;response=NextResponse.json({data:check(await (id?db.from('pilot_saved_sites').update(values).eq('id',id).eq('owner_id',account.id):db.from('pilot_saved_sites').insert({...values,owner_id:account.id})).select('*').single())});}
  else if(method==='DELETE') {const id=z.string().uuid().parse(req.nextUrl.searchParams.get('id'));check(await db.from('pilot_saved_sites').delete().eq('owner_id',account.id).eq('id',id));response=NextResponse.json({data:true});}else throw new ApiError(405,'Method not allowed.');
  }
  else if(path==='push/token'&&method==='POST') {const account=await identity(req);const {token}=z.object({token:z.string().min(20).max(1000)}).parse(await json(req));check(await database().from('pilot_push_tokens').upsert({token,owner_id:account.id,updated_at:new Date().toISOString()}));response=NextResponse.json({data:true});}

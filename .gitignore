@@ -54,3 +54,10 @@ next-env.d.ts
 /.local-certs/
 
 /.local-tests/
+
+# Separate reference clone and generated Expo web export
+/pickrapp-new-build/
+/apps/customer/node_modules/
+/apps/customer/.expo/
+/apps/customer/dist/
+/public/customer-app/

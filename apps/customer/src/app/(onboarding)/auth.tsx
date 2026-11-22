@@ -1,0 +1,9 @@
+import {useState} from 'react';
+import {Text,TextInput,View} from 'react-native';
+import {AuthLayout,LanguageToggle,authStyles} from '@/components/auth/auth-chrome';
+import {PrimaryButton} from '@/components/ui/primary-button';
+import {useSession} from '@/lib/session';
+import {api,setToken,refreshSnapshot} from '@/lib/api';
+export default function AuthScreen(){const {signIn,language}=useSession();const [name,setName]=useState('');const [phone,setPhone]=useState('');const [busy,setBusy]=useState(false);const [error,setError]=useState('');
+async function submit(){setBusy(true);setError('');try{const result=await api('login',{name,phone,role:'customer'});await setToken(result.token);const s=await refreshSnapshot();signIn({kind:'customer',phone:s.account.phone,name:s.account.name,...s.account.profile});}catch(e){setError((e as Error).message);}finally{setBusy(false);}}
+return <AuthLayout dock={<PrimaryButton label={busy?'Signing in…':language==='ml'?'തുടരുക':'Continue'} loading={busy} disabled={busy||name.trim().length<2||!/^[6-9]\d{9}$/.test(phone)} onPress={submit}/>}><LanguageToggle/><Text style={authStyles.title}>PICKR</Text><Text style={authStyles.subtitle}>{language==='ml'?'നിങ്ങളുടെ സ്ഥലത്തേക്ക് ഒരു വണ്ടി':'A truck for your site'}</Text><Text>Your name</Text><TextInput accessibilityLabel="Your name" value={name} onChangeText={setName} style={{minHeight:56,borderWidth:1,padding:12,borderRadius:12,marginVertical:12}}/><Text>Phone number · +91</Text><TextInput accessibilityLabel="Phone number" keyboardType="phone-pad" maxLength={10} value={phone} onChangeText={v=>setPhone(v.replace(/\D/g,''))} style={{minHeight:56,borderWidth:1,padding:12,borderRadius:12,marginVertical:12}}/><Text>Private pilot: no OTP verification. Your details are used for your bookings.</Text>{!!error&&<Text accessibilityRole="alert">{error}</Text>}</AuthLayout>;}

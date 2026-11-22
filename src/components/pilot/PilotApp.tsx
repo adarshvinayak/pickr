@@ -1,4 +1,5 @@
 'use client';
+import {useTheme} from './ThemeSwitch';
 import {ReleaseNotice} from './ReleaseNotice';
 import { useCallback,useEffect,useRef,useState } from 'react';
 import { api,apiBase,currentLocation,setToken,token,useRole } from '@/lib/pilot/client';
@@ -20,7 +21,7 @@ import {CustomerHome} from './CustomerHome';
 import {TripHistory} from './TripHistory';
 import {Onboarding} from './Onboarding';
 export function PilotApp({role}:{role:Role}) {
- const {t}=useLanguage();
+ const {t}=useLanguage();useTheme();
  const shellRef=useRef<HTMLDivElement>(null);const headerRef=useRef<HTMLElement>(null);const navRef=useRef<HTMLElement>(null);const connectionRef=useRef<HTMLParagraphElement>(null);
  const refreshSequence=useRef(0);const appliedSequence=useRef(0);
  useRole(role);const [snapshot,setSnapshot]=useState<Snapshot|null>(null);const [signed,setSigned]=useState(false);const [loading,setLoading]=useState(true);const [name,setName]=useState('');const [phone,setPhone]=useState('');const [password,setPassword]=useState('');const [error,setError]=useState('');const [busy,setBusy]=useState(false);const [view,setView]=useState<'home'|'book'|'history'|'trip'|'account'|'vehicle'>('home');const [selected,setSelected]=useState<string|null>(null);const [voice,setVoice]=useState(false);const [repeatTrip,setRepeatTrip]=useState<Trip|null>(null);const [connection,setConnection]=useState(true);const [offlineOpen,setOfflineOpen]=useState(false);const [area,setArea]=useState('');const [backend,setBackend]=useState('');const [native,setNative]=useState(false);

@@ -1,0 +1,2 @@
+import {TripMap} from '@/components/maps/trip-map';
+export function TrackMap({trip,pickupLabel,deliveryLabel}:any){const d=trip.raw?.driver;return <TripMap pickup={trip.pickupCoords} delivery={trip.deliveryCoords} pickupLabel={pickupLabel} deliveryLabel={deliveryLabel} truck={d?.lat!=null?{latitude:d.lat,longitude:d.lng}:undefined} truckLabel={trip.registration} line={trip.raw?.navigation?.result?.polyline||trip.raw?.payload.polyline}/>;}

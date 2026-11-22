@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev --hostname 0.0.0.0",
     "web": "next dev",
-    "build": "next build",
+    "build": "npm run customer:export && next build",
     "start": "next start",
     "lint": "eslint src tests native/web native/vite.config.mts",
     "test": "vitest run",
@@ -16,7 +16,8 @@
     "test:setup": "node scripts/test-setup-database.mjs",
     "pilot:setup": "node scripts/pilot-setup.mjs",
     "pilot:start": "node scripts/pilot-start.mjs",
-    "worker": "node --env-file=.env.local scripts/push-worker.mjs"
+    "worker": "node --env-file=.env.local scripts/push-worker.mjs",
+    "customer:export": "node scripts/export-customer.mjs"
   },
   "dependencies": {
     "@google/genai": "^2.18.0",

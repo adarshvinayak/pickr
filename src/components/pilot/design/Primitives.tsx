@@ -5,7 +5,7 @@ import {StitchIcon as Icon} from '../StitchIcon';
 import {useLanguage,tripStatus,tripStatusMl} from '../Experience';
 
 export function Brand({driver=false,admin=false}:{driver?:boolean;admin?:boolean}){
- return <div className="app-brand"><span className="brand-mark"><Icon name="local_shipping" className="fill"/></span><strong>PICKR{driver?' Driver':admin?' Admin':''}</strong></div>;
+ return <div className="app-brand"><span className="brand-mark"><Icon name="local_shipping" className="fill"/></span><strong>PICKR{driver?' Driver':admin?' Admin':''}</strong>{!driver&&!admin&&<small className="brand-tagline">HEAVY<br/>LOGISTICS</small>}</div>;
 }
 export function ScreenHeader({title,step,onBack,children}:{title:string;step?:number;onBack?:()=>void;children?:ReactNode}){
  const {t}=useLanguage();return <><header className="hd" data-screen-header>{onBack&&<button className="ib" aria-label={t('Back','പിന്നോട്ട്')} onClick={onBack}><Icon name="arrow_back"/></button>}<span className="ht">{title}</span>{step!==undefined&&<span className="step">{t(`Step ${step} of 6`,`ഘട്ടം ${step} / 6`)}</span>}{children}</header>{step!==undefined&&<div className="prog" aria-label={t(`Step ${step} of 6`,`ഘട്ടം ${step} / 6`)}>{[1,2,3,4,5,6].map(n=><i key={n} className={n<=step?'on':''}/>)}</div>}</>;

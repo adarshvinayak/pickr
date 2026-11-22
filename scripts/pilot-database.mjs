@@ -2,7 +2,7 @@ import {readFile} from 'node:fs/promises';
 import {createHash,randomBytes,scryptSync} from 'node:crypto';
 import pg from 'pg';
 
-export const migrations=['20261010000000_real_pilot.sql','20261010010000_pilot_guards.sql','20261010020000_mappls_navigation.sql','20261011000000_release_before_loading.sql','20261011010000_record_cancellation_fee.sql'];
+export const migrations=['20261010000000_real_pilot.sql','20261010010000_pilot_guards.sql','20261010020000_mappls_navigation.sql','20261011000000_release_before_loading.sql','20261011010000_record_cancellation_fee.sql','20261118000000_customer_upgrade.sql'];
 export function connectionOptions(connectionString,ca){
  const url=new URL(connectionString);
  if(!['postgres:','postgresql:'].includes(url.protocol))throw new Error('DATABASE_URL must be a PostgreSQL connection string.');

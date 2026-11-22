@@ -7,7 +7,7 @@ import { calculateQuote } from '@/lib/pricing';
 import { getMaterialById } from '@/config/materials';
 import { calculateRoute } from '@/lib/mappls';
 import type { QuoteResult, Zone, Settings } from './model';
-export const IntakeSchema = z.object({ materialId: z.string(), quantity: z.number().positive().max(100000), pickup: PointSchema, drop: PointSchema, labourNeeded: z.boolean().default(false), siteAccess: z.enum(['normal','narrow']).default('normal'), scheduledFor: z.string().datetime().optional(), notes: z.string().max(1000).default(''), transitPassNo: z.string().max(100).default(''), inputMode: z.enum(['voice','manual']).default('manual'), deviceLocation:z.object({lat:z.number().min(-90).max(90),lng:z.number().min(-180).max(180),sampledAt:z.string().datetime()}).optional() });
+export const IntakeSchema = z.object({ forOther:z.object({name:z.string().trim().min(2).max(100),phone:z.string().regex(/^[6-9]\d{9}$/),meets:z.enum(['pickup','drop','both']),pays:z.enum(['me','them'])}).optional(),materialId: z.string(), quantity: z.number().positive().max(100000), pickup: PointSchema, drop: PointSchema, labourNeeded: z.boolean().default(false), siteAccess: z.enum(['normal','narrow']).default('normal'), scheduledFor: z.string().datetime().optional(), notes: z.string().max(1000).default(''), transitPassNo: z.string().max(100).default(''), inputMode: z.enum(['voice','manual']).default('manual'), deviceLocation:z.object({lat:z.number().min(-90).max(90),lng:z.number().min(-180).max(180),sampledAt:z.string().datetime()}).optional() });
 export type Intake = z.infer<typeof IntakeSchema>;
 export async function coverage(input: Intake): Promise<void> {
  const db = database(); const settings = check(await db.from('pilot_settings').select('*').single()) as Settings;
@@ -35,7 +35,7 @@ export function readQuote(token: string, input: Intake, vehicleId: string): { in
  const [payload, signature] = token.split('.'); if (!payload || !signature || signature.length!==64 || !timingSafeEqual(Buffer.from(signature),Buffer.from(sign(payload)))) throw new ApiError(400,'Invalid quote. Please calculate it again.');
  const data = JSON.parse(Buffer.from(payload,'base64url').toString());
  if (data.expires<Date.now()) throw new ApiError(409,'Quote expired. Please calculate it again.');
- for (const field of ['materialId','quantity','pickup','drop','labourNeeded','siteAccess','scheduledFor','notes','transitPassNo','inputMode','deviceLocation'] as const) {
+ for (const field of ['forOther','materialId','quantity','pickup','drop','labourNeeded','siteAccess','scheduledFor','notes','transitPassNo','inputMode','deviceLocation'] as const) {
  if (field==='scheduledFor' && !input.scheduledFor) continue;
  if (JSON.stringify(input[field])!==JSON.stringify(data.input[field])) throw new ApiError(409,'Booking details changed. Please calculate a new quote.');
  }

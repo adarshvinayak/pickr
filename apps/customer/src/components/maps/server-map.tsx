@@ -1,0 +1,4 @@
+import {type ComponentType,useEffect,useRef} from 'react';
+import {WebView} from 'react-native-webview';
+import {BACKEND,getToken} from '@/lib/api';
+export function ServerMap({config,onPoint,onMoving}:any){const ref=useRef<any>(null);const MapWebView=WebView as unknown as ComponentType<any>;const script=`window.pickrMapConfigure&&window.pickrMapConfigure(${JSON.stringify({...config,token:getToken()}).replace(/</g,'\\u003c')});true;`;useEffect(()=>{ref.current?.injectJavaScript(script);},[script]);return <MapWebView ref={ref} source={{uri:BACKEND+'/map-embed'}} style={{flex:1}} onLoadEnd={()=>ref.current?.injectJavaScript(script)} onMessage={(e:any)=>{try{const d=JSON.parse(e.nativeEvent.data);if(d.type==='ready')ref.current?.injectJavaScript(script);if(d.type==='point')onPoint?.(d.point);if(d.type==='moving')onMoving?.(d.moving);}catch{}}}/>;}

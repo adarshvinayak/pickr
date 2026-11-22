@@ -1,2 +1,1 @@
-import { PilotApp } from '@/components/pilot/PilotApp';
-export default function Page() { return <PilotApp role="customer" />; }
+export default function Page(){return <iframe title="PICKR Customer" src="/customer-app/" style={{position:"fixed",inset:0,width:"100%",height:"100%",border:0}} allow="geolocation; microphone; camera"/>;}
