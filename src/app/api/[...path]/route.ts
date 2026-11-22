@@ -8,7 +8,7 @@ import { availability, onboard, offer, position } from '@/lib/pilot/drivers';
 import { snapshot } from '@/lib/pilot/snapshot';
 import { fileUrl, upload } from '@/lib/pilot/uploads';
 import { ApiError, check, database, failure, identity, json, PointSchema } from '@/lib/pilot/server';
-import { geocodeAddress, reverseGeocode, mapPublicKey } from '@/lib/mappls';
+import { geocodeAddress, reverseGeocode, mapPublicKey } from '@/lib/maps';
 import { navigationRefresh,refreshRoutes,roadReports } from '@/lib/pilot/navigation';
 import { MATERIALS } from '@/config/materials';
 import { VEHICLE_TYPES } from '@/config/vehicles';
@@ -43,10 +43,10 @@ async function handle(req:NextRequest):Promise<NextResponse> {
  else if(path==='admin'&&method==='GET')response=await adminData(req);
  else if(path==='admin'&&method==='POST')response=await adminAction(req);
  else if(path==='catalogue'&&method==='GET')response=NextResponse.json({data:{materials:MATERIALS,vehicles:VEHICLE_TYPES}});
- else if(path==='health'&&method==='GET') {check(await database().from('pilot_settings').select('id,require_device_area').single());check(await database().from('pilot_navigation').select('booking_id').limit(1));response=NextResponse.json({data:{databaseConnected:true,migrationsReady:true,mapsConfigured:Boolean(process.env.MAPPLS_REST_KEY&&process.env.MAPPLS_WEB_KEY),firebaseConfigured:Boolean(process.env.FIREBASE_SERVICE_ACCOUNT_JSON)}});}
+ else if(path==='health'&&method==='GET') {check(await database().from('pilot_settings').select('id,require_device_area').single());check(await database().from('pilot_navigation').select('booking_id').limit(1));response=NextResponse.json({data:{databaseConnected:true,migrationsReady:true,mapsConfigured:Boolean(process.env.GOOGLE_MAPS_SERVER_KEY&&process.env.GOOGLE_MAPS_WEB_KEY),firebaseConfigured:Boolean(process.env.FIREBASE_SERVICE_ACCOUNT_JSON)}});}
  else if(path==='reverse-geocode'&&method==='GET'){await identity(req);const lat=z.coerce.number().min(-90).max(90).parse(req.nextUrl.searchParams.get('lat'));const lng=z.coerce.number().min(-180).max(180).parse(req.nextUrl.searchParams.get('lng'));response=NextResponse.json({data:await reverseGeocode(lat,lng)});}
  else if(path==='geocode'&&method==='GET') {await identity(req);const query=z.string().min(3).max(200).parse(req.nextUrl.searchParams.get('q'));response=NextResponse.json({data:await geocodeAddress(query)});}
- else if(path==='map/config'&&method==='GET') {await identity(req);response=NextResponse.json({data:{key:mapPublicKey(),provider:'mappls'}});}
+ else if(path==='map/config'&&method==='GET') {await identity(req);response=NextResponse.json({data:{key:mapPublicKey(),provider:'google'}});}
  else if(path==='road-reports'&&['GET','POST'].includes(method))response=await roadReports(req);
  else if(/^bookings\/[a-f0-9-]+\/navigation$/.test(path)&&method==='POST')response=await navigationRefresh(req,path.split('/')[1]);
  else if(path==='voice/parse'&&method==='POST') {await identity(req,['customer']);const input=z.object({transcript:z.string().min(1).max(2000),currentSlots:z.record(z.unknown()).optional()}).parse(await json(req));response=NextResponse.json({data:await parseVoiceTranscript(input)});}

@@ -1,3 +1,5 @@
+> **Superseded (18 Nov 2026 onward): PICKR now uses Google Maps Platform.** See [GOOGLE_MAPS_SETUP.md](GOOGLE_MAPS_SETUP.md). This file is kept only as history of the Mappls pilot.
+
 # PICKR Mappls setup and navigation
 
 Mappls is the only automatic map/search/routing provider. There is no silent Mapbox/Google/OSM routing fallback. On a routing failure the last successful route and its age remain visible, with an explicit stale/unavailable ETA. Maps require internet; this does not supply downloaded offline maps. Drivers can deliberately open Mappls or Google Maps externally. Those apps calculate their own routes; PICKR's recorded truck restrictions do not transfer through the links.

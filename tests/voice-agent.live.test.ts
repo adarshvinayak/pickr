@@ -43,8 +43,8 @@ async function openSession(agent: BookingAgent) {
   const ai = new GoogleGenAI({ apiKey: token, httpOptions: { apiVersion: 'v1alpha' } });
   let turn: Turn = { calls: [], heard: '', said: '', audioBytes: 0, done: false };
   let wake: () => void = () => {};
-  let session!: Session;
-  session = await ai.live.connect({
+  const holder: { session?: Session } = {};
+  const session = await ai.live.connect({
     model,
     callbacks: {
       onmessage: (m: LiveServerMessage) => {
@@ -59,7 +59,7 @@ async function openSession(agent: BookingAgent) {
             const r = agent.handle(f.name ?? '', (f.args ?? {}) as Record<string, unknown>);
             return { id: f.id ?? '', name: f.name ?? '', response: r.response };
           });
-          session.sendToolResponse({ functionResponses: responses });
+          holder.session?.sendToolResponse({ functionResponses: responses });
         }
         if (c?.turnComplete) {
           turn.done = true;
@@ -70,6 +70,7 @@ async function openSession(agent: BookingAgent) {
       onclose: (e: { reason?: string; code?: number }) => console.log('LIVE CLOSED', e.code, e.reason),
     },
   });
+  holder.session = session;
   /** Runs one exchange and waits for the model to finish (including follow-up after tool calls). */
   const exchange = async (send: () => void, ms = 40000): Promise<Turn> => {
     turn = { calls: [], heard: '', said: '', audioBytes: 0, done: false };

@@ -1,0 +1,29 @@
+{
+  "version": "0.9.7-pilot",
+  "versionCode": 16,
+  "backend": "https://pickr-xueh.onrender.com",
+  "sourceCommit": "caced2dc9c34a580efe5d2187938babdd6d431f6",
+  "includesUncommittedChanges": true,
+  "packagedAt": "2026-10-24T06:30:08.477382+00:00",
+  "files": [
+    {
+      "path": "releases/pickr-customer-0.9.7-pilot.apk",
+      "bytes": 3605074,
+      "sha256": "5f2f16d27dbb48b1728e92c55fdc1772b7d4ee7113b8ca069f4311aec3753118"
+    },
+    {
+      "path": "releases/pickr-driver-0.9.7-pilot.apk",
+      "bytes": 3605058,
+      "sha256": "3080b189d5127a476d6ef8403db8d4b53061db7440c7984dda703d632970b114"
+    }
+  ],
+  "verification": {
+    "unitTests": 88,
+    "suites": 16,
+    "productionBuild": "passed",
+    "androidBuilds": "passed",
+    "customerEmulator": "theme, GPS permission, material selection, real Mappls pickup map and reopening checked",
+    "driverEmulator": "installed and launched; further flow checks pending"
+  },
+  "deployment": "Not deployed in this pass"
+}

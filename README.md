@@ -8,7 +8,7 @@ Hosted web: https://pickr-xueh.onrender.com (`/customer`, `/driver`, `/admin`). 
 
 ## Start local testing
 
-**Quick setup:** fill `NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `DATABASE_URL`, `MAPPLS_REST_KEY`, `MAPPLS_WEB_KEY` and `ADMIN_BOOTSTRAP_PHONE` in `.env.local`, then run `npm run pilot:setup`. It creates missing private secrets/admin password in that file, applies the tracked pilot migrations transactionally, creates the first admin, installs Cron if available, and verifies Supabase/private storage/Mappls access. It does not print secrets. The migration runner records checksums and refuses to overwrite an untracked existing pilot schema or edited migration history. `DATABASE_URL` is setup-only, never included in APKs; use Supabase's direct or session-pooler connection (not transaction pooler port 6543). Remote SQL uses verified TLS; set `DATABASE_SSL_CA_FILE` to a trusted CA certificate if your project needs one.
+**Quick setup:** fill `NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `DATABASE_URL`, `GOOGLE_MAPS_SERVER_KEY`, `GOOGLE_MAPS_WEB_KEY` and `ADMIN_BOOTSTRAP_PHONE` in `.env.local`, then run `npm run pilot:setup`. It creates missing private secrets/admin password in that file, applies the tracked pilot migrations transactionally, creates the first admin, installs Cron if available, and verifies Supabase/private storage/Google Maps access. It does not print secrets. The migration runner records checksums and refuses to overwrite an untracked existing pilot schema or edited migration history. `DATABASE_URL` is setup-only, never included in APKs; use Supabase's direct or session-pooler connection (not transaction pooler port 6543). Remote SQL uses verified TLS; set `DATABASE_SSL_CA_FILE` to a trusted CA certificate if your project needs one.
 
 Start the web backend **and dispatch/routing worker together** with `npm run pilot:start`. This requires valid configuration; it stops early when keys are missing. For production: `npm run build`, then `npm run pilot:start -- --production`. The worker handles dispatch even if Cron is unavailable and no screens are open, refreshes Mappls routes/ETAs and handles FCM when configured. Stop both with Ctrl+C. Existing standalone commands remain available below.
 
@@ -18,7 +18,7 @@ Choose the automated setup above **or** the manual SQL steps below. Do not repla
 2. Copy `.env.local.example` to `.env.local` **only if you do not already have an environment file**, then set:
    - `NEXT_PUBLIC_SUPABASE_URL`
    - `SUPABASE_SERVICE_ROLE_KEY` (server only)
-   - `MAPPLS_REST_KEY` (server only) and `MAPPLS_WEB_KEY` (restricted browser-visible maps key); see `docs/MAPPLS_SETUP.md` for API entitlements and WebView domain restrictions.
+   - `GOOGLE_MAPS_SERVER_KEY` (server only) and `GOOGLE_MAPS_WEB_KEY` (restricted browser-visible maps key); see `docs/GOOGLE_MAPS_SETUP.md` for the APIs to enable and the website/WebView restrictions.
    - `ADMIN_BOOTSTRAP_PHONE` (10 digits), `ADMIN_BOOTSTRAP_PASSWORD` (at least 10 characters)
    - Random private `QUOTE_SIGNING_SECRET` and `WORKER_SECRET`.
 3. In Supabase SQL Editor run **in order**:
@@ -61,7 +61,7 @@ If Android force-stops the app, revokes permissions, disables GPS, or restricts 
 
 ## Maps and navigation
 
-Mappls is the primary and only automatic mapping provider. Live trip routes/ETAs refresh from driver GPS; recorded truck measurements enable restricted truck routing. Stale estimates remain labelled during outages. External Mappls/Google navigation is an explicit driver option. Admin-verified local road reports supplement traffic estimates. See `docs/MAPPLS_SETUP.md` for the full behaviour, required entitlements, test plan and incident-feed limitation.
+Google Maps Platform is the only automatic mapping provider (map, place search, address lookup, routing). Live trip routes/ETAs refresh from driver GPS using traffic-aware driving routes. Google routing does **not** apply truck dimensions or avoid reported closures, so drivers must still check road signs and site access. Stale estimates remain labelled during outages. External Google Maps navigation is an explicit driver option. Admin-verified local road reports are shown to drivers but do not change routes. See `docs/GOOGLE_MAPS_SETUP.md`.
 
 ## Optional remote push and voice
 
@@ -91,6 +91,6 @@ The UI uses no Android-only imports. Platform functions are isolated in `src/lib
 
 See `docs/BUILD_REPORT.md` for implementation scope, discrepancies and pending configuration. Full road testing and cloud-provider checks require your keys, a running migrated Supabase project, and pilot phones.
 
-## Testing with the current Mappls allocation
+## Testing maps
 
-`MAPPLS_ROUTING_MODE=standard` uses the enabled Route ETA API Traffic. Select both sites with **Choose on map** while searched-place coordinates remain unavailable. This mode provides current traffic ETA on the default route, including for scheduled quotes; it does not apply measured truck dimensions, predict future traffic or automatically avoid reported incidents. `predictive` is an explicit opt-in after provider access is enabled. See `docs/REAL_DEVICE_TESTING.md` for the field checklist.
+Quotes and ETAs use Google's traffic-aware driving routes, including future departure times for scheduled bookings. Address search returns named places with coordinates; the map pin remains the exact-site selector. See `docs/REAL_DEVICE_TESTING.md` for the field checklist.

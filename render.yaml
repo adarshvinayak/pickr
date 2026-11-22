@@ -13,9 +13,9 @@ services:
         sync: false
       - key: SUPABASE_SERVICE_ROLE_KEY
         sync: false
-      - key: MAPPLS_REST_KEY
+      - key: GOOGLE_MAPS_SERVER_KEY
         sync: false
-      - key: MAPPLS_WEB_KEY
+      - key: GOOGLE_MAPS_WEB_KEY
         sync: false
       - key: ADMIN_BOOTSTRAP_PHONE
         sync: false

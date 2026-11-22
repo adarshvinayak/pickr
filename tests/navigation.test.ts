@@ -1,7 +1,7 @@
 import {afterEach,beforeEach,describe,expect,it,vi} from 'vitest';
 const state=vi.hoisted(()=>({trips:[] as Record<string,unknown>[],drivers:[] as Record<string,unknown>[],cache:[] as Record<string,unknown>[],reports:[] as Record<string,unknown>[],lease:true,finish:[] as Record<string,unknown>[]}));
 const route=vi.hoisted(()=>vi.fn());
-vi.mock('@/lib/mappls',async()=>{const actual=await vi.importActual<typeof import('@/lib/mappls')>('@/lib/mappls');return {...actual,calculateRoute:route};});
+vi.mock('@/lib/maps',async()=>{const actual=await vi.importActual<typeof import('@/lib/maps')>('@/lib/maps');return {...actual,calculateRoute:route};});
 vi.mock('@/lib/pilot/server',async()=>{const actual=await vi.importActual<typeof import('@/lib/pilot/server')>('@/lib/pilot/server');return {...actual,database:()=>({from:(table:string)=>{const data=table==='pilot_bookings'?state.trips:table==='pilot_drivers'?state.drivers:table==='pilot_navigation'?state.cache:state.reports;const builder:Record<string,unknown>={};for(const key of ['select','in','not','order','eq','gt','limit'])builder[key]=()=>builder;builder.then=(resolve:(value:unknown)=>unknown)=>Promise.resolve(resolve({data,error:null}));return builder;},rpc:async(name:string,args:Record<string,unknown>)=>{if(name==='pilot_navigation_finish'){state.finish.push(args);return {data:true,error:null};}return {data:state.lease?'lease':null,error:null};}})};});
 import type {Trip} from '@/lib/pilot/model';
 import {refreshRoutes,attachNavigation} from '@/lib/pilot/navigation';

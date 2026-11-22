@@ -1,3 +1,5 @@
+> **Superseded (18 Nov 2026 onward): PICKR now uses Google Maps Platform.** See [GOOGLE_MAPS_SETUP.md](GOOGLE_MAPS_SETUP.md). This file is kept only as history of the Mappls pilot.
+
 # Mappls access request — PICKRcloud
 
 Console path: Contact Us → Technical Support. Select Cloud Solutions for Product. The console currently displays 31 allocated cloud APIs but no self-service add/upgrade control was found in application Allocations, Edit, or account Settings.

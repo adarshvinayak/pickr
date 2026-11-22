@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { TruckSchema } from '@/lib/mappls';
+import { TruckSchema } from '@/lib/maps';
 import { getVehicleById } from '@/config/vehicles';
 import { serviceable } from './geo';
 import type { DriverProfile, Settings, Zone } from './model';

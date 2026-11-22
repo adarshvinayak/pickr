@@ -49,9 +49,9 @@ describe('one sentence fills everything it can, then the agent asks only for the
 describe('locations are never guessed', () => {
   it('uses a saved place only when its id exists', () => {
     const a = make();
-    expect((a.handle('use_saved_site', { role: 'pickup', site_id: 's1' }).response as any).ok).toBe(true);
+    expect((a.handle('use_saved_site', { role: 'pickup', site_id: 's1' }).response as Record<string, unknown>).ok).toBe(true);
     expect(a.state.pickup?.source).toBe('saved');
-    const bad = a.handle('use_saved_site', { role: 'drop', site_id: 'made-up' }).response as any;
+    const bad = a.handle('use_saved_site', { role: 'drop', site_id: 'made-up' }).response as Record<string, unknown>;
     expect(bad.ok).toBe(false);
     expect(a.state.drop).toBeUndefined();
   });
@@ -87,15 +87,15 @@ describe('locations are never guessed', () => {
 describe('validation the model cannot bypass', () => {
   it('rejects out-of-range quantity', () => {
     const a = make();
-    const r = a.handle('update_booking', { material_id: 'm-sand', quantity: 500 }).response as any;
+    const r = a.handle('update_booking', { material_id: 'm-sand', quantity: 500 }).response as Record<string, unknown>;
     expect(r.ok).toBe(false);
     expect(a.state.quantity).toBeUndefined();
   });
 
   it('rejects unknown materials and a time in the past', () => {
     const a = make();
-    expect((a.handle('update_booking', { material_id: 'gold' }).response as any).ok).toBe(false);
-    const past = a.handle('update_booking', { when_mode: 'schedule', day_offset: 0, hour: 8, minute: 0, meridiem: 'AM' }).response as any;
+    expect((a.handle('update_booking', { material_id: 'gold' }).response as Record<string, unknown>).ok).toBe(false);
+    const past = a.handle('update_booking', { when_mode: 'schedule', day_offset: 0, hour: 8, minute: 0, meridiem: 'AM' }).response as Record<string, unknown>;
     expect(past.ok).toBe(false);
     expect(a.state.when).toBeUndefined();
   });
@@ -103,14 +103,14 @@ describe('validation the model cannot bypass', () => {
   it('asks again for the quantity when the material changes to a different unit', () => {
     const a = make();
     a.handle('update_booking', { material_id: 'm-sand', quantity: 2 });
-    const r = a.handle('update_booking', { material_id: 'red-bricks' }).response as any;
+    const r = a.handle('update_booking', { material_id: 'red-bricks' }).response as Record<string, unknown>;
     expect(a.state.quantity).toBeUndefined();
-    expect(r.applied.quantity_cleared).toBeTruthy();
+    expect((r.applied as Record<string, unknown>).quantity_cleared).toBeTruthy();
   });
 
   it('honours a blocked "now"', () => {
     const a = make({ asapBlockedUntil: () => '10:00 AM' });
-    const r = a.handle('update_booking', { when_mode: 'now' }).response as any;
+    const r = a.handle('update_booking', { when_mode: 'now' }).response as Record<string, unknown>;
     expect(r.ok).toBe(false);
     expect(a.state.when).toBeUndefined();
   });

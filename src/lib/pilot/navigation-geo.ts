@@ -1,8 +1,8 @@
-// Mappls predictive routing returns encoded polyline6; API coordinates stay lng/lat.
-export function decodePolyline(encoded:string):[number,number][] {
- let index=0,lat=0,lng=0;const coords:[number,number][]=[];
+// Encoded polylines come at precision 5 (Google) or 6; API coordinates stay lng/lat.
+export function decodePolyline(encoded:string,precision=6):[number,number][] {
+ const factor=10**precision;let index=0,lat=0,lng=0;const coords:[number,number][]=[];
  function next(){let value=0,shift=0,byte:number;do{if(index>=encoded.length||shift>30)throw new Error('Invalid route geometry');byte=encoded.charCodeAt(index++)-63;if(byte<0||byte>63)throw new Error('Invalid route geometry');value|=(byte&31)<<shift;shift+=5;}while(byte>=32);return value&1?~(value>>1):value>>1;}
- while(index<encoded.length){lat+=next();lng+=next();if(Math.abs(lat/1e6)>90||Math.abs(lng/1e6)>180)throw new Error('Invalid route geometry');coords.push([lng/1e6,lat/1e6]);}return coords;
+ while(index<encoded.length){lat+=next();lng+=next();if(Math.abs(lat/factor)>90||Math.abs(lng/factor)>180)throw new Error('Invalid route geometry');coords.push([lng/factor,lat/factor]);}return coords;
 }
 export function routeDeviationMeters(point:{lat:number;lng:number},polyline:string):number {
  try{const coordinates=JSON.parse(polyline) as [number,number][];if(coordinates.length<2)return Infinity;

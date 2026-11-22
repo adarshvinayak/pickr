@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { calculateRoute,TruckSchema } from '@/lib/mappls';
+import { calculateRoute,TruckSchema } from '@/lib/maps';
 import { routeDeviationMeters } from './navigation-geo';
 import { calculateHaversineDistanceKm } from './geo';
 import { ApiError, audit,check,database,identity,json } from './server';

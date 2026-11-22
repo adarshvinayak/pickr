@@ -5,7 +5,7 @@ import { serviceable } from './geo';
 import { selectVehicle } from '@/lib/vehicle-select';
 import { calculateQuote } from '@/lib/pricing';
 import { getMaterialById } from '@/config/materials';
-import { calculateRoute } from '@/lib/mappls';
+import { calculateRoute } from '@/lib/maps';
 import type { QuoteResult, Zone, Settings } from './model';
 export const IntakeSchema = z.object({ forOther:z.object({name:z.string().trim().min(2).max(100),phone:z.string().regex(/^[6-9]\d{9}$/),meets:z.enum(['pickup','drop','both']),pays:z.enum(['me','them'])}).optional(),materialId: z.string(), quantity: z.number().positive().max(100000), pickup: PointSchema, drop: PointSchema, labourNeeded: z.boolean().default(false), siteAccess: z.enum(['normal','narrow']).default('normal'), scheduledFor: z.string().datetime().optional(), notes: z.string().max(1000).default(''), transitPassNo: z.string().max(100).default(''), inputMode: z.enum(['voice','manual']).default('manual'), deviceLocation:z.object({lat:z.number().min(-90).max(90),lng:z.number().min(-180).max(180),sampledAt:z.string().datetime()}).optional() });
 export type Intake = z.infer<typeof IntakeSchema>;

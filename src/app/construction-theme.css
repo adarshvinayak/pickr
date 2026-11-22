@@ -37,4 +37,4 @@ body{background:var(--pickr-canvas)}
 .pilot-shell .home-heading .language-toggle{height:56px;min-width:56px}.pilot-shell .theme-toggle{width:56px;height:56px}.home-avatar{width:56px;height:56px}.pilot-shell .quantity-control{width:56px;min-width:56px;height:56px}.pilot-shell .home-heading .brand-tagline{display:none}
 
 /* The provider draws a light basemap and white attribution controls in either app theme. */
-.pilot-map>[aria-label="Interactive Mappls road map"],.pilot-map>[aria-label="Interactive Mappls road map"] a{color:#18221f;color-scheme:light}
+.pilot-map>[aria-label="Interactive Google road map"],.pilot-map>[aria-label="Interactive Google road map"] a{color:#18221f;color-scheme:light}

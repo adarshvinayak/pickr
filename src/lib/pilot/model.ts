@@ -1,4 +1,4 @@
-import type { RouteResult, TruckProfile } from '@/lib/mappls';
+import type { RouteResult, TruckProfile } from '@/lib/maps';
 import type { QuoteBreakdown } from '@/lib/pricing';
 import type { VoiceParseResponse, VehicleType } from '@/types';
 export type Role = 'customer' | 'driver' | 'admin';

@@ -13,7 +13,7 @@ const ctx = AgentContextSchema.parse({
 describe('voice agent config', () => {
   it('locks tool material ids to the catalogue the app sent', () => {
     const update = buildTools(ctx)[0].functionDeclarations.find((d) => d.name === 'update_booking')!;
-    expect((update.parameters!.properties as any).material_id.enum).toEqual(['m-sand', 'red-bricks']);
+    expect((update.parameters!.properties as Record<string, { enum?: string[] }>).material_id.enum).toEqual(['m-sand', 'red-bricks']);
   });
 
   it('offers no tool that accepts a free-text address, so locations cannot be guessed', () => {
@@ -36,7 +36,7 @@ describe('voice agent config', () => {
   });
 
   it('requests native audio with transcription and no forced language', () => {
-    const config = liveConfig(ctx, 'Kore') as any;
+    const config = liveConfig(ctx, 'Kore') as unknown as { responseModalities: string[]; speechConfig: { languageCode?: string }; inputAudioTranscription: object };
     expect(config.responseModalities).toEqual(['AUDIO']);
     expect(config.speechConfig.languageCode).toBeUndefined();
     expect(config.inputAudioTranscription).toEqual({});
